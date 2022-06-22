@@ -15,6 +15,8 @@ dependencies:
 
   provider: ^6.0.3
 
+  introduction_screen: ^3.0.2
+
   cupertino_icons: ^1.0.2
 
 dev_dependencies:

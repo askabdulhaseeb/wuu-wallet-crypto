@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:muuwallet/providers/app_theme.dart';
 import 'package:provider/provider.dart';
+
+import 'providers/app_theme.dart';
 
 void main() {
   runApp(const MyApp());
