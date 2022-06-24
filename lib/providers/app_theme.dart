@@ -23,7 +23,7 @@ class AppThemeProvider extends ChangeNotifier {
 }
 
 class AppThemes {
-  static const Color _primary = Color.fromRGBO(8, 167, 255, 1);
+  static const Color _primary = Color.fromRGBO(57, 128, 229, 1);
   static const Color _secondary = Color.fromRGBO(2, 122, 190, 1);
   static final ThemeData dark = ThemeData(
     scaffoldBackgroundColor: Colors.black,
