@@ -7,17 +7,19 @@ import '../../widget/auth/auth_icon_button.dart';
 import '../../widget/auth/on_continue_with_text_widget.dart';
 import '../../widget/custom_widgets/custom_elevated_button.dart';
 import '../../widget/custom_widgets/custom_textformfield.dart';
-import 'signin_screen.dart';
+import '../../widget/custom_widgets/hideable_textformfield.dart';
+import 'signup_screen.dart';
 
-class SignupScreen extends StatefulWidget {
-  const SignupScreen({Key? key}) : super(key: key);
-  static const String routeName = '/SignupScreen';
+class SigninScreen extends StatefulWidget {
+  const SigninScreen({Key? key}) : super(key: key);
+  static const String routeName = '/SigninScreen';
   @override
-  State<SignupScreen> createState() => _SignupScreenState();
+  State<SigninScreen> createState() => _SigninScreenState();
 }
 
-class _SignupScreenState extends State<SignupScreen> {
+class _SigninScreenState extends State<SigninScreen> {
   final TextEditingController _email = TextEditingController();
+  final TextEditingController _password = TextEditingController();
   bool isLoading = false;
   @override
   Widget build(BuildContext context) {
@@ -34,7 +36,7 @@ class _SignupScreenState extends State<SignupScreen> {
             ),
             const SizedBox(height: 40),
             const Text(
-              'What’s your \nemail address!',
+              'Let’s sign you Up!',
               style: TextStyle(
                 fontSize: 32,
                 fontWeight: FontWeight.bold,
@@ -43,23 +45,24 @@ class _SignupScreenState extends State<SignupScreen> {
             const SizedBox(height: 32),
             CustomTextFormField(
               controller: _email,
-              lable: 'Email Address',
+              lable: 'Your Email',
               hint: 'example@example.com',
               readOnly: isLoading,
               validator: (String? value) => CustomValidator.email(value),
               keyboardType: TextInputType.emailAddress,
-              textInputAction: TextInputAction.done,
             ),
-            const SizedBox(height: 10),
+            HideableTextFormField(
+              controller: _password,
+              lable: 'Your Password',
+              readOnly: isLoading,
+              validator: (String? value) => CustomValidator.password(value),
+              keyboardType: TextInputType.visiblePassword,
+            ),
+            const SizedBox(height: 16),
             CustomElevatedButton(
-              title: 'Continue with Email',
-              prefixIcon: const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10),
-                child: Icon(Icons.mail, color: Colors.white),
-              ),
+              title: 'Login',
               onTap: () {},
             ),
-            const SizedBox(height: 10),
             const _Footer(),
           ],
         ),
@@ -96,17 +99,18 @@ class _Footer extends StatelessWidget {
                 style: const TextStyle(color: Colors.grey),
                 children: <TextSpan>[
                   const TextSpan(
-                    text: 'Already have an account? ',
+                    text: 'Don’t have an account? ',
                     style: TextStyle(color: Colors.grey),
                   ),
                   TextSpan(
-                    text: ' Sign In',
+                    text: ' Sign Up',
                     style: TextStyle(
                       color: Theme.of(context).primaryColor,
                       fontWeight: FontWeight.bold,
                     ),
                     recognizer: TapGestureRecognizer()
-                      ..onTap = () => Navigator.of(context).pop(),
+                      ..onTap = () => Navigator.of(context)
+                          .pushNamed(SignupScreen.routeName),
                   )
                 ],
               ),

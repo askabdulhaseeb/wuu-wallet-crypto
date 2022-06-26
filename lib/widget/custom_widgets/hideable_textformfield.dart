@@ -96,8 +96,7 @@ class HideableTextFormFieldState extends State<HideableTextFormField> {
                 : const Icon(CupertinoIcons.eye_slash),
           ),
           focusColor: Theme.of(context).primaryColor,
-          border: widget.border ??
-              OutlineInputBorder(borderRadius: BorderRadius.circular(14)),
+          border: widget.border,
         ),
       ),
     );
