@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'providers/app_theme.dart';
+import 'screens/auth/signup_screen.dart';
 import 'screens/intro_screen/intro_screen.dart';
 
 void main() {
@@ -28,6 +29,9 @@ class MyApp extends StatelessWidget {
           darkTheme: AppThemes.dark,
           themeMode: theme.themeMode,
           home: const IntroScreen(),
+          routes: <String, WidgetBuilder>{
+            SignupScreen.routeName: (_) => const SignupScreen(),
+          },
         );
       }),
     );

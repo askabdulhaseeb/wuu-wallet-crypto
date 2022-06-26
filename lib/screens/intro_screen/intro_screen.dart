@@ -3,6 +3,7 @@ import 'package:introduction_screen/introduction_screen.dart';
 
 import '../../utilities/app_images.dart';
 import '../../widget/custom_widgets/custom_elevated_button.dart';
+import '../auth/signup_screen.dart';
 
 class IntroScreen extends StatelessWidget {
   const IntroScreen({Key? key}) : super(key: key);
@@ -53,7 +54,8 @@ class IntroScreen extends StatelessWidget {
             padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
             child: CustomElevatedButton(
               title: 'Next Step',
-              onTap: () {},
+              onTap: () => Navigator.of(context).pushNamedAndRemoveUntil(
+                  SignupScreen.routeName, (Route<dynamic> route) => false),
             ),
           ),
         ],

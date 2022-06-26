@@ -5,6 +5,7 @@ class AppImages {
   static String get security => 'assets/images/security.png';
   static String get success => 'assets/images/success.png';
   static String get wallet => 'assets/images/wallet.png';
+  static String get google => 'assets/images/google.png';
 
   //
   // logo

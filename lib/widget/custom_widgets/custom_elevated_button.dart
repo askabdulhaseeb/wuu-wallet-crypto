@@ -4,6 +4,7 @@ class CustomElevatedButton extends StatelessWidget {
   const CustomElevatedButton({
     required this.title,
     required this.onTap,
+    this.prefixIcon,
     this.applyGradient = true,
     this.readOnly = false,
     this.margin,
@@ -15,6 +16,7 @@ class CustomElevatedButton extends StatelessWidget {
     Key? key,
   }) : super(key: key);
   final String title;
+  final Widget? prefixIcon;
   final bool readOnly;
   final bool applyGradient;
   final VoidCallback onTap;
@@ -31,11 +33,11 @@ class CustomElevatedButton extends StatelessWidget {
       margin: margin ?? const EdgeInsets.symmetric(vertical: 6),
       decoration: BoxDecoration(
         color: readOnly ? Colors.transparent : Theme.of(context).primaryColor,
-        borderRadius: borderRadius ?? BorderRadius.circular(20),
+        borderRadius: borderRadius ?? BorderRadius.circular(12),
         border: border,
       ),
       child: Material(
-        borderRadius: borderRadius ?? BorderRadius.circular(20),
+        borderRadius: borderRadius ?? BorderRadius.circular(12),
         color: Colors.transparent,
         child: readOnly
             ? Container(
@@ -51,18 +53,24 @@ class CustomElevatedButton extends StatelessWidget {
                 ),
               )
             : InkWell(
-                borderRadius: borderRadius ?? BorderRadius.circular(20),
+                borderRadius: borderRadius ?? BorderRadius.circular(12),
                 onTap: onTap,
                 child: Container(
                   padding: padding ?? const EdgeInsets.symmetric(vertical: 12),
                   alignment: Alignment.center,
-                  child: Text(
-                    title,
-                    style: textStyle ??
-                        const TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                        ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      if (prefixIcon != null) prefixIcon!,
+                      Text(
+                        title,
+                        style: textStyle ??
+                            const TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                            ),
+                      ),
+                    ],
                   ),
                 ),
               ),
