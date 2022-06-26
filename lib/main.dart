@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'providers/app_theme.dart';
 import 'screens/auth/signin_screen.dart';
 import 'screens/auth/signup_screen.dart';
+import 'screens/auth/verification_pin_screen.dart';
 import 'screens/intro_screen/intro_screen.dart';
 
 void main() {
@@ -33,6 +34,8 @@ class MyApp extends StatelessWidget {
           routes: <String, WidgetBuilder>{
             SigninScreen.routeName: (_) => const SigninScreen(),
             SignupScreen.routeName: (_) => const SignupScreen(),
+            VerificationPinScreen.routeName: (_) =>
+                const VerificationPinScreen(),
           },
         );
       }),

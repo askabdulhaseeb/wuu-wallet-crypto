@@ -9,6 +9,7 @@ import '../../widget/custom_widgets/custom_elevated_button.dart';
 import '../../widget/custom_widgets/custom_textformfield.dart';
 import '../../widget/custom_widgets/hideable_textformfield.dart';
 import 'signup_screen.dart';
+import 'verification_pin_screen.dart';
 
 class SigninScreen extends StatefulWidget {
   const SigninScreen({Key? key}) : super(key: key);
@@ -24,9 +25,10 @@ class _SigninScreenState extends State<SigninScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(),
       body: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -57,11 +59,15 @@ class _SigninScreenState extends State<SigninScreen> {
               readOnly: isLoading,
               validator: (String? value) => CustomValidator.password(value),
               keyboardType: TextInputType.visiblePassword,
+              textInputAction: TextInputAction.done,
             ),
             const SizedBox(height: 16),
             CustomElevatedButton(
               title: 'Login',
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context)
+                    .pushNamed(VerificationPinScreen.routeName);
+              },
             ),
             const _Footer(),
           ],

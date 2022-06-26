@@ -16,6 +16,7 @@ dependencies:
   provider: ^6.0.3
 
   introduction_screen: ^3.0.2
+  pin_code_fields: ^7.4.0
 
   cupertino_icons: ^1.0.2
 
