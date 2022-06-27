@@ -38,6 +38,7 @@ class _VerificationPinScreenState extends State<VerificationPinScreen> {
               child: PinCodeTextField(
                 appContext: context,
                 length: 4,
+                controller: _pin,
                 cursorColor: Theme.of(context).primaryColor,
                 pinTheme: PinTheme(
                   shape: PinCodeFieldShape.box,

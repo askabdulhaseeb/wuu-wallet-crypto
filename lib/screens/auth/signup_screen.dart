@@ -7,7 +7,6 @@ import '../../widget/auth/auth_icon_button.dart';
 import '../../widget/auth/on_continue_with_text_widget.dart';
 import '../../widget/custom_widgets/custom_elevated_button.dart';
 import '../../widget/custom_widgets/custom_textformfield.dart';
-import 'signin_screen.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({Key? key}) : super(key: key);

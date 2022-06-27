@@ -4,7 +4,6 @@ import 'package:introduction_screen/introduction_screen.dart';
 import '../../utilities/app_images.dart';
 import '../../widget/custom_widgets/custom_elevated_button.dart';
 import '../auth/signin_screen.dart';
-import '../auth/signup_screen.dart';
 
 class IntroScreen extends StatelessWidget {
   const IntroScreen({Key? key}) : super(key: key);
