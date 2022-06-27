@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
+import 'welcome_screen.dart';
+
 class VerificationPinScreen extends StatefulWidget {
   const VerificationPinScreen({Key? key}) : super(key: key);
   static const String routeName = '/VarificationPicScreen';
@@ -46,7 +48,13 @@ class _VerificationPinScreenState extends State<VerificationPinScreen> {
                   activeColor: Colors.grey,
                   inactiveColor: Colors.grey,
                 ),
-                onChanged: (String value) {},
+                onChanged: (String value) {
+                  if (value.length == 4) {
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                        WelcomeScreen.routeName,
+                        (Route<dynamic> route) => false);
+                  }
+                },
               ),
             ),
             const SizedBox(height: 16),
