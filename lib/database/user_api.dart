@@ -33,7 +33,7 @@ class UserAPI {
           .set(appUser.toMap());
       return true;
     } catch (e) {
-      CustomToast.errorToast(message: e.toString());
+      // CustomToast.errorToast(message: e.toString());
       return false;
     }
   }

@@ -67,13 +67,13 @@ class AuthMethods {
         password: password.trim(),
       )
           .catchError((Object obj) {
-        CustomToast.errorToast(message: obj.toString());
+        // CustomToast.errorToast(message: obj.toString());
       });
       final User? user = result.user;
       assert(user != null);
       return user;
     } catch (signUpError) {
-      CustomToast.errorToast(message: signUpError.toString());
+      // CustomToast.errorToast(message: signUpError.toString());
       return null;
     }
   }
@@ -86,12 +86,12 @@ class AuthMethods {
         password: password.trim(),
       )
           .catchError((Object obj) {
-        CustomToast.errorToast(message: obj.toString());
+        // CustomToast.errorToast(message: obj.toString());
       });
       final User? user = result.user;
       return user;
     } catch (signUpError) {
-      CustomToast.errorToast(message: signUpError.toString());
+      // CustomToast.errorToast(message: signUpError.toString());
       return null;
     }
   }
@@ -101,7 +101,7 @@ class AuthMethods {
       _auth.sendPasswordResetEmail(email: email.trim());
       return true;
     } catch (error) {
-      CustomToast.errorToast(message: error.toString());
+      // CustomToast.errorToast(message: error.toString());
     }
     return false;
   }
