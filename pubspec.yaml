@@ -10,6 +10,10 @@ dependencies:
   flutter:
     sdk: flutter
 
+  web3dart:
+  erc20: ^1.0.0
+  http: ^0.13.4
+
   cloud_firestore: ^3.1.18
   firebase_auth: ^3.3.20
   firebase_core: ^1.18.0
@@ -21,7 +25,8 @@ dependencies:
   pin_code_fields: ^7.4.0
 
   cupertino_icons: ^1.0.2
-  # fluttertoast: ^8.0.9
+  extended_image: ^6.2.1
+  fluttertoast: ^8.0.9
 
 dev_dependencies:
   flutter_test:
