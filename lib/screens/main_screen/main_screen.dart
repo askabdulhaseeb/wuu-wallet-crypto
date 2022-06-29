@@ -22,7 +22,7 @@ class MainScreen extends StatelessWidget {
     int currentIndex = Provider.of<AppProvider>(context).currentTap;
     return Scaffold(
       body: _pages[currentIndex],
-      bottomNavigationBar: MainBottomNavigationBar(),
+      bottomNavigationBar: const MainBottomNavigationBar(),
     );
   }
 }
