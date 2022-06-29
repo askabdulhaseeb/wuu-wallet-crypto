@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'providers/app_provider.dart';
 import 'providers/app_theme.dart';
 import 'providers/user_provider.dart';
 import 'screens/auth/signin_screen.dart';
@@ -9,6 +10,7 @@ import 'screens/auth/signup_screen.dart';
 import 'screens/auth/verification_pin_screen.dart';
 import 'screens/auth/welcome_screen.dart';
 import 'screens/intro_screen/intro_screen.dart';
+import 'screens/main_screen/main_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,6 +28,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<AppThemeProvider>.value(
           value: AppThemeProvider(),
         ),
+        ChangeNotifierProvider<AppProvider>.value(value: AppProvider()),
         ChangeNotifierProvider<UserProvider>.value(value: UserProvider()),
       ],
       child: Consumer<AppThemeProvider>(
@@ -43,6 +46,7 @@ class MyApp extends StatelessWidget {
             VerificationPinScreen.routeName: (_) =>
                 const VerificationPinScreen(),
             WelcomeScreen.routeName: (_) => const WelcomeScreen(),
+            MainScreen.routeName: (_) => const MainScreen(),
           },
         );
       }),

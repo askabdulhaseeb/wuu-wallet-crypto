@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../../providers/user_provider.dart';
 import '../../utilities/app_images.dart';
 import '../../widget/custom_widgets/custom_elevated_button.dart';
+import '../main_screen/main_screen.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({Key? key}) : super(key: key);
@@ -49,7 +50,8 @@ class WelcomeScreen extends StatelessWidget {
             const Spacer(),
             CustomElevatedButton(
               title: 'I’m ready to start!',
-              onTap: () {},
+              onTap: () => Navigator.of(context).pushNamedAndRemoveUntil(
+                  MainScreen.routeName, (Route<dynamic> route) => false),
             ),
           ],
         ),
