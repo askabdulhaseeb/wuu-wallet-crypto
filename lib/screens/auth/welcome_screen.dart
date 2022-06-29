@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../../providers/user_provider.dart';
 import '../../utilities/app_images.dart';
 import '../../widget/custom_widgets/custom_elevated_button.dart';
 
@@ -21,13 +23,16 @@ class WelcomeScreen extends StatelessWidget {
               child: Image.asset(AppImages.logo4x),
             ),
             const SizedBox(height: 20),
-            const Text(
-              'Hello Saman! 👋',
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
+            Consumer<UserProvider>(
+                builder: (BuildContext context, UserProvider userPro, _) {
+              return Text(
+                'Hello ${userPro.currentUser.name}! 👋',
+                style: const TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.w500,
+                ),
+              );
+            }),
             const SizedBox(height: 10),
             const Text(
               'Welcome to Muu Wallet',
