@@ -32,9 +32,8 @@ class AppThemes {
     appBarTheme: const AppBarTheme(
       color: Colors.transparent,
       elevation: 0,
-      iconTheme: IconThemeData(color: _primary),
     ),
-    scaffoldBackgroundColor: Colors.black,
+    scaffoldBackgroundColor: const Color(0xFF101018),
     primaryColor: _primary,
     iconTheme: const IconThemeData(color: Colors.white),
     dividerTheme: const DividerThemeData(color: Colors.grey, thickness: 0.5),
@@ -55,7 +54,6 @@ class AppThemes {
     appBarTheme: const AppBarTheme(
       color: Colors.transparent,
       elevation: 0,
-      iconTheme: IconThemeData(color: _primary),
     ),
     scaffoldBackgroundColor: Colors.white,
     primaryColor: _primary,

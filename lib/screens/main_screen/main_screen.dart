@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../providers/app_provider.dart';
 import '../main_pages/home_page.dart';
+import '../main_pages/profile_page.dart';
 import 'main_bottom_navigation_bar.dart';
 
 class MainScreen extends StatelessWidget {
@@ -14,7 +15,7 @@ class MainScreen extends StatelessWidget {
     Text('BetScreen()'),
     Text('AddPage()'),
     Text('MessagePage()'),
-    Text('MyProdilePage()'),
+    ProfilePage(),
   ];
 
   @override
