@@ -32,7 +32,9 @@ class CustomElevatedButton extends StatelessWidget {
     return Container(
       margin: margin ?? const EdgeInsets.symmetric(vertical: 6),
       decoration: BoxDecoration(
-        color: readOnly ? Colors.transparent : Theme.of(context).primaryColor,
+        color: readOnly
+            ? Colors.transparent
+            : bgColor ?? Theme.of(context).primaryColor,
         borderRadius: borderRadius ?? BorderRadius.circular(12),
         border: border,
       ),
