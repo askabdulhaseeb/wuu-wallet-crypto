@@ -11,6 +11,7 @@ import 'screens/auth/verification_pin_screen.dart';
 import 'screens/auth/welcome_screen.dart';
 import 'screens/intro_screen/intro_screen.dart';
 import 'screens/main_screen/main_screen.dart';
+import 'screens/setting_screen/setting_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -47,6 +48,7 @@ class MyApp extends StatelessWidget {
                 const VerificationPinScreen(),
             WelcomeScreen.routeName: (_) => const WelcomeScreen(),
             MainScreen.routeName: (_) => const MainScreen(),
+            SettingScreen.rotueName: (_) => const SettingScreen(),
           },
         );
       }),
