@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../apis/coins_api.dart';
+import '../../models/coin_market_place/coin.dart';
 import '../../providers/user_provider.dart';
 import '../../widget/custom_widgets/circular_profile_image.dart';
 import '../../widget/home/total_balance_widget.dart';
@@ -46,6 +48,21 @@ class HomePage extends StatelessWidget {
             const SizedBox(height: 10),
             const TotalBalanceWidget(balance: 41538),
             const _SeeAll(),
+            // FutureBuilder<List<Coin>?>(
+            //   future: CoinsAPI().listingLatest(),
+            //   builder:
+            //       (BuildContext context, AsyncSnapshot<List<Coin>?> snapshot) {
+            //     return Text(snapshot.hasData.toString());
+            //   },
+            // ),
+            Expanded(
+              child: ListView.builder(
+                itemCount: 100,
+                itemBuilder: (BuildContext context, int index) {
+                  return Text('data');
+                },
+              ),
+            ),
           ],
         ),
       ),

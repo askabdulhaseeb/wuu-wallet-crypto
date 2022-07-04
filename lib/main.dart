@@ -10,6 +10,7 @@ import 'screens/auth/signup_screen.dart';
 import 'screens/auth/verification_pin_screen.dart';
 import 'screens/auth/welcome_screen.dart';
 import 'screens/intro_screen/intro_screen.dart';
+import 'screens/main_pages/home_page.dart';
 import 'screens/main_screen/main_screen.dart';
 import 'screens/setting_screen/setting_screen.dart';
 
@@ -40,7 +41,7 @@ class MyApp extends StatelessWidget {
           theme: AppThemes.light,
           darkTheme: AppThemes.dark,
           themeMode: theme.themeMode,
-          home: const IntroScreen(),
+          home: const HomePage(),
           routes: <String, WidgetBuilder>{
             SigninScreen.routeName: (_) => const SigninScreen(),
             SignupScreen.routeName: (_) => const SignupScreen(),

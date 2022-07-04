@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
 class AppThemeProvider extends ChangeNotifier {
-  ThemeMode _themeMode = ThemeMode.dark;
+  ThemeMode _themeMode = ThemeMode.light;
 
   ThemeMode get themeMode => _themeMode;
 
@@ -32,6 +32,8 @@ class AppThemes {
     appBarTheme: const AppBarTheme(
       color: Colors.transparent,
       elevation: 0,
+      titleTextStyle: TextStyle(color: Colors.white),
+      iconTheme: IconThemeData(color: Colors.white),
     ),
     scaffoldBackgroundColor: const Color(0xFF101018),
     primaryColor: _primary,
@@ -54,6 +56,8 @@ class AppThemes {
     appBarTheme: const AppBarTheme(
       color: Colors.transparent,
       elevation: 0,
+      titleTextStyle: TextStyle(color: Colors.black),
+      iconTheme: IconThemeData(color: Colors.black),
     ),
     scaffoldBackgroundColor: Colors.white,
     primaryColor: _primary,
