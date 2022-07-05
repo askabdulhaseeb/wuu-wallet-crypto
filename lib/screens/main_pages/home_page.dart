@@ -6,6 +6,7 @@ import '../../apis/coins_api.dart';
 import '../../models/coin_market_place/coin.dart';
 import '../../providers/user_provider.dart';
 import '../../widget/custom_widgets/circular_profile_image.dart';
+import '../../widget/home/coin_tile.dart';
 import '../../widget/home/total_balance_widget.dart';
 
 class HomePage extends StatelessWidget {
@@ -48,20 +49,24 @@ class HomePage extends StatelessWidget {
             const SizedBox(height: 10),
             const TotalBalanceWidget(balance: 41538),
             const _SeeAll(),
-            // FutureBuilder<List<Coin>?>(
-            //   future: CoinsAPI().listingLatest(),
-            //   builder:
-            //       (BuildContext context, AsyncSnapshot<List<Coin>?> snapshot) {
-            //     return Text(snapshot.hasData.toString());
-            //   },
-            // ),
-            Expanded(
-              child: ListView.builder(
-                itemCount: 100,
-                itemBuilder: (BuildContext context, int index) {
-                  return Text('data');
-                },
-              ),
+            FutureBuilder<List<Coin>?>(
+              future: CoinsAPI().domeLisingLatest(),
+              builder:
+                  (BuildContext context, AsyncSnapshot<List<Coin>?> snapshot) {
+                if (snapshot.hasData) {
+                  final List<Coin> coins = snapshot.data ?? <Coin>[];
+                  return Expanded(
+                    child: ListView.builder(
+                      itemCount: coins.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return CoinTile(coin: coins[index]);
+                      },
+                    ),
+                  );
+                } else {
+                  return const Center(child: Text('Please wait'));
+                }
+              },
             ),
           ],
         ),
