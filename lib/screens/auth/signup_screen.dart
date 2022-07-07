@@ -20,48 +20,50 @@ class _SignupScreenState extends State<SignupScreen> {
   bool isLoading = false;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: AppBar(),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 54, vertical: 16),
-              child: Image.asset(AppImages.logo4x),
-            ),
-            const SizedBox(height: 40),
-            const Text(
-              'What’s your \nemail address!',
-              style: TextStyle(
-                fontSize: 32,
-                fontWeight: FontWeight.bold,
+    return SafeArea(
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        appBar: AppBar(),
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 54, vertical: 16),
+                child: Image.asset(AppImages.logo4x),
               ),
-            ),
-            const SizedBox(height: 32),
-            CustomTextFormField(
-              controller: _email,
-              lable: 'Email Address',
-              hint: 'example@example.com',
-              readOnly: isLoading,
-              validator: (String? value) => CustomValidator.email(value),
-              keyboardType: TextInputType.emailAddress,
-              textInputAction: TextInputAction.done,
-            ),
-            const SizedBox(height: 10),
-            CustomElevatedButton(
-              title: 'Continue with Email',
-              prefixIcon: const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10),
-                child: Icon(Icons.mail, color: Colors.white),
+              const SizedBox(height: 40),
+              const Text(
+                'What’s your \nemail address!',
+                style: TextStyle(
+                  fontSize: 32,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-              onTap: () {},
-            ),
-            const SizedBox(height: 10),
-            const _Footer(),
-          ],
+              const SizedBox(height: 32),
+              CustomTextFormField(
+                controller: _email,
+                lable: 'Email Address',
+                hint: 'example@example.com',
+                readOnly: isLoading,
+                validator: (String? value) => CustomValidator.email(value),
+                keyboardType: TextInputType.emailAddress,
+                textInputAction: TextInputAction.done,
+              ),
+              const SizedBox(height: 10),
+              CustomElevatedButton(
+                title: 'Continue with Email',
+                prefixIcon: const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: Icon(Icons.mail, color: Colors.white),
+                ),
+                onTap: () {},
+              ),
+              const SizedBox(height: 10),
+              const _Footer(),
+            ],
+          ),
         ),
       ),
     );

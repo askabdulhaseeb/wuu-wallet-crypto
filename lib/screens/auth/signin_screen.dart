@@ -24,53 +24,56 @@ class _SigninScreenState extends State<SigninScreen> {
   bool isLoading = false;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: AppBar(),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 54, vertical: 16),
-              child: Image.asset(AppImages.logo4x),
-            ),
-            const SizedBox(height: 40),
-            const Text(
-              'Let’s sign you Up!',
-              style: TextStyle(
-                fontSize: 32,
-                fontWeight: FontWeight.bold,
+    return SafeArea(
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        appBar: AppBar(),
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 54, vertical: 16),
+                child: Image.asset(AppImages.logo4x),
               ),
-            ),
-            const SizedBox(height: 32),
-            CustomTextFormField(
-              controller: _email,
-              lable: 'Your Email',
-              hint: 'example@example.com',
-              readOnly: isLoading,
-              validator: (String? value) => CustomValidator.email(value),
-              keyboardType: TextInputType.emailAddress,
-            ),
-            HideableTextFormField(
-              controller: _password,
-              lable: 'Your Password',
-              readOnly: isLoading,
-              validator: (String? value) => CustomValidator.password(value),
-              keyboardType: TextInputType.visiblePassword,
-              textInputAction: TextInputAction.done,
-            ),
-            const SizedBox(height: 16),
-            CustomElevatedButton(
-              title: 'Login',
-              onTap: () {
-                Navigator.of(context)
-                    .pushNamed(VerificationPinScreen.routeName);
-              },
-            ),
-            const _Footer(),
-          ],
+              const SizedBox(height: 40),
+              const Text(
+                'Let’s sign you Up!',
+                style: TextStyle(
+                  fontSize: 32,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 32),
+              CustomTextFormField(
+                controller: _email,
+                lable: 'Your Email',
+                hint: 'example@example.com',
+                readOnly: isLoading,
+                validator: (String? value) => CustomValidator.email(value),
+                keyboardType: TextInputType.emailAddress,
+              ),
+              HideableTextFormField(
+                controller: _password,
+                lable: 'Your Password',
+                readOnly: isLoading,
+                validator: (String? value) => CustomValidator.password(value),
+                keyboardType: TextInputType.visiblePassword,
+                textInputAction: TextInputAction.done,
+              ),
+              const SizedBox(height: 16),
+              CustomElevatedButton(
+                title: 'Login',
+                onTap: () {
+                  Navigator.of(context)
+                      .pushNamed(VerificationPinScreen.routeName);
+                },
+              ),
+              const _Footer(),
+            ],
+          ),
         ),
       ),
     );
