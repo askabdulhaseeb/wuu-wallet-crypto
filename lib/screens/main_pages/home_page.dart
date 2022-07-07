@@ -20,7 +20,9 @@ class HomePage extends StatelessWidget {
         title: CircularProfileImage(imageURL: userPro.currentUser.imageURL),
         actions: <Widget>[
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              // TODO: Search Page Navigation
+            },
             splashRadius: 20,
             icon: Icon(
               CupertinoIcons.search,
@@ -28,7 +30,9 @@ class HomePage extends StatelessWidget {
             ),
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              // TODO: Scan Page Navigation
+            },
             splashRadius: 20,
             icon: Icon(
               CupertinoIcons.qrcode_viewfinder,

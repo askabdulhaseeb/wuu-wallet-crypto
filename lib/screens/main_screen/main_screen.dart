@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../../providers/app_provider.dart';
 import '../main_pages/home_page.dart';
 import '../main_pages/profile_page.dart';
+import '../main_pages/profit_page.dart';
 import 'main_bottom_navigation_bar.dart';
 
 class MainScreen extends StatelessWidget {
@@ -12,7 +13,7 @@ class MainScreen extends StatelessWidget {
 
   static const List<Widget> _pages = <Widget>[
     HomePage(),
-    Center(child: Text('Profit')),
+    ProfitScreen(),
     Center(child: Text('Exchange')),
     Center(child: Text('Time Clock')),
     ProfilePage(),
