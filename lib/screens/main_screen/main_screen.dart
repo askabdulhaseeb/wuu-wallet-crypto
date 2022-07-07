@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/app_provider.dart';
+import '../main_pages/history_page.dart';
 import '../main_pages/home_page.dart';
 import '../main_pages/profile_page.dart';
 import '../main_pages/profit_page.dart';
@@ -15,7 +16,7 @@ class MainScreen extends StatelessWidget {
     HomePage(),
     ProfitScreen(),
     Center(child: Text('Exchange')),
-    Center(child: Text('Time Clock')),
+    HistoryPage(),
     ProfilePage(),
   ];
 
