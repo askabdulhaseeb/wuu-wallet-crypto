@@ -6,20 +6,22 @@ import '../../providers/user_provider.dart';
 import '../../widget/coin_list_view.dart';
 import '../../widget/custom_widgets/circular_profile_image.dart';
 import '../../widget/home/total_balance_widget.dart';
+import '../see_all_coin_screen/see_all_coin_screen.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final UserProvider _userPro = Provider.of<UserProvider>(context);
+    final UserProvider userPro = Provider.of<UserProvider>(context);
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
-        title: CircularProfileImage(imageURL: _userPro.currentUser.imageURL),
+        title: CircularProfileImage(imageURL: userPro.currentUser.imageURL),
         actions: <Widget>[
           IconButton(
             onPressed: () {},
+            splashRadius: 20,
             icon: Icon(
               CupertinoIcons.search,
               color: Theme.of(context).iconTheme.color,
@@ -27,6 +29,7 @@ class HomePage extends StatelessWidget {
           ),
           IconButton(
             onPressed: () {},
+            splashRadius: 20,
             icon: Icon(
               CupertinoIcons.qrcode_viewfinder,
               color: Theme.of(context).iconTheme.color,
@@ -41,7 +44,7 @@ class HomePage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-              'Hello, \n${_userPro.currentUser.name}! 👋',
+              'Hello, \n${userPro.currentUser.name}! 👋',
               style: const TextStyle(fontSize: 36, fontWeight: FontWeight.w600),
             ),
             const SizedBox(height: 10),
@@ -68,7 +71,8 @@ class _SeeAll extends StatelessWidget {
           style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
         ),
         TextButton(
-          onPressed: () {},
+          onPressed: () =>
+              Navigator.of(context).pushNamed(SeeAllCoinScreen.routeName),
           child: const Text('See All'),
         ),
       ],

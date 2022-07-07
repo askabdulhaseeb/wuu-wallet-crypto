@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
 class AppThemeProvider extends ChangeNotifier {
-  ThemeMode _themeMode = ThemeMode.light;
+  ThemeMode _themeMode = ThemeMode.dark;
 
   ThemeMode get themeMode => _themeMode;
 
@@ -36,7 +36,7 @@ class AppThemes {
       titleTextStyle: TextStyle(
         color: Colors.white,
         fontSize: 18,
-        fontWeight: FontWeight.w800,
+        fontWeight: FontWeight.w600,
       ),
       iconTheme: IconThemeData(color: Colors.white),
     ),
@@ -65,7 +65,7 @@ class AppThemes {
       titleTextStyle: TextStyle(
         color: Colors.black,
         fontSize: 18,
-        fontWeight: FontWeight.w800,
+        fontWeight: FontWeight.w600,
       ),
       iconTheme: IconThemeData(color: Colors.black),
     ),

@@ -12,9 +12,9 @@ class MainScreen extends StatelessWidget {
 
   static const List<Widget> _pages = <Widget>[
     HomePage(),
-    Text('BetScreen()'),
-    Text('AddPage()'),
-    Text('MessagePage()'),
+    Center(child: Text('Profit')),
+    Center(child: Text('Exchange')),
+    Center(child: Text('Time Clock')),
     ProfilePage(),
   ];
 

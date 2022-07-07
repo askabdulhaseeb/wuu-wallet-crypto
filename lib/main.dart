@@ -12,6 +12,7 @@ import 'screens/auth/welcome_screen.dart';
 import 'screens/intro_screen/intro_screen.dart';
 import 'screens/main_pages/home_page.dart';
 import 'screens/main_screen/main_screen.dart';
+import 'screens/see_all_coin_screen/see_all_coin_screen.dart';
 import 'screens/setting_screen/setting_screen.dart';
 
 Future<void> main() async {
@@ -41,7 +42,7 @@ class MyApp extends StatelessWidget {
           theme: AppThemes.light,
           darkTheme: AppThemes.dark,
           themeMode: theme.themeMode,
-          home: const HomePage(),
+          home: const IntroScreen(),
           routes: <String, WidgetBuilder>{
             SigninScreen.routeName: (_) => const SigninScreen(),
             SignupScreen.routeName: (_) => const SignupScreen(),
@@ -50,6 +51,8 @@ class MyApp extends StatelessWidget {
             WelcomeScreen.routeName: (_) => const WelcomeScreen(),
             MainScreen.routeName: (_) => const MainScreen(),
             SettingScreen.rotueName: (_) => const SettingScreen(),
+            //
+            SeeAllCoinScreen.routeName: (_) => const SeeAllCoinScreen(),
           },
         );
       }),

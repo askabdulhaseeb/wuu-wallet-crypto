@@ -17,9 +17,13 @@ class CoinInfoDetailScreen extends StatelessWidget {
         title: const Text('Exchange'),
         actions: <Widget>[
           IconButton(
-            onPressed: () {},
+            splashRadius: 20,
+            onPressed: () {
+              // TODO: Search Page Navigation
+            },
             icon: const Icon(CupertinoIcons.search),
           ),
+          const SizedBox(width: 10),
         ],
       ),
       body: Padding(
