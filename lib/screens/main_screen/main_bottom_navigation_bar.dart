@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/app_provider.dart';
+import '../../utilities/app_images.dart';
 
 class MainBottomNavigationBar extends StatelessWidget {
   const MainBottomNavigationBar({Key? key}) : super(key: key);
@@ -9,7 +10,7 @@ class MainBottomNavigationBar extends StatelessWidget {
   Widget build(BuildContext context) {
     AppProvider navBar = Provider.of<AppProvider>(context);
     return BottomNavigationBar(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      backgroundColor: Colors.transparent,
       selectedLabelStyle: TextStyle(color: Theme.of(context).primaryColor),
       selectedItemColor: Theme.of(context).primaryColor,
       showUnselectedLabels: false,
@@ -17,30 +18,32 @@ class MainBottomNavigationBar extends StatelessWidget {
       unselectedItemColor: Colors.grey,
       currentIndex: navBar.currentTap,
       onTap: (int index) => navBar.onTabTapped(index),
-      items: const <BottomNavigationBarItem>[
+      items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(
-          icon: Icon(Icons.home_outlined),
-          activeIcon: Icon(Icons.home_rounded),
+          icon: ImageIcon(AssetImage(AppImages.homeUnselected)),
+          activeIcon: ImageIcon(AssetImage(AppImages.homeSelected)),
           label: 'Home',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.shopping_cart_outlined),
-          activeIcon: Icon(Icons.shopping_cart),
-          label: 'Cart',
+          icon: ImageIcon(AssetImage(AppImages.profitUnselected)),
+          activeIcon: ImageIcon(AssetImage(AppImages.profitSelected)),
+          label: 'Profit',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.add_box_outlined),
-          activeIcon: Icon(Icons.add_box),
-          label: 'Add',
+          icon: SizedBox(
+            height: 36,
+            child: Image.asset(AppImages.exchangeIcon),
+          ),
+          label: 'Exchange',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.chat_outlined),
-          activeIcon: Icon(Icons.chat),
-          label: 'chat',
+          icon: ImageIcon(AssetImage(AppImages.timeUnselected)),
+          activeIcon: ImageIcon(AssetImage(AppImages.timeSelected)),
+          label: 'Time',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.account_box_outlined),
-          activeIcon: Icon(Icons.account_box),
+          icon: ImageIcon(AssetImage(AppImages.profileUnselected)),
+          activeIcon: ImageIcon(AssetImage(AppImages.profileSelected)),
           label: 'Profile',
         ),
       ],

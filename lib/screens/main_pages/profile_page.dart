@@ -19,6 +19,7 @@ class ProfilePage extends StatelessWidget {
         title: const Text('Account'),
         actions: <Widget>[
           IconButton(
+            splashRadius: 20,
             onPressed: () => Navigator.of(context).pushNamed(
               SettingScreen.rotueName,
             ),
