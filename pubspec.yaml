@@ -12,8 +12,10 @@ dependencies:
 
   web3dart:
   erc20: ^1.0.0
+
   k_chart: ^0.6.1
-  
+  fl_chart: ^0.55.0
+
   http: ^0.13.4
 
   cloud_firestore: ^3.1.18
