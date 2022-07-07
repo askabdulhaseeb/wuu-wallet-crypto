@@ -8,4 +8,8 @@ class Utilities {
         Color(0xFFFF56A9),
         Color(0xFFFFAA6C),
       ];
+  static List<Color> get bgGradient => const <Color>[
+        Color(0xFF70A2FF),
+        Color(0xFF54F0D1),
+      ];
 }

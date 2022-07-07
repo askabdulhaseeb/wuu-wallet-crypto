@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
+import '../wallet_screens/wallet_setup_screen/wallet_setup_screen.dart';
 import 'welcome_screen.dart';
 
 class VerificationPinScreen extends StatefulWidget {
@@ -51,8 +52,11 @@ class _VerificationPinScreenState extends State<VerificationPinScreen> {
                 ),
                 onChanged: (String value) {
                   if (value.length == 4) {
+                    // Navigator.of(context).pushNamedAndRemoveUntil(
+                    //     WelcomeScreen.routeName,
+                    //     (Route<dynamic> route) => false);
                     Navigator.of(context).pushNamedAndRemoveUntil(
-                        WelcomeScreen.routeName,
+                        WalletSetupScreen.routeName,
                         (Route<dynamic> route) => false);
                   }
                 },

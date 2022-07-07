@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import 'providers/app_provider.dart';
 import 'providers/app_theme.dart';
+import 'providers/seed_phrase_provider.dart';
 import 'providers/user_provider.dart';
 import 'screens/auth/signin_screen.dart';
 import 'screens/auth/signup_screen.dart';
@@ -14,6 +15,10 @@ import 'screens/main_pages/home_page.dart';
 import 'screens/main_screen/main_screen.dart';
 import 'screens/see_all_coin_screen/see_all_coin_screen.dart';
 import 'screens/setting_screen/setting_screen.dart';
+import 'screens/wallet_screens/create_wallet_screen/create_wallet_screen.dart';
+import 'screens/wallet_screens/import_seed_screen/import_seed_screen.dart';
+import 'screens/wallet_screens/wallet_created_success_screen/wallat_create_success_screen.dart';
+import 'screens/wallet_screens/wallet_setup_screen/wallet_setup_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,6 +37,8 @@ class MyApp extends StatelessWidget {
           value: AppThemeProvider(),
         ),
         ChangeNotifierProvider<AppProvider>.value(value: AppProvider()),
+        ChangeNotifierProvider<SeedPhraseProvider>.value(
+            value: SeedPhraseProvider()),
         ChangeNotifierProvider<UserProvider>.value(value: UserProvider()),
       ],
       child: Consumer<AppThemeProvider>(
@@ -49,6 +56,13 @@ class MyApp extends StatelessWidget {
             VerificationPinScreen.routeName: (_) =>
                 const VerificationPinScreen(),
             WelcomeScreen.routeName: (_) => const WelcomeScreen(),
+            // wallet screen
+            WalletSetupScreen.routeName: (_) => const WalletSetupScreen(),
+            ImportSeedScreen.routeName: (_) => const ImportSeedScreen(),
+            CreateWalletScreen.routeName: (_) => const CreateWalletScreen(),
+            WallatCreateSuccessScreen.routeName: (_) =>
+                const WallatCreateSuccessScreen(),
+            //
             MainScreen.routeName: (_) => const MainScreen(),
             SettingScreen.rotueName: (_) => const SettingScreen(),
             //
