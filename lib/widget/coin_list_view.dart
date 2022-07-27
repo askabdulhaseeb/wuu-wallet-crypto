@@ -10,7 +10,7 @@ class CoinListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Coin>?>(
-      future: CoinsAPI().domeLisingLatest(),
+      future: CoinsAPI().listingLatest(),
       builder: (BuildContext context, AsyncSnapshot<List<Coin>?> snapshot) {
         if (snapshot.hasData) {
           final List<Coin> coins = snapshot.data ?? <Coin>[];

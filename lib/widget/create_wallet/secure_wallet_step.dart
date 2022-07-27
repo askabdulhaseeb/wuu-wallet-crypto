@@ -3,7 +3,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../models/seed_phrase.dart';
 import '../../providers/seed_phrase_provider.dart';
 import '../../utilities/app_images.dart';
 import '../../utilities/utilities.dart';
@@ -81,7 +80,7 @@ class _SeedPhrasePageState extends State<_SeedPhrasePage> {
             children: <Widget>[
               Consumer<SeedPhraseProvider>(builder:
                   (BuildContext context, SeedPhraseProvider seedPro, _) {
-                List<SeedPhrase> phrases = seedPro.phrases;
+                final List<String> phrases = seedPro.phraselist;
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
@@ -89,24 +88,24 @@ class _SeedPhrasePageState extends State<_SeedPhrasePage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
-                        SeedTextWidget(seed: phrases[0]),
-                        SeedTextWidget(seed: phrases[1]),
-                        SeedTextWidget(seed: phrases[2]),
-                        SeedTextWidget(seed: phrases[3]),
-                        SeedTextWidget(seed: phrases[4]),
-                        SeedTextWidget(seed: phrases[5]),
+                        SeedTextWidget(text: phrases[0], index: 0),
+                        SeedTextWidget(text: phrases[1], index: 1),
+                        SeedTextWidget(text: phrases[2], index: 2),
+                        SeedTextWidget(text: phrases[3], index: 3),
+                        SeedTextWidget(text: phrases[4], index: 4),
+                        SeedTextWidget(text: phrases[5], index: 5),
                       ],
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
-                        SeedTextWidget(seed: phrases[6]),
-                        SeedTextWidget(seed: phrases[7]),
-                        SeedTextWidget(seed: phrases[8]),
-                        SeedTextWidget(seed: phrases[9]),
-                        SeedTextWidget(seed: phrases[10]),
-                        SeedTextWidget(seed: phrases[11]),
+                        SeedTextWidget(text: phrases[6], index: 6),
+                        SeedTextWidget(text: phrases[7], index: 7),
+                        SeedTextWidget(text: phrases[8], index: 8),
+                        SeedTextWidget(text: phrases[9], index: 9),
+                        SeedTextWidget(text: phrases[10], index: 10),
+                        SeedTextWidget(text: phrases[11], index: 11),
                       ],
                     ),
                   ],

@@ -2,11 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../apis/local_data.dart';
+import '../../providers/app_provider.dart';
 import '../../providers/user_provider.dart';
 import '../../widget/custom_widgets/circular_profile_image.dart';
 import '../../widget/custom_widgets/custom_elevated_button.dart';
 import '../../widget/custom_widgets/title_clickable_tile.dart';
 import '../../widget/profile/user_profile_info_card.dart';
+import '../intro_screen/intro_screen.dart';
 import '../setting_screen/setting_screen.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -63,7 +66,13 @@ class ProfilePage extends StatelessWidget {
                     fontSize: 18,
                   ),
                   border: Border.all(color: Theme.of(context).primaryColor),
-                  onTap: () {},
+                  onTap: () {
+                    LocalData.signout();
+                    Provider.of<AppProvider>(context, listen: false)
+                        .onTabTapped(0);
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                        IntroScreen.routeName, (Route<dynamic> route) => false);
+                  },
                 ),
                 const SizedBox(height: 60),
               ],

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../../models/seed_phrase.dart';
-
 class SeedTextWidget extends StatelessWidget {
-  const SeedTextWidget({required this.seed, Key? key}) : super(key: key);
-  final SeedPhrase seed;
+  const SeedTextWidget({required this.text, required this.index, Key? key})
+      : super(key: key);
+  final int index;
+  final String text;
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class SeedTextWidget extends StatelessWidget {
         color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.08),
         borderRadius: BorderRadius.circular(10),
       ),
-      child: Text('${seed.id}. ${seed.phrase}'),
+      child: Text('$index. $text'),
     );
   }
 }

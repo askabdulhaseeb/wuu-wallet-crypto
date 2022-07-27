@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../apis/home_api.dart';
 import '../../widget/coin_list_view.dart';
+import '../../widget/custom_widgets/show_loading.dart';
 
 class ProfitScreen extends StatelessWidget {
   const ProfitScreen({Key? key}) : super(key: key);
@@ -143,21 +145,39 @@ class _BalanceWidgetState extends State<_BalanceWidget> {
             ),
           ],
         ),
-        SizedBox(
-          height: hiden ? 14 : 50,
-          child: FittedBox(
-            child: Text(
-              hiden
-                  ? 'Tap on the Eye Button to show the balance \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t'
-                  : '\$ 18,599.50',
-              style: TextStyle(
-                color: hiden
-                    ? Colors.grey
-                    : Theme.of(context).textTheme.bodyText1!.color,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ),
+        FutureBuilder<double>(
+          future: HomeAPI().balance(),
+          builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
+            if (snapshot.hasError) {
+              return const Text(
+                '-Error-',
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 24,
+                ),
+              );
+            } else if (snapshot.hasData) {
+              final double balance = snapshot.data!;
+              return SizedBox(
+                height: hiden ? 14 : 50,
+                child: FittedBox(
+                  child: Text(
+                    hiden
+                        ? 'Tap on the Eye Button to show the balance \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t'
+                        : '\$ $balance',
+                    style: TextStyle(
+                      color: hiden
+                          ? Colors.grey
+                          : Theme.of(context).textTheme.bodyText1!.color,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+              );
+            } else {
+              return const ShowLoading();
+            }
+          },
         ),
       ],
     );

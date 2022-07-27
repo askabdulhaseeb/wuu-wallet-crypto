@@ -2,8 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../Utilities/custom_validators.dart';
+import '../../../apis/wallat_pai.dart';
 import '../../../widget/custom_widgets/custom_elevated_button.dart';
 import '../../../widget/custom_widgets/hideable_textformfield.dart';
+import '../../../widget/custom_widgets/show_loading.dart';
 import '../../main_screen/main_screen.dart';
 
 class ImportSeedScreen extends StatefulWidget {
@@ -84,7 +86,8 @@ class _ImportSeedScreenState extends State<ImportSeedScreen> {
                   children: <Widget>[
                     const Text(
                       'Sign in with Face ID?',
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                     ),
                     CupertinoSwitch(
                       value: signWithFaceID,
@@ -119,14 +122,27 @@ class _ImportSeedScreenState extends State<ImportSeedScreen> {
                   ),
                 ),
                 const Spacer(),
-                CustomElevatedButton(
-                  title: 'Import',
-                  readOnly: !(_key.currentState?.validate() ?? false),
-                  onTap: () {
-                    Navigator.of(context).pushNamedAndRemoveUntil(
-                        MainScreen.routeName, (Route<dynamic> route) => false);
-                  },
-                ),
+                isLoading
+                    ? const ShowLoading()
+                    : CustomElevatedButton(
+                        title: 'Import',
+                        readOnly: !(_key.currentState?.validate() ?? false),
+                        onTap: () async {
+                          setState(() {
+                            isLoading = true;
+                          });
+                          final bool done = await WalletAPI()
+                              .generatePrivateKey(phrase: _seeds.text);
+                          setState(() {
+                            isLoading = false;
+                          });
+                          if (done) {
+                            Navigator.of(context).pushNamedAndRemoveUntil(
+                                MainScreen.routeName,
+                                (Route<dynamic> route) => false);
+                          }
+                        },
+                      ),
               ],
             ),
           ),

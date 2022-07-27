@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:provider/provider.dart';
 
+import '../../providers/seed_phrase_provider.dart';
 import '../wallet_screens/wallet_setup_screen/wallet_setup_screen.dart';
 import 'welcome_screen.dart';
 
@@ -52,7 +54,7 @@ class _VerificationPinScreenState extends State<VerificationPinScreen> {
                       activeColor: Colors.grey,
                       inactiveColor: Colors.grey,
                     ),
-                    onChanged: (String value) {
+                    onChanged: (String value) async {
                       if (value.length == 4) {
                         // Navigator.of(context).pushNamedAndRemoveUntil(
                         //     WelcomeScreen.routeName,

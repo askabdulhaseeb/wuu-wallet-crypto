@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'apis/local_data.dart';
 import 'providers/app_provider.dart';
 import 'providers/app_theme.dart';
 import 'providers/seed_phrase_provider.dart';
@@ -11,7 +12,6 @@ import 'screens/auth/signup_screen.dart';
 import 'screens/auth/verification_pin_screen.dart';
 import 'screens/auth/welcome_screen.dart';
 import 'screens/intro_screen/intro_screen.dart';
-import 'screens/main_pages/home_page.dart';
 import 'screens/main_screen/main_screen.dart';
 import 'screens/see_all_coin_screen/see_all_coin_screen.dart';
 import 'screens/setting_screen/setting_screen.dart';
@@ -23,6 +23,7 @@ import 'screens/wallet_screens/wallet_setup_screen/wallet_setup_screen.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await LocalData.init();
   runApp(const MyApp());
 }
 
@@ -49,8 +50,11 @@ class MyApp extends StatelessWidget {
           theme: AppThemes.light,
           darkTheme: AppThemes.dark,
           themeMode: theme.themeMode,
-          home: const IntroScreen(),
+          home: LocalData.email() == null || LocalData.email()!.isEmpty
+              ? const IntroScreen()
+              : const MainScreen(),
           routes: <String, WidgetBuilder>{
+            IntroScreen.routeName: (_) => const IntroScreen(),
             SigninScreen.routeName: (_) => const SigninScreen(),
             SignupScreen.routeName: (_) => const SignupScreen(),
             VerificationPinScreen.routeName: (_) =>

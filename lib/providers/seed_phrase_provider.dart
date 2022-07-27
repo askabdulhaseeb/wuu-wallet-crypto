@@ -1,88 +1,86 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 
+import '../apis/wallat_pai.dart';
 import '../models/seed_phrase.dart';
 
 class SeedPhraseProvider extends ChangeNotifier {
-  SeedPhraseProvider() {
-    _phrases = <SeedPhrase>[
-      SeedPhrase(id: '0', phrase: 'future'),
-      SeedPhrase(id: '1', phrase: 'use'),
-      SeedPhrase(id: '2', phrase: 'abuse'),
-      SeedPhrase(id: '3', phrase: 'bubble'),
-      SeedPhrase(id: '4', phrase: 'disagree'),
-      SeedPhrase(id: '5', phrase: 'yard'),
-      SeedPhrase(id: '6', phrase: 'exit'),
-      SeedPhrase(id: '7', phrase: 'enact'),
-      SeedPhrase(id: '8', phrase: 'drum'),
-      SeedPhrase(id: '9', phrase: 'frequent'),
-      SeedPhrase(id: '10', phrase: 'target'),
-      SeedPhrase(id: '11', phrase: 'organ'),
-    ];
+  init() async {
+    _phrases = await WalletAPI().getSeedPhrase();
+    _phrasesList.addAll(_phrases!.mnemonic.split(' '));
+    print(_phrasesList);
     Random random = Random();
-    int f = 0, s = 0, t = 0;
-    f = random.nextInt(12);
+    _firstIndex = random.nextInt(12);
     do {
-      s = random.nextInt(12);
-    } while (s != f);
+      _secondIndex = random.nextInt(12);
+    } while (_secondIndex == _firstIndex);
     do {
-      t = random.nextInt(12);
-    } while (t != s && t != f);
-    _first = _phrases[f];
-    _second = _phrases[s];
-    _third = _phrases[t];
+      _thirdIndex = random.nextInt(12);
+    } while (_thirdIndex == _secondIndex || _thirdIndex == _firstIndex);
+    _firstWord = _phrasesList[_firstIndex];
+    _secondWord = _phrasesList[_secondIndex];
+    _thirdWord = _phrasesList[_thirdIndex];
+    print(
+      '$_firstIndex : $_firstWord , $_secondIndex : $_secondWord , $_thirdIndex : $_thirdWord',
+    );
   }
 
-  List<SeedPhrase> _phrases = <SeedPhrase>[];
-  late SeedPhrase _first;
-  late SeedPhrase _second;
-  late SeedPhrase _third;
+  SeedPhrase? _phrases;
+  final List<String> _phrasesList = <String>[];
+  late int _firstIndex;
+  late int _secondIndex;
+  late int _thirdIndex;
+  late String _firstWord;
+  late String _secondWord;
+  late String _thirdWord;
 
-  List<SeedPhrase> get phrases => <SeedPhrase>[..._phrases];
+  List<String> get phraselist => _phrasesList;
+  String get phrase => _phrases!.mnemonic;
 
-  SeedPhrase get firstPhrase => _first;
-  SeedPhrase get secondPhrase => _second;
-  SeedPhrase get thirdPhrase => _third;
+  String get firstWord => _firstWord;
+  String get secondWord => _secondWord;
+  String get thirdWord => _thirdWord;
 
-  List<SeedPhrase> hintForFirstPhrase() {
-    List<SeedPhrase> temp = <SeedPhrase>[];
-    temp.add(_first);
+  int get firstIndex => _firstIndex;
+  int get secondIndex => _secondIndex;
+  int get thirdIndex => _thirdIndex;
+
+  List<String> hintForFirstPhrase() {
+    List<String> temp = <String>[];
+    temp.add(_firstWord);
     while (temp.length < 6) {
       final int index = Random().nextInt(12);
-      final int check = temp
-          .indexWhere((SeedPhrase element) => element.id == _phrases[index].id);
-      if (check == -1) {
-        temp.add(_phrases[index]);
+      if (!temp.contains(_phrasesList[index])) {
+        temp.add(_phrasesList[index]);
       }
     }
+    temp.shuffle();
     return temp;
   }
 
-  List<SeedPhrase> hintForSecondPhrase() {
-    List<SeedPhrase> temp = <SeedPhrase>[];
-    temp.add(_second);
+  List<String> hintForSecondPhrase() {
+    List<String> temp = <String>[];
+    temp.add(_secondWord);
     while (temp.length < 6) {
       final int index = Random().nextInt(12);
-      final int check = temp
-          .indexWhere((SeedPhrase element) => element.id == _phrases[index].id);
-      if (check < 0) {
-        temp.add(_phrases[index]);
+      if (!temp.contains(_phrasesList[index])) {
+        temp.add(_phrasesList[index]);
       }
     }
+    temp.shuffle();
     return temp;
   }
 
-  List<SeedPhrase> hintForThirdPhrase() {
-    List<SeedPhrase> temp = <SeedPhrase>[];
-    temp.add(_third);
+  List<String> hintForThirdPhrase() {
+    List<String> temp = <String>[];
+    temp.add(_thirdWord);
     while (temp.length < 6) {
       final int index = Random().nextInt(12);
-      final int check = temp
-          .indexWhere((SeedPhrase element) => element.id == _phrases[index].id);
-      if (check == -1) {
-        temp.add(_phrases[index]);
+      if (!temp.contains(_phrasesList[index])) {
+        temp.add(_phrasesList[index]);
       }
     }
+    temp.shuffle();
     return temp;
   }
 }

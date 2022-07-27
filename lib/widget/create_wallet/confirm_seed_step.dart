@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../models/seed_phrase.dart';
+import '../../apis/wallat_pai.dart';
 import '../../providers/seed_phrase_provider.dart';
+import '../../screens/main_screen/main_screen.dart';
 import '../../screens/wallet_screens/wallet_created_success_screen/wallat_create_success_screen.dart';
+import '../../screens/wallet_screens/wallet_setup_screen/wallet_setup_screen.dart';
 import '../../utilities/utilities.dart';
 import '../custom_widgets/custom_elevated_button.dart';
+import '../custom_widgets/custom_toast.dart';
 import '../custom_widgets/gradient_text_widget.dart';
 
 class ConfirmSeedStep extends StatefulWidget {
@@ -42,8 +45,8 @@ class _ConfirmSeedStepState extends State<ConfirmSeedStep> {
           count == 0
               ? GradientTextWidget(
                   text: _first.isEmpty
-                      ? seedPro.firstPhrase.id
-                      : '${seedPro.firstPhrase.id}. $_first',
+                      ? seedPro.firstIndex.toString()
+                      : '${seedPro.firstIndex}. $_first',
                   colors: (_first.isEmpty)
                       ? <Color>[Colors.blueGrey, Colors.blueGrey]
                       : Utilities.bgGradient,
@@ -51,16 +54,16 @@ class _ConfirmSeedStepState extends State<ConfirmSeedStep> {
               : count == 1
                   ? GradientTextWidget(
                       text: _second.isEmpty
-                          ? seedPro.secondPhrase.id
-                          : '${seedPro.secondPhrase.id}. $_second',
+                          ? seedPro.secondIndex.toString()
+                          : '${seedPro.secondIndex}. $_second',
                       colors: (_second.isEmpty)
                           ? <Color>[Colors.blueGrey, Colors.blueGrey]
                           : Utilities.bgGradient,
                     )
                   : GradientTextWidget(
                       text: _third.isEmpty
-                          ? seedPro.thirdPhrase.id
-                          : '${seedPro.thirdPhrase.id}. $_third',
+                          ? seedPro.thirdIndex.toString()
+                          : '${seedPro.thirdIndex}. $_third',
                       colors: (_third.isEmpty)
                           ? <Color>[Colors.blueGrey, Colors.blueGrey]
                           : Utilities.bgGradient,
@@ -107,11 +110,11 @@ class _ConfirmSeedStepState extends State<ConfirmSeedStep> {
               children: count == 0
                   ? seedPro
                       .hintForFirstPhrase()
-                      .map((SeedPhrase e) => HintSeed(
+                      .map((String e) => HintSeed(
                             seed: e,
                             onTap: () {
                               setState(() {
-                                _first = e.phrase;
+                                _first = e;
                               });
                             },
                           ))
@@ -119,22 +122,22 @@ class _ConfirmSeedStepState extends State<ConfirmSeedStep> {
                   : count == 1
                       ? seedPro
                           .hintForSecondPhrase()
-                          .map((SeedPhrase e) => HintSeed(
+                          .map((String e) => HintSeed(
                                 seed: e,
                                 onTap: () {
                                   setState(() {
-                                    _second = e.phrase;
+                                    _second = e;
                                   });
                                 },
                               ))
                           .toList()
                       : seedPro
                           .hintForThirdPhrase()
-                          .map((SeedPhrase e) => HintSeed(
+                          .map((String e) => HintSeed(
                                 seed: e,
                                 onTap: () {
                                   setState(() {
-                                    _third = e.phrase;
+                                    _third = e;
                                   });
                                 },
                               ))
@@ -147,14 +150,32 @@ class _ConfirmSeedStepState extends State<ConfirmSeedStep> {
             readOnly: (count == 0 && _first.isEmpty) ||
                 (count == 1 && _second.isEmpty) ||
                 (count == 2 && _third.isEmpty),
-            onTap: () {
+            onTap: () async {
               if (count != 2) {
                 setState(() {
                   count++;
                 });
               } else {
-                Navigator.of(context)
-                    .pushNamed(WallatCreateSuccessScreen.routeName);
+                if (_first == seedPro.firstWord &&
+                    _second == seedPro.secondWord &&
+                    _third == seedPro.thirdWord) {
+                  final bool done = await WalletAPI()
+                      .generatePrivateKey(phrase: seedPro.phrase);
+                  if (done) {
+                    Navigator.of(context).pushNamed(MainScreen.routeName);
+                  } else {
+                    CustomToast.errorToast(
+                        message: 'Facing issues while fetching info');
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                        WalletSetupScreen.routeName,
+                        (Route<dynamic> route) => false);
+                  }
+                } else {
+                  CustomToast.errorToast(message: 'Invalid Seed Phrase Enterd');
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                      WalletSetupScreen.routeName,
+                      (Route<dynamic> route) => false);
+                }
               }
             },
           ),
@@ -167,7 +188,7 @@ class _ConfirmSeedStepState extends State<ConfirmSeedStep> {
 class HintSeed extends StatelessWidget {
   const HintSeed({required this.seed, required this.onTap, Key? key})
       : super(key: key);
-  final SeedPhrase seed;
+  final String seed;
   final VoidCallback onTap;
   @override
   Widget build(BuildContext context) {
@@ -182,7 +203,7 @@ class HintSeed extends StatelessWidget {
               Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.08),
           borderRadius: BorderRadius.circular(10),
         ),
-        child: Text(seed.phrase),
+        child: Text(seed),
       ),
     );
   }

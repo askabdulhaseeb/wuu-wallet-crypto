@@ -1,3 +1,4 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/coin_market_place/coin.dart';
@@ -47,10 +48,14 @@ class CoinTile extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    '${coin.quote.usd.percentChange24H.toStringAsFixed(2)}%',
-                    style: const TextStyle(
+                    coin.quote.usd.percentChange24H < 0
+                        ? '${coin.quote.usd.percentChange24H.toStringAsFixed(2)}%'
+                        : '+${coin.quote.usd.percentChange24H.toStringAsFixed(2)}%',
+                    style: TextStyle(
                       fontWeight: FontWeight.w500,
-                      color: Colors.grey,
+                      color: coin.quote.usd.percentChange24H < 0
+                          ? Colors.red
+                          : Colors.green,
                       fontSize: 13,
                     ),
                   ),
@@ -58,13 +63,36 @@ class CoinTile extends StatelessWidget {
               ),
             ),
             // Graph
-            const Expanded(
-                child: Center(
-              child: Text(
-                'Graph here',
-                style: TextStyle(color: Colors.grey),
+            Expanded(
+              child: SizedBox(
+                height: 40,
+                child: LineChart(
+                  LineChartData(
+                    titlesData: FlTitlesData(show: false),
+                    gridData: FlGridData(
+                      show: false,
+                      drawVerticalLine: false,
+                      drawHorizontalLine: false,
+                    ),
+                    borderData: FlBorderData(show: false),
+                    lineBarsData: <LineChartBarData>[
+                      LineChartBarData(
+                        isCurved: true,
+                        dotData: FlDotData(show: false),
+                        spots: <FlSpot>[
+                          FlSpot(1, coin.quote.usd.percentChange1H),
+                          FlSpot(1.2, coin.quote.usd.percentChange24H),
+                          FlSpot(1.3, coin.quote.usd.percentChange7D),
+                          FlSpot(1.4, coin.quote.usd.percentChange30D),
+                          FlSpot(1.5, coin.quote.usd.percentChange60D),
+                          FlSpot(1.6, coin.quote.usd.percentChange90D),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
               ),
-            )),
+            ),
             // Amount info
             Padding(
               padding: const EdgeInsets.all(10.0),

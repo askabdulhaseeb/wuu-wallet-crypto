@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import '../../apis/home_api.dart';
 import '../../utilities/utilities.dart';
+import '../custom_widgets/show_loading.dart';
 
 class TotalBalanceWidget extends StatelessWidget {
-  const TotalBalanceWidget({required this.balance, Key? key}) : super(key: key);
-  final double balance;
+  const TotalBalanceWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -39,10 +40,29 @@ class TotalBalanceWidget extends StatelessWidget {
               ),
             ],
           ),
-          Text(
-            '\$ $balance',
-            style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 24),
-          )
+          FutureBuilder<double>(
+            future: HomeAPI().balance(),
+            builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
+              if (snapshot.hasError) {
+                return const Text(
+                  '-Error-',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 24,
+                  ),
+                );
+              } else if (snapshot.hasData) {
+                final double balance = snapshot.data!;
+                return Text(
+                  '\$ $balance',
+                  style: const TextStyle(
+                      fontWeight: FontWeight.w600, fontSize: 24),
+                );
+              } else {
+                return const ShowLoading();
+              }
+            },
+          ),
         ],
       ),
     );

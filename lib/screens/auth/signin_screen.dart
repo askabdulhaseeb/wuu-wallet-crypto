@@ -1,6 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
+import '../../apis/auth_api.dart';
+import '../../models/app_user.dart';
 import '../../utilities/app_images.dart';
 import '../../utilities/custom_validators.dart';
 import '../../widget/auth/auth_icon_button.dart';
@@ -8,6 +10,8 @@ import '../../widget/auth/on_continue_with_text_widget.dart';
 import '../../widget/custom_widgets/custom_elevated_button.dart';
 import '../../widget/custom_widgets/custom_textformfield.dart';
 import '../../widget/custom_widgets/hideable_textformfield.dart';
+import '../../widget/custom_widgets/show_loading.dart';
+import '../wallet_screens/wallet_setup_screen/wallet_setup_screen.dart';
 import 'signup_screen.dart';
 import 'verification_pin_screen.dart';
 
@@ -21,6 +25,7 @@ class SigninScreen extends StatefulWidget {
 class _SigninScreenState extends State<SigninScreen> {
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
+  final GlobalKey<FormState> globalKey = GlobalKey<FormState>();
   bool isLoading = false;
   @override
   Widget build(BuildContext context) {
@@ -30,49 +35,68 @@ class _SigninScreenState extends State<SigninScreen> {
         appBar: AppBar(),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 54, vertical: 16),
-                child: Image.asset(AppImages.logo4x),
-              ),
-              const SizedBox(height: 40),
-              const Text(
-                'Let’s sign you Up!',
-                style: TextStyle(
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold,
+          child: Form(
+            key: globalKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 54, vertical: 16),
+                  child: Image.asset(AppImages.logo4x),
                 ),
-              ),
-              const SizedBox(height: 32),
-              CustomTextFormField(
-                controller: _email,
-                lable: 'Your Email',
-                hint: 'example@example.com',
-                readOnly: isLoading,
-                validator: (String? value) => CustomValidator.email(value),
-                keyboardType: TextInputType.emailAddress,
-              ),
-              HideableTextFormField(
-                controller: _password,
-                lable: 'Your Password',
-                readOnly: isLoading,
-                validator: (String? value) => CustomValidator.password(value),
-                keyboardType: TextInputType.visiblePassword,
-                textInputAction: TextInputAction.done,
-              ),
-              const SizedBox(height: 16),
-              CustomElevatedButton(
-                title: 'Login',
-                onTap: () {
-                  Navigator.of(context)
-                      .pushNamed(VerificationPinScreen.routeName);
-                },
-              ),
-              const _Footer(),
-            ],
+                const SizedBox(height: 40),
+                const Text(
+                  'Let’s sign you Up!',
+                  style: TextStyle(
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 32),
+                CustomTextFormField(
+                  controller: _email,
+                  lable: 'Your Email',
+                  hint: 'example@example.com',
+                  readOnly: isLoading,
+                  validator: (String? value) => CustomValidator.email(value),
+                  keyboardType: TextInputType.emailAddress,
+                ),
+                HideableTextFormField(
+                  controller: _password,
+                  lable: 'Your Password',
+                  readOnly: isLoading,
+                  validator: (String? value) => CustomValidator.password(value),
+                  keyboardType: TextInputType.visiblePassword,
+                  textInputAction: TextInputAction.done,
+                ),
+                const SizedBox(height: 16),
+                isLoading
+                    ? const ShowLoading()
+                    : CustomElevatedButton(
+                        title: 'Login',
+                        onTap: () async {
+                          if (globalKey.currentState!.validate()) {
+                            setState(() {
+                              isLoading = true;
+                            });
+                            final AppUser? user = await AuthAPI().login(
+                              email: _email.text,
+                              password: _password.text,
+                            );
+                            setState(() {
+                              isLoading = false;
+                            });
+                            if (user != null) {
+                              Navigator.of(context)
+                                  .pushNamedAndRemoveUntil(WalletSetupScreen.routeName,((Route<dynamic> route) => false));
+                            }
+                          }
+                        },
+                      ),
+                const _Footer(),
+              ],
+            ),
           ),
         ),
       ),

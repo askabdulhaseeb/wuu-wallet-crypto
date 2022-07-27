@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../../Utilities/app_images.dart';
+import '../../../providers/seed_phrase_provider.dart';
 import '../../../widget/custom_widgets/custom_elevated_button.dart';
 import '../create_wallet_screen/create_wallet_screen.dart';
 import '../import_seed_screen/import_seed_screen.dart';
@@ -36,8 +38,11 @@ class WalletSetupScreen extends StatelessWidget {
               ),
               CustomElevatedButton(
                 title: 'Create a New Wallet',
-                onTap: () => Navigator.of(context)
-                    .pushNamed(CreateWalletScreen.routeName),
+                onTap: () async {
+                  await Provider.of<SeedPhraseProvider>(context, listen: false)
+                      .init();
+                  Navigator.of(context).pushNamed(CreateWalletScreen.routeName);
+                },
               ),
             ],
           ),
