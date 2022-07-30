@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../apis/home_api.dart';
+import '../../apis/wallet_api.dart';
 import '../../widget/coin_list_view.dart';
 import '../../widget/custom_widgets/show_loading.dart';
 
@@ -146,7 +146,7 @@ class _BalanceWidgetState extends State<_BalanceWidget> {
           ],
         ),
         FutureBuilder<double>(
-          future: HomeAPI().balance(),
+          future: WalletAPI().balance(),
           builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
             if (snapshot.hasError) {
               return const Text(

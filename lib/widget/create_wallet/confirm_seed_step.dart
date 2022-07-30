@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../apis/wallat_pai.dart';
+import '../../apis/wallet_api.dart';
 import '../../providers/seed_phrase_provider.dart';
 import '../../screens/main_screen/main_screen.dart';
 import '../../screens/wallet_screens/wallet_created_success_screen/wallat_create_success_screen.dart';

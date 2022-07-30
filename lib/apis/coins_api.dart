@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:http/http.dart' as http;
 import '../models/coin_market_place/coin.dart';
 import '../models/coin_market_place/coin_request.dart';
@@ -6,25 +8,25 @@ import 'api_request_error.dart';
 
 class CoinsAPI {
   Future<List<Coin>?> listingLatest() async {
-    final Map<String, String> headers = {
-      'X-CMC_PRO_API_KEY': APIUtils.coinMarketPlaceAPIKey,
-    };
     final http.Request request = http.Request(
       'GET',
-      Uri.parse(
-        '${APIUtils.basicMarketPlaceAPIBaseUrlV1}/cryptocurrency/listings/latest',
-      ),
+      Uri.parse('${APIUtils.walletBaseURL}/dashboard/coinlist'),
     );
-    request.headers.addAll(headers);
     final http.StreamedResponse response = await request.send();
 
     if (response.statusCode == 200) {
-      // final String respStr = await response.stream.bytesToString();
       final String respStr = await response.stream.bytesToString();
-      final CoinRequest coinRequest = CoinRequest.fromJson(respStr);
-      return coinRequest.coins.isNotEmpty ? coinRequest.coins : <Coin>[];
+      Map<String, dynamic> map = json.decode(respStr);
+      final List<Coin> coins = <Coin>[];
+      for (dynamic element in map['coinlist']) {
+        final Coin coin = Coin.fromJson(element);
+        coins.add(coin);
+      }
+
+      print('Print ${coins.length}');
+
+      return coins;
     } else {
-      print('Print - Coins Listing Latest Error: ${response.statusCode}');
       APIRequestError.martketplace(response.statusCode);
       return null;
     }

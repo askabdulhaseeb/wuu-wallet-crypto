@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../apis/home_api.dart';
+import '../../apis/wallet_api.dart';
 import '../../utilities/utilities.dart';
 import '../custom_widgets/show_loading.dart';
 
@@ -41,7 +41,7 @@ class TotalBalanceWidget extends StatelessWidget {
             ],
           ),
           FutureBuilder<double>(
-            future: HomeAPI().balance(),
+            future: WalletAPI().balance(),
             builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
               if (snapshot.hasError) {
                 return const Text(

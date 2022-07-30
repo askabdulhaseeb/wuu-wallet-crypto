@@ -12,8 +12,6 @@ class CoinTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const String coinIconUrl =
-        'https://s2.coinmarketcap.com/static/img/coins/64x64/';
     return InkWell(
       onTap: onTap ??
           () {
@@ -30,8 +28,7 @@ class CoinTile extends StatelessWidget {
             SizedBox(
               height: 50,
               width: 50,
-              child: CustomNetworkImage(
-                  imageURL: (('$coinIconUrl${coin.id}.png').toLowerCase())),
+              child: CustomNetworkImage(imageURL: coin.image),
             ),
             // Coin Info
             Padding(
@@ -41,21 +38,20 @@ class CoinTile extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    coin.symbol,
+                    coin.symbol.toUpperCase(),
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
                   Text(
-                    coin.quote.usd.percentChange24H < 0
-                        ? '${coin.quote.usd.percentChange24H.toStringAsFixed(2)}%'
-                        : '+${coin.quote.usd.percentChange24H.toStringAsFixed(2)}%',
+                    coin.priceChange24H >= 0
+                        ? '+${coin.priceChange24H.toStringAsFixed(2)}%'
+                        : '${coin.priceChange24H.toStringAsFixed(2)}%',
                     style: TextStyle(
                       fontWeight: FontWeight.w500,
-                      color: coin.quote.usd.percentChange24H < 0
-                          ? Colors.red
-                          : Colors.green,
+                      color:
+                          coin.priceChange24H < 0 ? Colors.red : Colors.green,
                       fontSize: 13,
                     ),
                   ),
@@ -80,12 +76,12 @@ class CoinTile extends StatelessWidget {
                         isCurved: true,
                         dotData: FlDotData(show: false),
                         spots: <FlSpot>[
-                          FlSpot(1, coin.quote.usd.percentChange1H),
-                          FlSpot(1.2, coin.quote.usd.percentChange24H),
-                          FlSpot(1.3, coin.quote.usd.percentChange7D),
-                          FlSpot(1.4, coin.quote.usd.percentChange30D),
-                          FlSpot(1.5, coin.quote.usd.percentChange60D),
-                          FlSpot(1.6, coin.quote.usd.percentChange90D),
+                          FlSpot(1, coin.priceChange24H),
+                          FlSpot(1.2, coin.priceChangePercentage7D),
+                          FlSpot(1.3, coin.priceChangePercentage14D),
+                          FlSpot(1.4, coin.priceChangePercentage30D),
+                          FlSpot(1.5, coin.priceChangePercentage60D),
+                          FlSpot(1.6, coin.priceChangePercentage200D),
                         ],
                       ),
                     ],
@@ -101,20 +97,20 @@ class CoinTile extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: <Widget>[
                   Text(
-                    coin.quote.usd.price.toStringAsFixed(1),
+                    coin.currentPrice.toString(),
                     style: const TextStyle(
                       fontWeight: FontWeight.w600,
                       fontSize: 16,
                     ),
                   ),
-                  Text(
-                    '${coin.quote.usd.marketCapDominance.toStringAsFixed(2)}%',
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w500,
-                      color: Colors.grey,
-                      fontSize: 13,
-                    ),
-                  ),
+                  // Text(
+                  //   coin.totalVolume.toStringAsFixed(2),
+                  //   style: const TextStyle(
+                  //     fontWeight: FontWeight.w500,
+                  //     color: Colors.grey,
+                  //     fontSize: 13,
+                  //   ),
+                  // ),
                 ],
               ),
             ),

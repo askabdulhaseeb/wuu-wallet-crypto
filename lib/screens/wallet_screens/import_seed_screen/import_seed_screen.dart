@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../Utilities/custom_validators.dart';
-import '../../../apis/wallat_pai.dart';
+import '../../../apis/wallet_api.dart';
 import '../../../widget/custom_widgets/custom_elevated_button.dart';
 import '../../../widget/custom_widgets/hideable_textformfield.dart';
 import '../../../widget/custom_widgets/show_loading.dart';

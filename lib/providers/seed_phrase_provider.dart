@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 
-import '../apis/wallat_pai.dart';
+import '../apis/wallet_api.dart';
 import '../models/seed_phrase.dart';
 
 class SeedPhraseProvider extends ChangeNotifier {

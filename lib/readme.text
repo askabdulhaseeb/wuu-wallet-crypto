@@ -34,3 +34,11 @@
         	"email" :"rrr1@gmail.com",
         	"password" :"123456"
         }
+
+8. POST http://13.127.64.68:7003/api/home/coingraph
+        {
+            "coin_id" :"bitcoin",
+            "days" :"0", // 1 or more then number for days if get max,then don't pass any number
+            "from": "1659093918", // from time in string if get max,then don't pass any number
+            "to": "1659093929" // to time in string if get max,then don't pass any number
+        }
