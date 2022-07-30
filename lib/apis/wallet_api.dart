@@ -74,4 +74,28 @@ class WalletAPI {
       return false;
     }
   }
+
+  Future<double> balance() async {
+    final String? address = LocalData.privateKeyAddress();
+    print(address);
+    Map<String, String> headers = <String, String>{
+      'Content-Type': 'application/json'
+    };
+    final http.Request request = http.Request(
+        'POST', Uri.parse('${APIUtils.walletBaseURL}/dashboard/getBalance'));
+    request.body = json.encode(<String, dynamic>{
+      'accounts': address ?? '',
+    });
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      final String respStr = await response.stream.bytesToString();
+      Map<String, dynamic> mapp = json.decode(respStr);
+      return double.parse(mapp['balance']);
+    } else {
+      return 0;
+    }
+  }
 }
