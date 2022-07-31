@@ -1,4 +1,6 @@
 class AppImages {
+  static String get coinIconUrl =>
+      'https://s2.coinmarketcap.com/static/img/coins/64x64/';
   static String get goldenCard => 'assets/images/golden_card.png';
   static String get goldenWallet => 'assets/images/golden_wallet.png';
   static String get lockWallet => 'assets/images/lock_wallet.png';

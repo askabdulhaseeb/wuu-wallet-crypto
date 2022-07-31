@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'apis/local_data.dart';
 import 'providers/app_provider.dart';
 import 'providers/app_theme.dart';
+import 'providers/exchange_provider.dart';
 import 'providers/seed_phrase_provider.dart';
 import 'providers/user_provider.dart';
 import 'screens/auth/signin_screen.dart';
@@ -36,6 +37,9 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider<AppThemeProvider>.value(
           value: AppThemeProvider(),
+        ),
+        ChangeNotifierProvider<ExchangeCoinProvider>.value(
+          value: ExchangeCoinProvider(),
         ),
         ChangeNotifierProvider<AppProvider>.value(value: AppProvider()),
         ChangeNotifierProvider<SeedPhraseProvider>.value(

@@ -1,8 +1,8 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:http/http.dart' as http;
 import '../models/coin_market_place/coin.dart';
-import '../models/coin_market_place/coin_request.dart';
 import '../utilities/api_utils.dart';
 import 'api_request_error.dart';
 
@@ -22,13 +22,12 @@ class CoinsAPI {
         final Coin coin = Coin.fromJson(element);
         coins.add(coin);
       }
-
-      print('Print ${coins.length}');
-
+      log('Print: coins_api: Basic Coins List Count: ${coins.length}');
       return coins;
     } else {
       APIRequestError.martketplace(response.statusCode);
       return null;
     }
   }
+
 }

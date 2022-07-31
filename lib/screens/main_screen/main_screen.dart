@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/app_provider.dart';
+import '../main_pages/exchange_coin_screen.dart';
 import '../main_pages/history_page.dart';
 import '../main_pages/home_page.dart';
 import '../main_pages/profile_page.dart';
@@ -15,7 +16,7 @@ class MainScreen extends StatelessWidget {
   static const List<Widget> _pages = <Widget>[
     HomePage(),
     ProfitScreen(),
-    Center(child: Text('Exchange')),
+    ExchangeCoinScreen(),
     HistoryPage(),
     ProfilePage(),
   ];
