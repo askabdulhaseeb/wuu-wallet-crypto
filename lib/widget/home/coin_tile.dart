@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../models/coin_market_place/coin.dart';
 import '../../screens/coin_info_detail_screen/coin_info_detail_screen.dart';
+import '../../screens/tranfer_screens/coin_transaction_option_screen.dart';
 import '../custom_widgets/custom_network_image.dart';
 
 class CoinTile extends StatelessWidget {
@@ -15,9 +16,10 @@ class CoinTile extends StatelessWidget {
     return InkWell(
       onTap: onTap ??
           () {
-            Navigator.of(context).push(MaterialPageRoute<CoinInfoDetailScreen>(
+            Navigator.of(context)
+                .push(MaterialPageRoute<CoinTransactionOptionScreen>(
               builder: (BuildContext context) =>
-                  CoinInfoDetailScreen(coin: coin),
+                  CoinTransactionOptionScreen(coin: coin),
             ));
           },
       child: Padding(
