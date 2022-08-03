@@ -29,7 +29,7 @@ dependencies:
 
   introduction_screen: ^3.0.2
   pin_code_fields: ^7.4.0
-
+  flutter_webview_plugin:
   cupertino_icons: ^1.0.2
   extended_image: ^6.2.1
   fluttertoast: ^8.0.9
