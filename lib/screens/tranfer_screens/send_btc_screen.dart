@@ -45,8 +45,10 @@ class _SendBTCScreenState extends State<SendBTCScreen> {
                     (SwapableCoin element) =>
                         element.symbol == widget.coin.symbol.toUpperCase(),
                   );
-                  log(swapableCoin[index].symbol.toString());
-                  log(swapableCoin[index].contractAddress.toString());
+                  if (index >= 0) {
+                    log(swapableCoin[index].symbol.toString());
+                    log(swapableCoin[index].contractAddress.toString());
+                  }
                   return index < 0
                       ? const Center(child: Text('Transation not possible'))
                       : Column(

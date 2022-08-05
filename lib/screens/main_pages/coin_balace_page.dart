@@ -1,12 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../apis/wallet_api.dart';
+import '../../models/swapable_coin.dart';
+import '../../providers/exchange_provider.dart';
 import '../../widget/coin_list_view.dart';
 import '../../widget/custom_widgets/show_loading.dart';
 
-class ProfitScreen extends StatelessWidget {
-  const ProfitScreen({Key? key}) : super(key: key);
+class CoinScreen extends StatelessWidget {
+  const CoinScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -145,26 +148,18 @@ class _BalanceWidgetState extends State<_BalanceWidget> {
             ),
           ],
         ),
-        FutureBuilder<double>(
-          future: WalletAPI().balance(),
-          builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
-            if (snapshot.hasError) {
-              return const Text(
-                '-Error-',
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 24,
-                ),
-              );
-            } else if (snapshot.hasData) {
-              final double balance = snapshot.data!;
-              return SizedBox(
+        Consumer<ExchangeCoinProvider>(builder:
+            (BuildContext context, ExchangeCoinProvider exchangePro, _) {
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              SizedBox(
                 height: hiden ? 14 : 50,
                 child: FittedBox(
                   child: Text(
                     hiden
                         ? 'Tap on the Eye Button to show the balance \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t'
-                        : '\$ $balance',
+                        : '\$ ${exchangePro.fromCoinBalance} ',
                     style: TextStyle(
                       color: hiden
                           ? Colors.grey
@@ -173,12 +168,30 @@ class _BalanceWidgetState extends State<_BalanceWidget> {
                     ),
                   ),
                 ),
-              );
-            } else {
-              return const ShowLoading();
-            }
-          },
-        ),
+              ),
+              DropdownButton<SwapableCoin>(
+                value: exchangePro.from,
+                style: const TextStyle(color: Colors.black),
+                underline: const SizedBox(),
+                hint: const Text(
+                  'Select coin',
+                  style: TextStyle(color: Colors.black),
+                ),
+                items: exchangePro.swapableCoins
+                    .map((SwapableCoin coin) => DropdownMenuItem<SwapableCoin>(
+                          value: coin,
+                          child: Text(
+                            coin.symbol.toUpperCase(),
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ))
+                    .toList(),
+                onChanged: (SwapableCoin? value) =>
+                    exchangePro.onFromCoinChange(value),
+              ),
+            ],
+          );
+        }),
       ],
     );
   }
