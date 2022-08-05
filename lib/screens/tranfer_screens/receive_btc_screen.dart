@@ -1,6 +1,7 @@
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 import '../../apis/local_data.dart';
 import '../../models/coin_market_place/coin.dart';
@@ -30,19 +31,26 @@ class ReceiveBTCScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 16),
-              const Icon(Icons.qr_code, size: 300),
+              LocalData.privateKeyAddress() == null
+                  ? const SizedBox()
+                  : QrImage(
+                      data: LocalData.privateKeyAddress()!,
+                      version: QrVersions.auto,
+                      size: 240.0,
+                    ),
               const SizedBox(height: 16),
               const Text(
                 'Your BTC Address',
                 style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
               ),
               InkWell(
-                onTap: () {
-                  Clipboard.setData(
-                    ClipboardData(
-                      text: LocalData.privateKey(),
-                    ),
-                  );
+                onTap: () async {
+                  await Clipboard.setData(ClipboardData(
+                    text: LocalData.privateKeyAddress(),
+                  )).then((_) =>
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        content: Text('Copied to your clipboard !'),
+                      )));
                 },
                 borderRadius: BorderRadius.circular(12),
                 child: Container(
@@ -53,9 +61,27 @@ class ReceiveBTCScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(12),
                   ),
                   alignment: Alignment.center,
-                  child: Text(
-                    LocalData.privateKey() ?? 'issue in address',
-                    textAlign: TextAlign.center,
+                  child: Row(
+                    children: <Widget>[
+                      Flexible(
+                        child: Text(
+                          LocalData.privateKeyAddress() ?? 'issue in address',
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: () async {
+                          await Clipboard.setData(ClipboardData(
+                            text: LocalData.privateKeyAddress(),
+                          )).then((_) => ScaffoldMessenger.of(context)
+                                  .showSnackBar(const SnackBar(
+                                content: Text('Copied to your clipboard !'),
+                              )));
+                        },
+                        splashRadius: 16,
+                        icon: const Icon(Icons.copy),
+                      )
+                    ],
                   ),
                 ),
               ),
@@ -63,14 +89,14 @@ class ReceiveBTCScreen extends StatelessWidget {
                 'Tap Bicoin Address to copy',
                 style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
               ),
-              const SizedBox(height: 16),
-              TextButton(
-                onPressed: () {},
-                child: const Text(
-                  'Share',
-                  style: TextStyle(fontSize: 32),
-                ),
-              )
+              // const SizedBox(height: 16),
+              // TextButton(
+              //   onPressed: () {},
+              //   child: const Text(
+              //     'Share',
+              //     style: TextStyle(fontSize: 32),
+              //   ),
+              // )
             ],
           ),
         ),

@@ -156,22 +156,28 @@ class _BalanceWidgetState extends State<_BalanceWidget> {
           return Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              SizedBox(
-                height: hiden ? 14 : 50,
-                child: FittedBox(
-                  child: Text(
-                    hiden
-                        ? 'Tap on the Eye Button to show the balance \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t'
-                        : '\$ ${exchangePro.fromCoinBalance} ',
-                    style: TextStyle(
-                      color: hiden
-                          ? Colors.grey
-                          : Theme.of(context).textTheme.bodyText1!.color,
-                      fontWeight: FontWeight.w500,
+              Expanded(
+                child: SizedBox(
+                  height: hiden ? 14 : 50,
+                  child: FittedBox(
+                    child: Text(
+                      hiden
+                          ? 'Tap on the Eye Button to show the balance'
+                          : '\$ ${exchangePro.fromCoinBalance} ',
+                      maxLines: 1,
+                      textAlign: TextAlign.start,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        color: hiden
+                            ? Colors.grey
+                            : Theme.of(context).textTheme.bodyText1!.color,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ),
                 ),
               ),
+              const SizedBox(width: 10),
               DropdownButton<SwapableCoin>(
                 value: exchangePro.from,
                 style: const TextStyle(color: Colors.black),
