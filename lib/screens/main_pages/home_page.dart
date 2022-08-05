@@ -6,6 +6,7 @@ import '../../providers/user_provider.dart';
 import '../../widget/coin_list_view.dart';
 import '../../widget/custom_widgets/circular_profile_image.dart';
 import '../../widget/home/total_balance_widget.dart';
+import '../Dapp_Browser/dapp_browser.dart';
 import '../see_all_coin_screen/see_all_coin_screen.dart';
 
 class HomePage extends StatelessWidget {
@@ -21,7 +22,7 @@ class HomePage extends StatelessWidget {
         actions: <Widget>[
           IconButton(
             onPressed: () {
-              // TODO: Search Page Navigation
+              Navigator.of(context).pushNamed(DappBrowser.routeName);
             },
             splashRadius: 20,
             icon: Icon(

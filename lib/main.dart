@@ -8,6 +8,7 @@ import 'providers/app_theme.dart';
 import 'providers/exchange_provider.dart';
 import 'providers/seed_phrase_provider.dart';
 import 'providers/user_provider.dart';
+import 'screens/Dapp_Browser/dapp_browser.dart';
 import 'screens/auth/signin_screen.dart';
 import 'screens/auth/signup_screen.dart';
 import 'screens/auth/verification_pin_screen.dart';
@@ -75,6 +76,7 @@ class MyApp extends StatelessWidget {
             SettingScreen.rotueName: (_) => const SettingScreen(),
             //
             SeeAllCoinScreen.routeName: (_) => const SeeAllCoinScreen(),
+            DappBrowser.routeName: (_) => const DappBrowser(),
           },
         );
       }),
