@@ -1,14 +1,11 @@
-import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 import '../../apis/local_data.dart';
-import '../../models/coin_market_place/coin.dart';
 
 class ReceiveBTCScreen extends StatelessWidget {
-  const ReceiveBTCScreen({required this.coin, Key? key}) : super(key: key);
-  final Coin coin;
+  const ReceiveBTCScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,13 +16,12 @@ class ReceiveBTCScreen extends StatelessWidget {
           padding: const EdgeInsets.all(16),
           child: Column(
             children: <Widget>[
-              ClipRRect(
-                borderRadius: BorderRadius.circular(12),
-                child: SizedBox(
-                  height: 80,
-                  width: 80,
-                  child: ExtendedImage.network(
-                    coin.image,
+              SizedBox(
+                height: 80,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: Image.asset(
+                    'assets/logos/icon.png',
                     fit: BoxFit.cover,
                   ),
                 ),

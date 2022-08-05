@@ -8,6 +8,7 @@ import '../../widget/custom_widgets/circular_profile_image.dart';
 import '../../widget/home/total_balance_widget.dart';
 import '../Dapp_Browser/dapp_browser.dart';
 import '../see_all_coin_screen/see_all_coin_screen.dart';
+import '../tranfer_screens/receive_btc_screen.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -32,7 +33,9 @@ class HomePage extends StatelessWidget {
           ),
           IconButton(
             onPressed: () {
-              // TODO: Scan Page Navigation
+              Navigator.of(context).push(MaterialPageRoute<ReceiveBTCScreen>(
+                builder: (BuildContext context) => const ReceiveBTCScreen(),
+              ));
             },
             splashRadius: 20,
             icon: Icon(

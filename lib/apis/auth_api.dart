@@ -58,12 +58,14 @@ class AuthAPI {
     request.headers.addAll(headers);
 
     http.StreamedResponse response = await request.send();
+    final String respStr = await response.stream.bytesToString();
+    Map<String, dynamic> mapp = json.decode(respStr);
     if (response.statusCode == 200) {
       print('done');
+      LocalData.setEmailKey(email);
+      LocalData.setAccoountID(mapp['data']['id']);
       return true;
     } else {
-      final String respStr = await response.stream.bytesToString();
-      Map<String, dynamic> mapp = json.decode(respStr);
       CustomToast.errorToast(message: mapp['message'] ?? 'Error while login');
       return false;
     }
