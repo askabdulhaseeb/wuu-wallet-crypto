@@ -7,6 +7,7 @@ class CoinTextFormField extends StatefulWidget {
     required this.coinsList,
     required this.onCoinSelection,
     required this.selectedCoin,
+    required this.onChanged,
     required this.controller,
     required this.validator,
     Key? key,
@@ -14,6 +15,7 @@ class CoinTextFormField extends StatefulWidget {
   final List<SwapableCoin> coinsList;
   final void Function(SwapableCoin?)? onCoinSelection;
   final String? Function(String? value)? validator;
+  final void Function(String)? onChanged;
   final SwapableCoin? selectedCoin;
   final TextEditingController controller;
 
@@ -53,6 +55,7 @@ class _CoinTextFormFieldState extends State<CoinTextFormField> {
               validator: (String? value) => widget.validator!(value),
               keyboardType:
                   const TextInputType.numberWithOptions(decimal: true),
+                  onChanged: widget.onChanged,
               decoration: const InputDecoration(
                 prefix: Text('\$'),
                 border: InputBorder.none,

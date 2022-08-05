@@ -1,9 +1,6 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../apis/coins_api.dart';
 import '../../apis/exchange_api.dart';
 import '../../models/swapable_coin.dart';
 import '../../providers/exchange_provider.dart';
@@ -20,8 +17,8 @@ class ExchangeCoinScreen extends StatefulWidget {
 }
 
 class _ExchangeCoinScreenState extends State<ExchangeCoinScreen> {
-  final TextEditingController _fromCont = TextEditingController();
-  final TextEditingController _toCont = TextEditingController();
+  final TextEditingController _fromCont = TextEditingController(text: '0');
+  final TextEditingController _toCont = TextEditingController(text: '0');
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
   String errorText = '';
 
@@ -52,6 +49,7 @@ class _ExchangeCoinScreenState extends State<ExchangeCoinScreen> {
                           controller: _fromCont,
                           coinsList: exchnagePro.fromList(),
                           selectedCoin: exchnagePro.from,
+                          onChanged: (String? value) {},
                           onCoinSelection: (SwapableCoin? value) =>
                               exchnagePro.onFromChange(value),
                           validator: (String? value) {
@@ -69,6 +67,7 @@ class _ExchangeCoinScreenState extends State<ExchangeCoinScreen> {
                           controller: _toCont,
                           coinsList: exchnagePro.toList(),
                           selectedCoin: exchnagePro.to,
+                          onChanged: (String? value) {},
                           onCoinSelection: (SwapableCoin? value) =>
                               exchnagePro.onToChange(value),
                           validator: (String? value) => null,

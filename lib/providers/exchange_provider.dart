@@ -4,6 +4,7 @@ import '../models/swapable_coin.dart';
 
 class ExchangeCoinProvider extends ChangeNotifier {
   List<SwapableCoin> _coins = <SwapableCoin>[];
+  String _error = '';
   SwapableCoin? _from;
   SwapableCoin? _to;
 
@@ -11,6 +12,7 @@ class ExchangeCoinProvider extends ChangeNotifier {
 
   SwapableCoin? get from => _from;
   SwapableCoin? get to => _to;
+  String get error => _error;
   double get fromCoinBalance => _fromBalance;
 
   Future<bool> init() async {

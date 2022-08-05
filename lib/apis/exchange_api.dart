@@ -138,7 +138,7 @@ class ExchangeAPI {
       print(map);
     } else {
       CustomToast.errorToast(message: 'Balance fetching issue');
-      return null;
+      return;
     }
   }
   Future<void> approvalTokenToSwap({
@@ -180,7 +180,7 @@ class ExchangeAPI {
       print(map);
     } else {
       CustomToast.errorToast(message: 'Balance fetching issue');
-      return null;
+      return;
     }
   }
 }
