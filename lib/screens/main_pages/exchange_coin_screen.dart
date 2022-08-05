@@ -17,10 +17,7 @@ class ExchangeCoinScreen extends StatefulWidget {
 }
 
 class _ExchangeCoinScreenState extends State<ExchangeCoinScreen> {
-  final TextEditingController _fromCont = TextEditingController(text: '0');
-  final TextEditingController _toCont = TextEditingController(text: '0');
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
-  String errorText = '';
 
   @override
   Widget build(BuildContext context) {
@@ -42,16 +39,18 @@ class _ExchangeCoinScreenState extends State<ExchangeCoinScreen> {
                   return Form(
                     key: _key,
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         const SizedBox(height: 32),
                         CoinTextFormField(
                           key: UniqueKey(),
-                          controller: _fromCont,
+                          controller: exchnagePro.fromController,
                           coinsList: exchnagePro.fromList(),
                           selectedCoin: exchnagePro.from,
-                          onChanged: (String? value) {},
+                          onChanged: (String? value) =>
+                              exchnagePro.onFromControllerChange(value),
                           onCoinSelection: (SwapableCoin? value) =>
-                              exchnagePro.onFromChange(value),
+                              exchnagePro.onFromCoinChange(value),
                           validator: (String? value) {
                             if (value == null) return 'Enter amount here';
                             final double entered = double.parse(value);
@@ -61,23 +60,39 @@ class _ExchangeCoinScreenState extends State<ExchangeCoinScreen> {
                             return null;
                           },
                         ),
+                        const SizedBox(height: 10),
+                        Text(
+                          'Coin Balance: ${exchnagePro.fromCoinBalance}',
+                        ),
                         const _DividerWidger(),
                         CoinTextFormField(
                           key: UniqueKey(),
-                          controller: _toCont,
+                          controller: exchnagePro.toController,
                           coinsList: exchnagePro.toList(),
                           selectedCoin: exchnagePro.to,
-                          onChanged: (String? value) {},
+                          onChanged: (String? value) =>
+                              exchnagePro.onToControllerChange(value),
                           onCoinSelection: (SwapableCoin? value) =>
-                              exchnagePro.onToChange(value),
+                              exchnagePro.onToCoinChange(value),
                           validator: (String? value) => null,
                         ),
                         const SizedBox(height: 32),
+                        _Charges(
+                          title: 'Swap Price: ',
+                          subtitle: exchnagePro.swapPrice.toString(),
+                        ),
+                        _Charges(
+                          title: 'Price Impect: ',
+                          subtitle: '${exchnagePro.priceImpact}%',
+                          subtitleStyle: TextStyle(
+                            color: exchnagePro.priceImpact < 15
+                                ? Colors.green
+                                : Colors.red,
+                          ),
+                        ),
                         CustomElevatedButton(
                           title: 'Exchange',
                           onTap: () async {
-                            // if (_key.currentState!.validate()) {
-                            // }
                             final Map<String, dynamic>? mapp =
                                 await ExchangeAPI().amountOut(
                               from: exchnagePro.from!,
@@ -86,9 +101,6 @@ class _ExchangeCoinScreenState extends State<ExchangeCoinScreen> {
                               getFee: false,
                             );
                             if (mapp == null) {
-                              setState(() {
-                                errorText = 'Transation issue';
-                              });
                               return;
                             }
                             await ExchangeAPI().tokenSwap(
@@ -101,8 +113,10 @@ class _ExchangeCoinScreenState extends State<ExchangeCoinScreen> {
                           },
                         ),
                         const SizedBox(height: 16),
-                        Text(errorText,
-                            style: const TextStyle(color: Colors.red)),
+                        Text(
+                          exchnagePro.error,
+                          style: const TextStyle(color: Colors.red),
+                        ),
                       ],
                     ),
                   );
@@ -112,6 +126,38 @@ class _ExchangeCoinScreenState extends State<ExchangeCoinScreen> {
               }
             }),
       ),
+    );
+  }
+}
+
+class _Charges extends StatelessWidget {
+  const _Charges({
+    required this.title,
+    required this.subtitle,
+    // ignore: unused_element
+    this.titleStyle,
+    // ignore: unused_element
+    this.subtitleStyle,
+    Key? key,
+  }) : super(key: key);
+  final String title;
+  final TextStyle? titleStyle;
+  final TextStyle? subtitleStyle;
+  final String subtitle;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: <Widget>[
+        Text(
+          title,
+          style: titleStyle ?? const TextStyle(fontWeight: FontWeight.bold),
+        ),
+        Text(
+          subtitle,
+          style: subtitleStyle ?? const TextStyle(fontWeight: FontWeight.w300),
+        ),
+      ],
     );
   }
 }

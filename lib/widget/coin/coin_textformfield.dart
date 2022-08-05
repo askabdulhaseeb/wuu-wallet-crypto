@@ -55,7 +55,7 @@ class _CoinTextFormFieldState extends State<CoinTextFormField> {
               validator: (String? value) => widget.validator!(value),
               keyboardType:
                   const TextInputType.numberWithOptions(decimal: true),
-                  onChanged: widget.onChanged,
+              onChanged: widget.onChanged,
               decoration: const InputDecoration(
                 prefix: Text('\$'),
                 border: InputBorder.none,

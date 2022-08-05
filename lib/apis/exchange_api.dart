@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:http/http.dart' as http;
-import 'package:k_chart/utils/index.dart';
 import '../models/swapable_coin.dart';
 import '../utilities/api_utils.dart';
 import '../widget/custom_widgets/custom_toast.dart';
@@ -88,13 +87,12 @@ class ExchangeAPI {
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
 
-    if (response.statusCode == 200) {
       final String respStr = await response.stream.bytesToString();
       Map<String, dynamic> map = json.decode(respStr);
-      print(map);
+    if (response.statusCode == 200) {
       return map;
     } else {
-      CustomToast.errorToast(message: 'Balance fetching issue');
+      CustomToast.errorToast(message: map['message']);
       return null;
     }
   }
@@ -116,7 +114,7 @@ class ExchangeAPI {
       Uri.parse('${APIUtils.walletBaseURL}/swap/getAmountsOut'),
     );
     request.body = json.encode(<String, dynamic>{
-      'user_id': LocalData.email(),
+      'user_id': LocalData.accountID(),
       'accounts': LocalData.privateKeyAddress(),
       'privateKey': LocalData.privateKey(),
       'amount1': firstAmount,
@@ -141,6 +139,7 @@ class ExchangeAPI {
       return;
     }
   }
+
   Future<void> approvalTokenToSwap({
     required SwapableCoin from,
     required SwapableCoin to,
