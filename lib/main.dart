@@ -13,6 +13,7 @@ import 'screens/auth/signin_screen.dart';
 import 'screens/auth/signup_screen.dart';
 import 'screens/auth/verification_pin_screen.dart';
 import 'screens/auth/welcome_screen.dart';
+import 'screens/coming_soon.dart';
 import 'screens/intro_screen/intro_screen.dart';
 import 'screens/main_screen/main_screen.dart';
 import 'screens/see_all_coin_screen/see_all_coin_screen.dart';
@@ -59,6 +60,7 @@ class MyApp extends StatelessWidget {
               ? const IntroScreen()
               : const MainScreen(),
           routes: <String, WidgetBuilder>{
+            ComingSoom.routeName: (_) => const ComingSoom(),
             IntroScreen.routeName: (_) => const IntroScreen(),
             SigninScreen.routeName: (_) => const SigninScreen(),
             SignupScreen.routeName: (_) => const SignupScreen(),
