@@ -15,7 +15,9 @@ class CoinScreen extends StatelessWidget {
       appBar: AppBar(
         title: Consumer<ExchangeCoinProvider>(builder:
             (BuildContext context, ExchangeCoinProvider exchangePro, _) {
-          return Text('${exchangePro.from?.name ?? 'Bitcoin'} Balance');
+          return Text(
+            '${exchangePro.from?.name ?? 'Bitcoin'} Balance',
+          );
         }),
         actions: <Widget>[
           IconButton(
