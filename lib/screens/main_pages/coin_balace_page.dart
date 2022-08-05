@@ -2,11 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../apis/wallet_api.dart';
 import '../../models/swapable_coin.dart';
 import '../../providers/exchange_provider.dart';
 import '../../widget/coin_list_view.dart';
-import '../../widget/custom_widgets/show_loading.dart';
 
 class CoinScreen extends StatelessWidget {
   const CoinScreen({Key? key}) : super(key: key);
@@ -15,7 +13,10 @@ class CoinScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Bitcoin Balance'),
+        title: Consumer<ExchangeCoinProvider>(builder:
+            (BuildContext context, ExchangeCoinProvider exchangePro, _) {
+          return Text('${exchangePro.from?.name ?? 'Bitcoin'} Balance');
+        }),
         actions: <Widget>[
           IconButton(
             splashRadius: 20,

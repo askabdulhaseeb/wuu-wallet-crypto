@@ -133,7 +133,6 @@ class ExchangeCoinProvider extends ChangeNotifier {
       enterSecond: false,
       getFee: false,
     );
-    print('object');
     print(tokenSwapMap);
   }
 
