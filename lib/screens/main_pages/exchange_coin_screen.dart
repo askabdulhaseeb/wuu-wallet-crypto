@@ -22,109 +22,89 @@ class _ExchangeCoinScreenState extends State<ExchangeCoinScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       appBar: AppBar(title: const Text('Exchange')),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: FutureBuilder<bool>(
-            future: Provider.of<ExchangeCoinProvider>(context, listen: false)
-                .init(),
-            builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-              if (snapshot.hasError) {
-                return Center(child: Text('Facing Error\n${snapshot.error}'));
-              } else if (snapshot.hasData) {
-                return Consumer<ExchangeCoinProvider>(builder:
-                    (BuildContext context, ExchangeCoinProvider exchnagePro,
-                        _) {
-                  return Form(
-                    key: _key,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        const SizedBox(height: 32),
-                        CoinTextFormField(
-                          key: UniqueKey(),
-                          controller: exchnagePro.fromController,
-                          coinsList: exchnagePro.fromList(),
-                          selectedCoin: exchnagePro.from,
-                          onChanged: (String? value) =>
-                              exchnagePro.onFromControllerChange(value),
-                          onCoinSelection: (SwapableCoin? value) =>
-                              exchnagePro.onFromCoinChange(value),
-                          validator: (String? value) {
-                            if (value == null) return 'Enter amount here';
-                            final double entered = double.parse(value);
-                            if (entered > exchnagePro.fromCoinBalance) {
-                              return '''You don't have much balance''';
-                            }
-                            return null;
-                          },
-                        ),
-                        const SizedBox(height: 10),
-                        Text(
-                          'Coin Balance: ${exchnagePro.fromCoinBalance}',
-                        ),
-                        const _DividerWidger(),
-                        CoinTextFormField(
-                          key: UniqueKey(),
-                          controller: exchnagePro.toController,
-                          coinsList: exchnagePro.toList(),
-                          selectedCoin: exchnagePro.to,
-                          onChanged: (String? value) =>
-                              exchnagePro.onToControllerChange(value),
-                          onCoinSelection: (SwapableCoin? value) =>
-                              exchnagePro.onToCoinChange(value),
-                          validator: (String? value) => null,
-                        ),
-                        const SizedBox(height: 32),
-                        _Charges(
-                          title: 'Swap Price: ',
-                          subtitle: exchnagePro.swapPrice.toString(),
-                        ),
-                        _Charges(
-                          title: 'Price Impect: ',
-                          subtitle: '${exchnagePro.priceImpact}%',
-                          subtitleStyle: TextStyle(
-                            color: exchnagePro.priceImpact < 15
-                                ? Colors.green
-                                : Colors.red,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: FutureBuilder<bool>(
+              future: Provider.of<ExchangeCoinProvider>(context, listen: false)
+                  .init(),
+              builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+                if (snapshot.hasError) {
+                  return Center(child: Text('Facing Error\n${snapshot.error}'));
+                } else if (snapshot.hasData) {
+                  return Consumer<ExchangeCoinProvider>(builder:
+                      (BuildContext context, ExchangeCoinProvider exchnagePro,
+                          _) {
+                    return Form(
+                      key: _key,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          const SizedBox(height: 32),
+                          CoinTextFormField(
+                            key: UniqueKey(),
+                            controller: exchnagePro.fromController,
+                            coinsList: exchnagePro.fromList(),
+                            selectedCoin: exchnagePro.from,
+                            onChanged: (String? value) =>
+                                exchnagePro.onFromControllerChange(value),
+                            onCoinSelection: (SwapableCoin? value) =>
+                                exchnagePro.onFromCoinChange(value),
+                            validator: (String? value) =>
+                                exchnagePro.fromValidator(value),
                           ),
-                        ),
-                        CustomElevatedButton(
-                          title: 'Exchange',
-                          onTap: () async {
-                            final Map<String, dynamic>? mapp =
-                                await ExchangeAPI().amountOut(
-                              from: exchnagePro.from!,
-                              to: exchnagePro.to!,
-                              amount: 0.0,
-                              getFee: false,
-                            );
-                            if (mapp == null) {
-                              return;
-                            }
-                            await ExchangeAPI().tokenSwap(
-                              from: exchnagePro.from!,
-                              to: exchnagePro.to!,
-                              firstAmount: 0.0,
-                              secondAmount: 0.0,
-                              path: List<String>.from(mapp['path']),
-                            );
-                          },
-                        ),
-                        const SizedBox(height: 16),
-                        Text(
-                          exchnagePro.error,
-                          style: const TextStyle(color: Colors.red),
-                        ),
-                      ],
-                    ),
-                  );
-                });
-              } else {
-                return const ShowLoading();
-              }
-            }),
+                          const SizedBox(height: 10),
+                          Text(
+                            'Coin Balance: ${exchnagePro.fromCoinBalance}',
+                          ),
+                          const _DividerWidger(),
+                          CoinTextFormField(
+                            key: UniqueKey(),
+                            controller: exchnagePro.toController,
+                            coinsList: exchnagePro.toList(),
+                            selectedCoin: exchnagePro.to,
+                            onChanged: (String? value) =>
+                                exchnagePro.onToControllerChange(value),
+                            onCoinSelection: (SwapableCoin? value) =>
+                                exchnagePro.onToCoinChange(value),
+                            validator: (String? value) => null,
+                          ),
+                          const SizedBox(height: 32),
+                          _Charges(
+                            title: 'Swap Price: ',
+                            subtitle: exchnagePro.swapPrice.toString(),
+                          ),
+                          _Charges(
+                            title: 'Price Impect: ',
+                            subtitle: '${exchnagePro.priceImpact}%',
+                            subtitleStyle: TextStyle(
+                              color: exchnagePro.priceImpact < 15
+                                  ? Colors.green
+                                  : Colors.red,
+                            ),
+                          ),
+                          CustomElevatedButton(
+                            title: 'Exchange',
+                            onTap: () async {
+                              // if (_key.currentState!.validate()) {}
+                              await exchnagePro.exhcange();
+                            },
+                          ),
+                          const SizedBox(height: 16),
+                          Text(
+                            exchnagePro.error,
+                            style: const TextStyle(color: Colors.red),
+                          ),
+                        ],
+                      ),
+                    );
+                  });
+                } else {
+                  return const ShowLoading();
+                }
+              }),
+        ),
       ),
     );
   }

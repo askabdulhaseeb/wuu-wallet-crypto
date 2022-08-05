@@ -87,8 +87,8 @@ class ExchangeAPI {
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
 
-      final String respStr = await response.stream.bytesToString();
-      Map<String, dynamic> map = json.decode(respStr);
+    final String respStr = await response.stream.bytesToString();
+    Map<String, dynamic> map = json.decode(respStr);
     if (response.statusCode == 200) {
       return map;
     } else {
@@ -97,7 +97,7 @@ class ExchangeAPI {
     }
   }
 
-  Future<void> tokenSwap({
+  Future<Map<String,dynamic>?> tokenSwap({
     required SwapableCoin from,
     required SwapableCoin to,
     required double firstAmount,
@@ -130,17 +130,17 @@ class ExchangeAPI {
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
 
-    if (response.statusCode == 200) {
       final String respStr = await response.stream.bytesToString();
       Map<String, dynamic> map = json.decode(respStr);
-      print(map);
+    if (response.statusCode == 200) {
+      return map;
     } else {
       CustomToast.errorToast(message: 'Balance fetching issue');
-      return;
+      return null;
     }
   }
 
-  Future<void> approvalTokenToSwap({
+  Future<Map<String, dynamic>?> approvalTokenToSwap({
     required SwapableCoin from,
     required SwapableCoin to,
     required double firstAmount,
@@ -173,13 +173,13 @@ class ExchangeAPI {
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
 
+    final String respStr = await response.stream.bytesToString();
+    Map<String, dynamic> map = json.decode(respStr);
     if (response.statusCode == 200) {
-      final String respStr = await response.stream.bytesToString();
-      Map<String, dynamic> map = json.decode(respStr);
-      print(map);
+      return map;
     } else {
       CustomToast.errorToast(message: 'Balance fetching issue');
-      return;
+      return null;
     }
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import '../apis/exchange_api.dart';
 import '../models/swapable_coin.dart';
@@ -9,9 +11,8 @@ class ExchangeCoinProvider extends ChangeNotifier {
   SwapableCoin? _from;
   SwapableCoin? _to;
 
-  final TextEditingController _fromController =
-      TextEditingController(text: '0');
-  final TextEditingController _toController = TextEditingController(text: '0');
+  final TextEditingController _fromController = TextEditingController();
+  final TextEditingController _toController = TextEditingController();
 
   List<SwapableCoin> _coins = <SwapableCoin>[];
   List<String> _path = <String>[];
@@ -20,6 +21,8 @@ class ExchangeCoinProvider extends ChangeNotifier {
   double _swapPrice = 0;
   double _priceImpact = 0;
   double _minimumIn = 0;
+
+  int _lastTap = 0;
 
   String _error = '';
 
@@ -59,35 +62,34 @@ class ExchangeCoinProvider extends ChangeNotifier {
   }
 
   onFromControllerChange(String? value) async {
-    if (value == null || value.isEmpty) {
-      _fromController.text = '0';
-    } else {
-      _fromController.text = value;
+    if (value == null || value.isEmpty || double.parse(value) == 0) {
+      _reset();
+      return;
     }
+    if (_completeWriting()) return;
+    log('message');
     final Map<String, dynamic>? result = await ExchangeAPI().amountOut(
-      amount: double.parse(_fromController.text),
+      amount: double.parse(value),
       from: _from!,
       to: to!,
       enterSecond: false,
     );
-    print(result);
-    _assignValues(result);
+    _assignValues(result, true);
   }
 
-  onToControllerChange(String? value) async {
-    if (value == null || value.isEmpty) {
-      _toController.text = '0';
-    } else {
-      _toController.text = value;
+  Future<void> onToControllerChange(String? value) async {
+    if (value == null || value.isEmpty || double.parse(value) == 0) {
+      _reset();
+      return;
     }
+    if (_completeWriting()) return;
     final Map<String, dynamic>? result = await ExchangeAPI().amountOut(
-      amount: double.parse(_toController.text),
+      amount: double.parse(value),
       from: _from!,
       to: to!,
       enterSecond: true,
     );
-    print(result);
-    _assignValues(result);
+    _assignValues(result, false);
   }
 
   onFromCoinChange(SwapableCoin? value) async {
@@ -103,20 +105,85 @@ class ExchangeCoinProvider extends ChangeNotifier {
     onFromControllerChange(_fromController.text);
   }
 
+  exhcange() async {
+    //
+    // Approve Token
+    //
+    final Map<String, dynamic>? approveTokenMap =
+        await ExchangeAPI().approvalTokenToSwap(
+      from: _from!,
+      to: _to!,
+      firstAmount: double.parse(_fromController.text),
+      secondAmount: double.parse(_toController.text),
+      path: _path,
+      getFee: false,
+    );
+    if (approveTokenMap == null) return;
+    if (approveTokenMap['status'] == false) _error = approveTokenMap['message'];
+    _path = List<String>.from(approveTokenMap['path']);
+    //
+    // Approve Token Done
+    //
+    final Map<String, dynamic>? tokenSwapMap = await ExchangeAPI().tokenSwap(
+      from: _from!,
+      to: _to!,
+      firstAmount: double.parse(_fromController.text),
+      secondAmount: double.parse(_toController.text),
+      path: _path,
+      enterSecond: false,
+      getFee: false,
+    );
+    print('object');
+    print(tokenSwapMap);
+  }
+
+  String? fromValidator(String? value) {
+    if (value == null || value == '0') {
+      return 'Enter amount here';
+    }
+    final double entered = double.parse(value);
+    if (entered > _fromBalance) {
+      return '''You don't have much balance''';
+    }
+    return null;
+  }
+
   _load() async {
     _coins = await ExchangeAPI().swapableCoins();
     _initCoins();
     notifyListeners();
   }
 
-  _assignValues(Map<String, dynamic>? map) {
+  _reset() {
+    _fromController.text = '0';
+    _toController.text = '0';
+    _fromBalance = 0;
+    _swapPrice = 0;
+    _priceImpact = 0;
+    _minimumIn = 0;
+    notifyListeners();
+  }
+
+  bool _completeWriting() {
+    int now = DateTime.now().millisecondsSinceEpoch;
+    if (now - _lastTap < 1000) {
+      return true;
+    }
+    _lastTap = now;
+    return false;
+  }
+
+  _assignValues(Map<String, dynamic>? map, bool isFirstValue) {
     _swapPrice = double.parse(map?['swapPrice'] ?? '0.0');
     _path = List<String>.from(map?['path'] ?? <dynamic>[]);
     _priceImpact = double.parse(map?['priceImpact'] ?? '0.0');
     _minimumIn = double.parse(map?['minimumIn']?.toString() ?? '0.0');
     notifyListeners();
-    _fromController.text = map?['amount1'] ?? '0.0';
-    _toController.text = map?['amount2'] ?? '0.0';
+    if (!isFirstValue) {
+      _fromController.text = map?['amount1'] ?? '0.0';
+    } else {
+      _toController.text = map?['amount2'] ?? '0.0';
+    }
   }
 
   _initCoins() {

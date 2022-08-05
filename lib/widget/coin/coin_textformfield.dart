@@ -57,6 +57,7 @@ class _CoinTextFormFieldState extends State<CoinTextFormField> {
                   const TextInputType.numberWithOptions(decimal: true),
               onChanged: widget.onChanged,
               decoration: const InputDecoration(
+                hintText: '0',
                 prefix: Text('\$'),
                 border: InputBorder.none,
               ),
