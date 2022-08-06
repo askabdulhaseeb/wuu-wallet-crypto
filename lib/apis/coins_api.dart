@@ -58,9 +58,9 @@ class CoinsAPI {
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
 
-    if (response.statusCode == 200) {
       final String respStr = await response.stream.bytesToString();
       Map<String, dynamic> mapp = json.decode(respStr);
+    if (response.statusCode == 200) {
       return mapp;
     } else {
       APIRequestError.martketplace(response.statusCode);

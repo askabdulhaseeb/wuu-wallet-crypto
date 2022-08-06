@@ -97,7 +97,7 @@ class ExchangeAPI {
     }
   }
 
-  Future<Map<String,dynamic>?> tokenSwap({
+  Future<Map<String, dynamic>?> tokenSwap({
     required SwapableCoin from,
     required SwapableCoin to,
     required double firstAmount,
@@ -130,8 +130,8 @@ class ExchangeAPI {
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
 
-      final String respStr = await response.stream.bytesToString();
-      Map<String, dynamic> map = json.decode(respStr);
+    final String respStr = await response.stream.bytesToString();
+    Map<String, dynamic> map = json.decode(respStr);
     if (response.statusCode == 200) {
       return map;
     } else {
@@ -142,11 +142,7 @@ class ExchangeAPI {
 
   Future<Map<String, dynamic>?> approvalTokenToSwap({
     required SwapableCoin from,
-    required SwapableCoin to,
     required double firstAmount,
-    required double secondAmount,
-    required List<String> path,
-    bool enterSecond = false,
     bool getFee = true,
   }) async {
     Map<String, String> headers = <String, String>{
@@ -154,21 +150,16 @@ class ExchangeAPI {
     };
     final http.Request request = http.Request(
       'POST',
-      Uri.parse('${APIUtils.walletBaseURL}/swap/getAmountsOut'),
+      Uri.parse('${APIUtils.walletBaseURL}/swap/approveTokenForSwap'),
     );
     request.body = json.encode(<String, dynamic>{
-      'user_id': LocalData.email(),
+      'user_id': LocalData.accountID(),
       'accounts': LocalData.privateKeyAddress(),
       'privateKey': LocalData.privateKey(),
-      'amount1': firstAmount,
-      'amount2': secondAmount,
-      'path': path,
-      'enterSecondAmount': enterSecond,
-      'firstSymbol': from.symbol.trim().toUpperCase(),
-      'secondSymbol': to.symbol.trim().toUpperCase(),
-      'firstContractAddress': from.contractAddress.trim(),
-      'secondContractAddress': to.contractAddress.trim(),
-      'getFee': false
+      'amount': firstAmount,
+      'contractAddress': from.contractAddress,
+      'coin': from.symbol.toUpperCase(),
+      'getFee': getFee
     });
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
@@ -180,6 +171,29 @@ class ExchangeAPI {
     } else {
       CustomToast.errorToast(message: 'Balance fetching issue');
       return null;
+    }
+  }
+
+  Future<int> getTexConfirm(String hash) async {
+    try {
+      final http.Request request = http.Request(
+        'GET',
+        Uri.parse('${APIUtils.walletBaseURL}/swap/getTransaction/$hash'),
+      );
+      final http.StreamedResponse response = await request.send();
+
+      final String respStr = await response.stream.bytesToString();
+      Map<String, dynamic> map = json.decode(respStr);
+      if (response.statusCode == 200) {
+        map['confirmation'];
+        return map['confirmation']; // 0 for pending 1 for success
+      } else {
+        return 2; // false
+      }
+    } catch (e) {
+      CustomToast.errorToast(message: e.toString());
+      log('Print: coin_api: Swapable coin list error: ${e.toString()}');
+      return 2;
     }
   }
 }

@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import '../apis/exchange_api.dart';
 import '../models/swapable_coin.dart';
+import '../widget/custom_widgets/custom_toast.dart';
 
 class ExchangeCoinProvider extends ChangeNotifier {
   //
@@ -108,19 +109,37 @@ class ExchangeCoinProvider extends ChangeNotifier {
   exhcange() async {
     //
     // Approve Token
-    //
-    final Map<String, dynamic>? approveTokenMap =
-        await ExchangeAPI().approvalTokenToSwap(
-      from: _from!,
-      to: _to!,
-      firstAmount: double.parse(_fromController.text),
-      secondAmount: double.parse(_toController.text),
-      path: _path,
-      getFee: false,
-    );
-    if (approveTokenMap == null) return;
-    if (approveTokenMap['status'] == false) _error = approveTokenMap['message'];
-    _path = List<String>.from(approveTokenMap['path']);
+    // if BNB then no approve
+    log('Start Exchange');
+    String _hash = '';
+    if (_from!.symbol.toUpperCase() != 'BNB') {
+      final Map<String, dynamic>? approveTokenMap =
+          await ExchangeAPI().approvalTokenToSwap(
+        from: _from!,
+        firstAmount: double.parse(_fromController.text),
+        getFee: false,
+      );
+      log('Approvel end');
+      if (approveTokenMap == null) return;
+      if (approveTokenMap['status'] == false) {
+        _error = approveTokenMap['message'];
+      }
+
+      _hash = approveTokenMap['hash'];
+      log('Hash: $_hash');
+      //
+      // GetTrxConfirm
+      //
+      int confirm = 0;
+      while (confirm == 0) {
+        confirm = await ExchangeAPI().getTexConfirm(_hash);
+      }
+      if (confirm == 2) {
+        _error = 'Transtion not possible';
+        return false;
+      }
+      log('Confirm: $confirm');
+    }
     //
     // Approve Token Done
     //
@@ -133,7 +152,10 @@ class ExchangeCoinProvider extends ChangeNotifier {
       enterSecond: false,
       getFee: false,
     );
-    print(tokenSwapMap);
+    if (tokenSwapMap?['success'] ?? false == true) {
+      _reset();
+      CustomToast.successToast(message: 'Swapping Complete');
+    }
   }
 
   String? fromValidator(String? value) {
@@ -154,8 +176,8 @@ class ExchangeCoinProvider extends ChangeNotifier {
   }
 
   _reset() {
-    _fromController.text = '0';
-    _toController.text = '0';
+    _fromController.clear();
+    _toController.clear();
     _fromBalance = 0;
     _swapPrice = 0;
     _priceImpact = 0;

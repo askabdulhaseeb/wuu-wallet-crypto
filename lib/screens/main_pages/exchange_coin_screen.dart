@@ -7,6 +7,7 @@ import '../../providers/exchange_provider.dart';
 import '../../utilities/app_images.dart';
 import '../../widget/coin/coin_textformfield.dart';
 import '../../widget/custom_widgets/custom_elevated_button.dart';
+import '../../widget/custom_widgets/custom_toast.dart';
 import '../../widget/custom_widgets/show_loading.dart';
 
 class ExchangeCoinScreen extends StatefulWidget {
@@ -18,6 +19,7 @@ class ExchangeCoinScreen extends StatefulWidget {
 
 class _ExchangeCoinScreenState extends State<ExchangeCoinScreen> {
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -84,13 +86,28 @@ class _ExchangeCoinScreenState extends State<ExchangeCoinScreen> {
                                   : Colors.red,
                             ),
                           ),
-                          CustomElevatedButton(
-                            title: 'Exchange',
-                            onTap: () async {
-                              // if (_key.currentState!.validate()) {}
-                              await exchnagePro.exhcange();
-                            },
-                          ),
+                          isLoading
+                              ? const ShowLoading()
+                              : CustomElevatedButton(
+                                  title: 'Exchange',
+                                  onTap: () async {
+                                    if (_key.currentState!.validate()) {
+                                      if (exchnagePro.priceImpact < 15) {
+                                        setState(() {
+                                          isLoading = true;
+                                        });
+                                        await exchnagePro.exhcange();
+                                        setState(() {
+                                          isLoading = false;
+                                        });
+                                      } else {
+                                        CustomToast.errorToast(
+                                          message: 'Price impect is too high',
+                                        );
+                                      }
+                                    }
+                                  },
+                                ),
                           const SizedBox(height: 16),
                           Text(
                             exchnagePro.error,
