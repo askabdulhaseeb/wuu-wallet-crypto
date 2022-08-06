@@ -34,49 +34,38 @@ class ProfilePage extends StatelessWidget {
           builder: (BuildContext context, UserProvider userPro, _) {
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: SingleChildScrollView(
-            child: Column(
-              children: <Widget>[
-                UserProfileInfoCard(user: userPro.currentUser),
-                const SizedBox(height: 10),
-                TitleClickableTile(title: 'View Profile', onTap: () {}),
-                TitleClickableTile(title: 'Push Notification', onTap: () {}),
-                TitleClickableTile(title: 'Pass code lock', onTap: () {}),
-                TitleClickableTile(title: 'Auto Sale', onTap: () {}),
-                TitleClickableTile(title: 'Privacy policy', onTap: () {}),
-                TitleClickableTile(
-                  title: 'Data Recovery & Transfer',
-                  onTap: () {},
+          child: Column(
+            children: <Widget>[
+              UserProfileInfoCard(user: userPro.currentUser),
+              const SizedBox(height: 10),
+              TitleClickableTile(title: 'View Profile', onTap: () {}),
+              TitleClickableTile(
+                title: 'Language',
+                trailing: const Text(
+                  'English',
+                  style: TextStyle(color: Colors.grey, fontSize: 13),
                 ),
-                TitleClickableTile(
-                  title: 'Language',
-                  trailing: const Text(
-                    'English',
-                    style: TextStyle(color: Colors.grey, fontSize: 13),
-                  ),
-                  onTap: () {},
+                onTap: () {},
+              ),
+              const Spacer(),
+              CustomElevatedButton(
+                title: 'Logout',
+                bgColor: Colors.transparent,
+                padding: const EdgeInsets.symmetric(vertical: 18),
+                textStyle: TextStyle(
+                  color: Theme.of(context).primaryColor,
+                  fontSize: 18,
                 ),
-                const SizedBox(height: 10),
-                CustomElevatedButton(
-                  title: 'Logout',
-                  bgColor: Colors.transparent,
-                  padding: const EdgeInsets.symmetric(vertical: 18),
-                  textStyle: TextStyle(
-                    color: Theme.of(context).primaryColor,
-                    fontSize: 18,
-                  ),
-                  border: Border.all(color: Theme.of(context).primaryColor),
-                  onTap: () {
-                    LocalData.signout();
-                    Provider.of<AppProvider>(context, listen: false)
-                        .onTabTapped(0);
-                    Navigator.of(context).pushNamedAndRemoveUntil(
-                        IntroScreen.routeName, (Route<dynamic> route) => false);
-                  },
-                ),
-                const SizedBox(height: 60),
-              ],
-            ),
+                border: Border.all(color: Theme.of(context).primaryColor),
+                onTap: () {
+                  LocalData.signout();
+                  Provider.of<AppProvider>(context, listen: false)
+                      .onTabTapped(0);
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                      IntroScreen.routeName, (Route<dynamic> route) => false);
+                },
+              ),
+            ],
           ),
         );
       }),

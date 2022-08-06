@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../apis/wallet_api.dart';
 import '../../providers/seed_phrase_provider.dart';
+import '../../screens/auth/welcome_screen.dart';
 import '../../screens/main_screen/main_screen.dart';
 import '../../screens/wallet_screens/wallet_created_success_screen/wallat_create_success_screen.dart';
 import '../../screens/wallet_screens/wallet_setup_screen/wallet_setup_screen.dart';
@@ -162,7 +163,9 @@ class _ConfirmSeedStepState extends State<ConfirmSeedStep> {
                   final bool done = await WalletAPI()
                       .generatePrivateKey(phrase: seedPro.phrase);
                   if (done) {
-                    Navigator.of(context).pushNamed(MainScreen.routeName);
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                        WelcomeScreen.routeName,
+                        (Route<dynamic> route) => false);
                   } else {
                     CustomToast.errorToast(
                         message: 'Facing issues while fetching info');

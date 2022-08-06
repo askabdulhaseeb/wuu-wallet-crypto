@@ -19,15 +19,6 @@ class CoinScreen extends StatelessWidget {
             '${exchangePro.from?.name ?? 'Bitcoin'} Balance',
           );
         }),
-        actions: <Widget>[
-          IconButton(
-            splashRadius: 20,
-            onPressed: () {
-              // TODO: Search Page Navigation
-            },
-            icon: const Icon(CupertinoIcons.search),
-          ),
-        ],
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),

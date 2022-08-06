@@ -9,19 +9,7 @@ class HistoryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('History'),
-        actions: <Widget>[
-          IconButton(
-            splashRadius: 20,
-            onPressed: () {
-              // TODO: Search Page Navigation
-            },
-            icon: const Icon(Icons.multiple_stop_rounded),
-          ),
-          const SizedBox(width: 10),
-        ],
-      ),
+      appBar: AppBar(title: const Text('History')),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(

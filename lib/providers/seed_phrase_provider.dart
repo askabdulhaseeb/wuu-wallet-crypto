@@ -7,6 +7,7 @@ import '../models/seed_phrase.dart';
 class SeedPhraseProvider extends ChangeNotifier {
   init() async {
     _phrases = await WalletAPI().getSeedPhrase();
+    print(_phrases!.mnemonic);
     _phrasesList.addAll(_phrases!.mnemonic.split(' '));
     print(_phrasesList);
     Random random = Random();
