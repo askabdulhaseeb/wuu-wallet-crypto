@@ -2,15 +2,13 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_braintree/flutter_braintree.dart';
+// import 'package:flutter_braintree/flutter_braintree.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 // import 'package:flutter_paystack/flutter_paystack.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:razorpay_flutter/razorpay_flutter.dart';
-
 import '../helpers/strings.dart';
-import '../widget/trns_text.dart';
 import 'call_functions.dart';
 import 'mysql/sql_activities.dart';
 import 'mysql/user_fxn.dart';
@@ -22,8 +20,8 @@ abstract class BasePayment {
   Future<void> coinbasePayment(String name, String amount);
   Future<void> nowPayment(String coin, String amount);
   Future<void> nowPaymentGetPayStatus(String payId);
-  braintreePayment(
-      String amount, String displayName, String countryCode, toGet, context);
+  // braintreePayment(
+  //     String amount, String displayName, String countryCode, toGet, context);
   // initPaystack();
   // paystackPayment(BuildContext context, String email, double amount, toGet);
 
@@ -34,9 +32,9 @@ abstract class BasePayment {
 }
 
 class PaymentRepo implements BasePayment {
-  CallFunctions _callFunctions = CallFunctions();
-  ActivitiesSql _activitiesSql = ActivitiesSql();
-  UserSql _userSql = UserSql();
+  final CallFunctions _callFunctions = CallFunctions();
+  final ActivitiesSql _activitiesSql = ActivitiesSql();
+  final UserSql _userSql = UserSql();
 
   late Razorpay _razorpay;
 
@@ -187,70 +185,70 @@ class PaymentRepo implements BasePayment {
     }
   }
 
-  @override
-  braintreePayment(String amount, String displayName, String countryCode, toGet,
-      context) async {
-    try {
-      var request = BraintreeDropInRequest(
-        tokenizationKey: dotenv.env['BRAINTREE_TOKENIZATION_KEY'],
-        collectDeviceData: true,
-        amount: amount,
-        applePayRequest: BraintreeApplePayRequest(
-          currencyCode: currency(),
-          // amount: double.parse(amount),
-          countryCode: currency(),
-          appleMerchantID: dotenv.env['BRAINTREE_APPLE_MERCHANT_ID']!,
-          displayName: displayName, paymentSummaryItems: [],
-        ),
-        googlePaymentRequest: BraintreeGooglePaymentRequest(
-          totalPrice: amount,
-          currencyCode: currency(),
-          billingAddressRequired: false,
-          googleMerchantID: dotenv.env['BRAINTREE_GOOGLE_MERCHANT_ID'],
-        ),
-        paypalRequest: BraintreePayPalRequest(
-          amount: amount,
-          displayName: displayName,
-          currencyCode: currency(),
-        ),
-        cardEnabled: true,
-      );
-      final result = await BraintreeDropIn.start(request);
-      if (result != null) {
-        String nounce = result.paymentMethodNonce.nonce;
+  // @override
+  // braintreePayment(String amount, String displayName, String countryCode, toGet,
+  //     context) async {
+  //   try {
+  //     var request = BraintreeDropInRequest(
+  //       tokenizationKey: dotenv.env['BRAINTREE_TOKENIZATION_KEY'],
+  //       collectDeviceData: true,
+  //       amount: amount,
+  //       applePayRequest: BraintreeApplePayRequest(
+  //         currencyCode: currency(),
+  //         // amount: double.parse(amount),
+  //         countryCode: currency(),
+  //         appleMerchantID: dotenv.env['BRAINTREE_APPLE_MERCHANT_ID']!,
+  //         displayName: displayName, paymentSummaryItems: [],
+  //       ),
+  //       googlePaymentRequest: BraintreeGooglePaymentRequest(
+  //         totalPrice: amount,
+  //         currencyCode: currency(),
+  //         billingAddressRequired: false,
+  //         googleMerchantID: dotenv.env['BRAINTREE_GOOGLE_MERCHANT_ID'],
+  //       ),
+  //       paypalRequest: BraintreePayPalRequest(
+  //         amount: amount,
+  //         displayName: displayName,
+  //         currencyCode: currency(),
+  //       ),
+  //       cardEnabled: true,
+  //     );
+  //     final result = await BraintreeDropIn.start(request);
+  //     if (result != null) {
+  //       String nounce = result.paymentMethodNonce.nonce;
 
-        //
-        await _activitiesSql.storeUserActivitiesSql(4);
+  //       //
+  //       await _activitiesSql.storeUserActivitiesSql(4);
 
-        //Store Trxn
+  //       //Store Trxn
 
-        await storeTrxnMap(amount, true, 'Braintree',
-            result.paymentMethodNonce.nonce, toGet, context);
+  //       await storeTrxnMap(amount, true, 'Braintree',
+  //           result.paymentMethodNonce.nonce, toGet, context);
 
-        //
-        _callFunctions.showPopUp(
-          context,
-          TrnsText(title: 'Payment sent', extra2: nounce),
-          [
-            CupertinoButton(
-              child: const TrnsText(title: 'Ok'),
-              onPressed: () => Navigator.pop(context),
-            ),
-          ],
-          [
-            TextButton(
-              child: const TrnsText(title: 'Ok'),
-              onPressed: () => Navigator.pop(context),
-            ),
-          ],
-        );
-      } else {
-        _callFunctions.showSnacky(DEFAULT_ERROR, false, context);
-      }
-    } catch (e) {
-      debugPrint(e.toString());
-    }
-  }
+  //       //
+  //       _callFunctions.showPopUp(
+  //         context,
+  //         TrnsText(title: 'Payment sent', extra2: nounce),
+  //         [
+  //           CupertinoButton(
+  //             child: const TrnsText(title: 'Ok'),
+  //             onPressed: () => Navigator.pop(context),
+  //           ),
+  //         ],
+  //         [
+  //           TextButton(
+  //             child: const TrnsText(title: 'Ok'),
+  //             onPressed: () => Navigator.pop(context),
+  //           ),
+  //         ],
+  //       );
+  //     } else {
+  //       _callFunctions.showSnacky(DEFAULT_ERROR, false, context);
+  //     }
+  //   } catch (e) {
+  //     debugPrint(e.toString());
+  //   }
+  // }
 
   // @override
   // void initPaystack() {

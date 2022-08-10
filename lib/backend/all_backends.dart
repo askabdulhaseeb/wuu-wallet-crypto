@@ -196,9 +196,9 @@ class AllBackEnds {
           amount, displayName, countryCode, toGet, context);
 
   //? Paystack
-  initPaystack() => _paymentRepo.initPaystack();
-  paystackPayment(context, String email, double amount, toGet) =>
-      _paymentRepo.paystackPayment(context, email, amount, toGet);
+  // initPaystack() => _paymentRepo.initPaystack();
+  // paystackPayment(context, String email, double amount, toGet) =>
+  //     _paymentRepo.paystackPayment(context, email, amount, toGet);
 
   //? RazorPay
   initRazorpay(Function _handlePaymentSuccess, Function _handlePaymentError,
