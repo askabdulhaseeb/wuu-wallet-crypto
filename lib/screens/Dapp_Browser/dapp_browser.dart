@@ -18,10 +18,6 @@ class _DappBrowserState extends State<DappBrowser> {
         withZoom: true,
         url: 'https://dappradar.com/rankings',
         withJavascript: true,
-        // appBar: AppBar(
-        //   title: Text("hjg"),
-        //   backgroundColor: Colors.black,
-        // ),
       ),
     );
   }
