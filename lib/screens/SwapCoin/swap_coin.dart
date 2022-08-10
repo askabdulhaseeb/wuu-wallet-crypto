@@ -21,8 +21,8 @@ class SwapScreen extends StatefulWidget {
   _SwapScreenState createState() => _SwapScreenState();
 }
 
-Box settingsBx = Hive.box(SETTINGS);
-Box userBox = Hive.box(USERS);
+// Box settingsBx = Hive.box(SETTINGS);
+// Box userBox = Hive.box(USERS);
 
 String currency() {
   return 'usd';
@@ -286,7 +286,7 @@ class _SwapScreenState extends State<SwapScreen> {
             : getFromToUnit(_fromValue, _fromInd);
 
         var encryptedWallet =
-            userBox.get(USER)[WALLET][_from + '_' + TRANSFERKEY];
+            '6b248bce-268e-4447-b24c-1be9c4510951';
         String tKey = _allBackEnds.decrypt(encryptedWallet);
 
         Map swapDetails = await _allBackEnds.swapCoin(
@@ -296,7 +296,7 @@ class _SwapScreenState extends State<SwapScreen> {
 
         if (_from != ERC20) {
           var encryptedWallet =
-              userBox.get(USER)[WALLET][_from + '_' + WALLETID];
+              '6b248bce-268e-4447-b24c-1be9c4510951';
           String walletData = _allBackEnds.decrypt(encryptedWallet);
           await _allBackEnds
               .transferCoin(walletData, tKey, swapDetails[ADDRESS],

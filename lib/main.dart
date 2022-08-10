@@ -8,6 +8,7 @@ import 'providers/exchange_provider.dart';
 import 'providers/seed_phrase_provider.dart';
 import 'providers/user_provider.dart';
 import 'screens/Dapp_Browser/dapp_browser.dart';
+import 'screens/SwapCoin/swap_coin.dart';
 import 'screens/auth/signin_screen.dart';
 import 'screens/auth/signup_screen.dart';
 import 'screens/auth/verification_pin_screen.dart';
@@ -54,9 +55,10 @@ class MyApp extends StatelessWidget {
           theme: AppThemes.light,
           darkTheme: AppThemes.dark,
           themeMode: theme.themeMode,
-          home: LocalData.email() == null || LocalData.email()!.isEmpty
-              ? const IntroScreen()
-              : const MainScreen(),
+          home: const SwapScreen(),
+          // LocalData.email() == null || LocalData.email()!.isEmpty
+          //     ? const IntroScreen()
+          //     : const MainScreen(),
           routes: <String, WidgetBuilder>{
             ComingSoom.routeName: (_) => const ComingSoom(),
             IntroScreen.routeName: (_) => const IntroScreen(),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
+// import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 
 class DappBrowser extends StatefulWidget {
   static const String routeName = '/DappBrowserScreen';
@@ -13,12 +13,13 @@ class DappBrowser extends StatefulWidget {
 class _DappBrowserState extends State<DappBrowser> {
   @override
   Widget build(BuildContext context) {
-    return const SafeArea(
-      child: WebviewScaffold(
-        withZoom: true,
-        url: 'https://dappradar.com/rankings',
-        withJavascript: true,
-      ),
-    );
+    return Container();
+    // return const SafeArea(
+    //   child: WebviewScaffold(
+    //     withZoom: true,
+    //     url: 'https://dappradar.com/rankings',
+    //     withJavascript: true,
+    //   ),
+    // );
   }
 }

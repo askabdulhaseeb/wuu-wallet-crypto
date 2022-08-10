@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_braintree/flutter_braintree.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_paystack/flutter_paystack.dart';
+// import 'package:flutter_paystack/flutter_paystack.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:razorpay_flutter/razorpay_flutter.dart';
@@ -24,8 +24,8 @@ abstract class BasePayment {
   Future<void> nowPaymentGetPayStatus(String payId);
   braintreePayment(
       String amount, String displayName, String countryCode, toGet, context);
-  initPaystack();
-  paystackPayment(BuildContext context, String email, double amount, toGet);
+  // initPaystack();
+  // paystackPayment(BuildContext context, String email, double amount, toGet);
 
   initRazorpay(Function _handlePaymentSuccess, Function _handlePaymentError,
       Function _handleExternalWallet);
@@ -40,7 +40,7 @@ class PaymentRepo implements BasePayment {
 
   late Razorpay _razorpay;
 
-  final _paystack = PaystackPlugin();
+  // final _paystack = PaystackPlugin();
 
   var userBox = Hive.box(USERS);
   var settingsBx = Hive.box(SETTINGS);
@@ -252,107 +252,107 @@ class PaymentRepo implements BasePayment {
     }
   }
 
-  @override
-  void initPaystack() {
-    _paystack.initialize(publicKey: dotenv.env['PAYSTACK_P_KEY']!);
-  }
+  // @override
+  // void initPaystack() {
+  //   _paystack.initialize(publicKey: dotenv.env['PAYSTACK_P_KEY']!);
+  // }
 
-  @override
-  paystackPayment(
-      BuildContext context, String email, double amount, toGet) async {
-    String message = '';
-    try {
-      String? _accessCode = await _getAccessCode(amount, email, context);
+  // @override
+  // paystackPayment(
+  //     BuildContext context, String email, double amount, toGet) async {
+  //   String message = '';
+  //   try {
+  //     String? _accessCode = await _getAccessCode(amount, email, context);
 
-      if (_accessCode != null) {
-        Charge charge = Charge()
-          ..amount = (amount * 100).toInt()
-          ..accessCode = _accessCode
-          ..email = email
-          ..currency = currency().toUpperCase();
+  //     if (_accessCode != null) {
+  //       Charge charge = Charge()
+  //         ..amount = (amount * 100).toInt()
+  //         ..accessCode = _accessCode
+  //         ..email = email
+  //         ..currency = currency().toUpperCase();
 
-        CheckoutResponse response = await _paystack.checkout(
-          context,
-          method: CheckoutMethod.selectable,
-          charge: charge,
-        );
+  //       CheckoutResponse response = await _paystack.checkout(
+  //         context,
+  //         method: CheckoutMethod.selectable,
+  //         charge: charge,
+  //       );
 
-        if (response.status) {
-          message = 'Charge was successful. Ref: ${response.reference}';
-          await _activitiesSql.storeUserActivitiesSql(4);
+  //       if (response.status) {
+  //         message = 'Charge was successful. Ref: ${response.reference}';
+  //         await _activitiesSql.storeUserActivitiesSql(4);
 
-          //Store Trxn
+  //         //Store Trxn
 
-          await storeTrxnMap(amount.toStringAsFixed(2), true, 'Braintree',
-              response.reference!, toGet, context);
+  //         await storeTrxnMap(amount.toStringAsFixed(2), true, 'Braintree',
+  //             response.reference!, toGet, context);
 
-          _callFunctions.showPopUp(context, Text(message), [
-            CupertinoButton(
-              child: const TrnsText(title: 'Ok'),
-              onPressed: () => Navigator.pop(context),
-            ),
-          ], [
-            TextButton(
-              child: const TrnsText(title: 'Ok'),
-              onPressed: () => Navigator.pop(context),
-            ),
-          ]);
-        } else {
-          _callFunctions.showSnacky('Failed:', false, context,
-              extra2: response.message);
-        }
-      } else {
-        _callFunctions.showSnacky('Payment Error', false, context);
-      }
-    } catch (e) {
-      debugPrint(e.toString());
-    }
-  }
+  //         _callFunctions.showPopUp(context, Text(message), [
+  //           CupertinoButton(
+  //             child: const TrnsText(title: 'Ok'),
+  //             onPressed: () => Navigator.pop(context),
+  //           ),
+  //         ], [
+  //           TextButton(
+  //             child: const TrnsText(title: 'Ok'),
+  //             onPressed: () => Navigator.pop(context),
+  //           ),
+  //         ]);
+  //       } else {
+  //         _callFunctions.showSnacky('Failed:', false, context,
+  //             extra2: response.message);
+  //       }
+  //     } else {
+  //       _callFunctions.showSnacky('Payment Error', false, context);
+  //     }
+  //   } catch (e) {
+  //     debugPrint(e.toString());
+  //   }
+  // }
 
-  _getAccessCode(double amount, String email, context) async {
-    String? paystackkey = dotenv.env['PAYSTACK_S_KEY'];
+  // _getAccessCode(double amount, String email, context) async {
+  //   String? paystackkey = dotenv.env['PAYSTACK_S_KEY'];
 
-    Map<String, String> headers = {
-      'Content-type': 'application/json',
-      'Authorization': 'Bearer $paystackkey'
-    };
+  //   Map<String, String> headers = {
+  //     'Content-type': 'application/json',
+  //     'Authorization': 'Bearer $paystackkey'
+  //   };
 
-    if (currency() == NGN) {
-      try {
-        String url = 'https://api.paystack.co/transaction/initialize';
-        Map data = {
-          'email': email,
-          'amount': '${amount * 100}',
-          'currency': currency().toUpperCase(),
-          'channels': [
-            'card',
-            'bank',
-            'ussd',
-            'qr',
-            'mobile_money',
-            'bank_transfer'
-          ]
-        };
-        http.Response response = await http.post(
-          Uri.parse(url),
-          headers: headers,
-          body: jsonEncode(data),
-        );
-        var body = jsonDecode(response.body);
+  //   if (currency() == NGN) {
+  //     try {
+  //       String url = 'https://api.paystack.co/transaction/initialize';
+  //       Map data = {
+  //         'email': email,
+  //         'amount': '${amount * 100}',
+  //         'currency': currency().toUpperCase(),
+  //         'channels': [
+  //           'card',
+  //           'bank',
+  //           'ussd',
+  //           'qr',
+  //           'mobile_money',
+  //           'bank_transfer'
+  //         ]
+  //       };
+  //       http.Response response = await http.post(
+  //         Uri.parse(url),
+  //         headers: headers,
+  //         body: jsonEncode(data),
+  //       );
+  //       var body = jsonDecode(response.body);
 
-        return body[DATA]['access_code'];
-      } catch (e) {
-        print(e);
-      }
-    } else {
-      _callFunctions.showSnacky(
-        'Unsupported Currency Type',
-        false,
-        context,
-        extra2: currency().toUpperCase(),
-      );
-    }
-  }
+  //       return body[DATA]['access_code'];
+  //     } catch (e) {
+  //       print(e);
+  //     }
+  //   } else {
+  //     _callFunctions.showSnacky(
+  //       'Unsupported Currency Type',
+  //       false,
+  //       context,
+  //       extra2: currency().toUpperCase(),
+  //     );
+  //   }
+  // }
 
   @override
   razorpayPayment(double amount, String phone, String email) {
