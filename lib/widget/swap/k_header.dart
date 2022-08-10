@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:loading_overlay/loading_overlay.dart';
-
 import '../../backend/all_backends.dart';
 import 'cust_prog_ind.dart';
 
@@ -27,12 +26,12 @@ class KHeader extends StatelessWidget {
   final String extra2;
   @override
   Widget build(BuildContext context) {
-    AllBackEnds _allBackEnds = AllBackEnds();
+    // AllBackEnds _allBackEnds = AllBackEnds();
     return LoadingOverlay(
       isLoading: isLoading,
       progressIndicator: const CustProgIndicator(),
       child: WillPopScope(
-        onWillPop: hasWillPop ? () => _allBackEnds.onWillPop(context) : null,
+        onWillPop:  null,
         child: Scaffold(
           floatingActionButton: floatingActionButton,
           appBar: title != null
@@ -40,8 +39,8 @@ class KHeader extends StatelessWidget {
                   backgroundColor: Theme.of(context).colorScheme.secondary,
                   title: Text(
                     extra1 +
-                        _allBackEnds.multiTranslation(context, title!,
-                            args: args)! +
+                        // _allBackEnds.multiTranslation(context, title!,
+                        //     args: args)! +
                         extra2,
                   ),
                 )

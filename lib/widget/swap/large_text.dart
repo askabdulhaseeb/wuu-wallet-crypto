@@ -19,7 +19,7 @@ class LargeTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AllBackEnds _allBackEnds = AllBackEnds();
+    // AllBackEnds _allBackEnds = AllBackEnds();
 
     return TextFormField(
       onChanged: onChanged,
@@ -36,9 +36,7 @@ class LargeTextField extends StatelessWidget {
         prefix: prefix,
         suffix: InkWell(
           onTap: suffixTap,
-          child: Text(
-            _allBackEnds.translation(context, 'Max'),
-          ),
+          child: const Text('Max',),
         ),
         suffixStyle: const TextStyle(fontSize: 20),
         border: const OutlineInputBorder(

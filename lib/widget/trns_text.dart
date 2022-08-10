@@ -26,10 +26,9 @@ class TrnsText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AllBackEnds _allBackEnds = AllBackEnds();
 
     return Text(
-      extra1 + _allBackEnds.translation(context, title, args: args) + extra2,
+      extra1 + extra2,
       style: style,
       textAlign: textAlign,
       overflow: overflow,

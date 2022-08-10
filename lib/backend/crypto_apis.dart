@@ -14,11 +14,16 @@ abstract class BaseApis {
 }
 
 class ApiRepo implements BaseApis {
-  var allD = Hive.box(ALL_CRYPTO_DATAS);
-  var crypD = Hive.box(CRYPTO_DATAS);
-  var settingsBx = Hive.box(SETTINGS);
+  var allD = {};
+  // Hive.box(ALL_CRYPTO_DATAS);
+  var crypD = {};
+  //  Hive.box(CRYPTO_DATAS);
+  var settingsBx = {};
+  // Hive.box(SETTINGS);
   String currency() {
-    return settingsBx.get(CURRENCY) ?? "usd";
+    return
+    //  settingsBx.get(CURRENCY) ??
+     'usd';
   }
 
   @override
@@ -26,7 +31,7 @@ class ApiRepo implements BaseApis {
     List? dts = [];
     try {
       String url =
-          "https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency()}&order=market_cap_desc&per_page=250&page=1&sparkline=true&price_change_percentage=24h";
+          'https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency()}&order=market_cap_desc&per_page=250&page=1&sparkline=true&price_change_percentage=24h';
 
       http.Response response = await http.get(
         (Uri.parse(url)),
@@ -52,7 +57,7 @@ class ApiRepo implements BaseApis {
     List maxMinListId = [];
 
     String url =
-        "https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency()}&order=market_cap_desc&per_page=250&page=1&sparkline=true&price_change_percentage=24h";
+        'https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency()}&order=market_cap_desc&per_page=250&page=1&sparkline=true&price_change_percentage=24h';
 
     http.Response response = await http.get(
       (Uri.parse(url)),
@@ -85,10 +90,10 @@ class ApiRepo implements BaseApis {
   Map _mapData(body, int i) {
     Map datas = {
       ID: body[i][ID] ?? '',
-      NAME: body[i][NAME] ?? "",
-      IMAGE: body[i][IMAGE] ?? "",
+      NAME: body[i][NAME] ?? '',
+      IMAGE: body[i][IMAGE] ?? '',
       CURRENT_PRICE: body[i][CURRENT_PRICE] ?? 0.0,
-      SYMBOL: body[i][SYMBOL] ?? "",
+      SYMBOL: body[i][SYMBOL] ?? '',
       PRICE_CHANGE_PERCENTAGE_24H: body[i][PRICE_CHANGE_PERCENTAGE_24H] ?? 0.0,
       SPARKLINE_IN_7D: body[i][SPARKLINE_IN_7D][PRICE] ?? [],
     };
@@ -123,7 +128,7 @@ class ApiRepo implements BaseApis {
     try {
       String? finHub = dotenv.env['FIN_HUB_KEY'];
       String url =
-          "https://finnhub.io/api/v1/news?category=crypto&token=$finHub";
+          'https://finnhub.io/api/v1/news?category=crypto&token=$finHub';
 
       http.Response response = await http.get(
         (Uri.parse(url)),

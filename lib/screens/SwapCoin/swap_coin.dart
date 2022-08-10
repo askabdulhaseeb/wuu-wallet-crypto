@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 
 import '../../backend/all_backends.dart';
 import '../../helpers/colors.dart';
@@ -35,8 +34,8 @@ double _estimate = 0.0;
 bool _loading = false;
 
 class _SwapScreenState extends State<SwapScreen> {
-  static Box crypD = Hive.box(CRYPTO_DATAS);
-  Map rates = crypD.get(EX_RATES);
+  // static Box crypD = Hive.box(CRYPTO_DATAS);
+  // Map rates = crypD.get(EX_RATES);
 
   bool boolFrom = false;
 
@@ -50,7 +49,7 @@ class _SwapScreenState extends State<SwapScreen> {
 
   final TextEditingController _swapCtrl = TextEditingController()..text = '0';
 
-  Map balances = crypD.get(BALANCES) ?? {};
+  Map balances =  {};
 
   bool _isLoading = false;
   String? errorMsg = '';
@@ -186,7 +185,7 @@ class _SwapScreenState extends State<SwapScreen> {
     String _fromUnit = getFromToUnit(_fromValue, _fromInd);
     return boolFrom
         ? balances[_fromUnit].toStringAsFixed(4)
-        : (balances[_fromUnit] * rates[_from.toLowerCase()]).toStringAsFixed(2);
+        : (balances[_fromUnit] * [1,1.5,2]).toStringAsFixed(2);
   }
 
   suffixTap() {
@@ -231,7 +230,7 @@ class _SwapScreenState extends State<SwapScreen> {
         ? 0
         : boolFrom
             ? double.tryParse(_amount!)
-            : (double.tryParse(_amount!)! / rates[_from.toLowerCase()]);
+            : (double.tryParse(_amount!)! / 2);
     return newVal!;
   }
 
@@ -244,7 +243,7 @@ class _SwapScreenState extends State<SwapScreen> {
           });
           String _newAmount = (boolFrom
                   ? double.parse(amount)
-                  : double.parse(amount) / rates[_from.toLowerCase()])
+                  : double.parse(amount) /2)
               .toString();
           _estimate = await _allBackEnds.getEstimate(
               _from.toLowerCase(), _to.toLowerCase(), _newAmount);
@@ -264,8 +263,8 @@ class _SwapScreenState extends State<SwapScreen> {
         true,
         _amount,
         double.parse(getBalance()),
-        boolFrom ? (rates[USDT] * 0.001) : (rates[USDT] * 10),
-        boolFrom ? (rates[USDT] * 100000) : (rates[USDT] * 100000000),
+        boolFrom ? (1 * 0.001) : (1 * 10),
+        boolFrom ? (1 * 100000) : (1 * 100000000),
         context,
         notNull: true);
     return errorMsg;

@@ -32,7 +32,7 @@ class AllBackEnds {
   final SwapRepo _swapRepo = SwapRepo();
 
   final UserSql _userSql = UserSql();
-  final ActivitiesSql _activitiesSql = ActivitiesSql();
+  // final ActivitiesSql _activitiesSql = ActivitiesSql();
 
   final NotificationsRepo _notificationsRepo = NotificationsRepo();
 
@@ -190,10 +190,10 @@ class AllBackEnds {
       _paymentRepo.nowPayment(coin, amount);
 
   //? (Braintree) Paypal
-  braintreePayment(String amount, String displayName, String countryCode, toGet,
-          context) =>
-      _paymentRepo.braintreePayment(
-          amount, displayName, countryCode, toGet, context);
+  // braintreePayment(String amount, String displayName, String countryCode, toGet,
+  //         context) =>
+  //     _paymentRepo.braintreePayment(s
+  //         amount, displayName, countryCode, toGet, context);
 
   //? Paystack
   // initPaystack() => _paymentRepo.initPaystack();
@@ -335,14 +335,14 @@ class AllBackEnds {
 
   //! SQL Activities
 
-  storeUserActivitiesSql(int type) =>
-      _activitiesSql.storeUserActivitiesSql(type);
-  Future<List> getUserActivitiesSql() => _activitiesSql.getUserActivitiesSql();
-  Future<List> getUserDeviceActivitiesSql() =>
-      _activitiesSql.getUserDeviceActivitiesSql();
-  Future<List> getNotificationsSql() => _activitiesSql.getNotificationsSql();
+  // storeUserActivitiesSql(int type) =>
+  //     _activitiesSql.storeUserActivitiesSql(type);
+  // Future<List> getUserActivitiesSql() => _activitiesSql.getUserActivitiesSql();
+  // Future<List> getUserDeviceActivitiesSql() =>
+  //     _activitiesSql.getUserDeviceActivitiesSql();
+  // Future<List> getNotificationsSql() => _activitiesSql.getNotificationsSql();
 
-  Future<int> getUserKycStatusSql() => _activitiesSql.getUserKycStatusSql();
+  // Future<int> getUserKycStatusSql() => _activitiesSql.getUserKycStatusSql();
 
 
 
