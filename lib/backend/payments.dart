@@ -33,7 +33,7 @@ abstract class BasePayment {
 
 class PaymentRepo implements BasePayment {
   final CallFunctions _callFunctions = CallFunctions();
-  final ActivitiesSql _activitiesSql = ActivitiesSql();
+  // final ActivitiesSql _activitiesSql = ActivitiesSql();
   final UserSql _userSql = UserSql();
 
   late Razorpay _razorpay;

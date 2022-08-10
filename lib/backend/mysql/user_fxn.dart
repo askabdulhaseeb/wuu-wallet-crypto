@@ -33,7 +33,7 @@ abstract class BaseUserSql {
 }
 
 class UserSql implements BaseUserSql {
-  final ActivitiesSql _activitiesSql = ActivitiesSql();
+  // final ActivitiesSql _activitiesSql = ActivitiesSql();
 
   final ERC20WalletAd _erc20walletAd = ERC20WalletAd();
   final WalletAd _walletAd = WalletAd();
@@ -126,8 +126,8 @@ class UserSql implements BaseUserSql {
           MESSAGE: resbody[MESSAGE],
         };
 
-        await _activitiesSql.storeUserActivitiesSql(1);
-        await _activitiesSql.storeUserDeviceActivitiesSql();
+        // await _activitiesSql.storeUserActivitiesSql(1);
+        // await _activitiesSql.storeUserDeviceActivitiesSql();
 
         await _notificationsRepo.subscribeToTopics();
       } else {
@@ -196,8 +196,8 @@ class UserSql implements BaseUserSql {
         status = true;
         await getUser(email);
 
-        await _activitiesSql.storeUserActivitiesSql(0);
-        await _activitiesSql.storeUserDeviceActivitiesSql();
+        // await _activitiesSql.storeUserActivitiesSql(0);
+        // await _activitiesSql.storeUserDeviceActivitiesSql();
 
         await _notificationsRepo.getnStoreToken(userStoreToken);
 
@@ -257,7 +257,7 @@ class UserSql implements BaseUserSql {
       var resbody = json.decode(response.body);
 
       if (resbody[STATUS] == 'success') {
-        await _activitiesSql.storeUserActivitiesSql(11);
+        // await _activitiesSql.storeUserActivitiesSql(11);
 
         getUser(email);
 
@@ -367,7 +367,7 @@ class UserSql implements BaseUserSql {
       if (resbody[STATUS] == 'success') {
         status = true;
 
-        await _activitiesSql.storeUserActivitiesSql(2);
+        // await _activitiesSql.storeUserActivitiesSql(2);
 
         _callFunctions.showSnacky(resbody[MESSAGE], true, context);
       } else {
@@ -394,7 +394,7 @@ class UserSql implements BaseUserSql {
       var resbody = json.decode(response.body);
 
       if (resbody[STATUS] == 'success') {
-        await _activitiesSql.storeUserActivitiesSql(data[TYPE]);
+        // await _activitiesSql.storeUserActivitiesSql(data[TYPE]);
       }
 
       return resbody;
@@ -445,7 +445,7 @@ class UserSql implements BaseUserSql {
       if (resbody[STATUS] == 'success') {
         _callFunctions.showSnacky(resbody[MESSAGE], true, context);
 
-        await _activitiesSql.storeUserActivitiesSql(3);
+        // await _activitiesSql.storeUserActivitiesSql(3);
       } else {
         _callFunctions.showSnacky(resbody[MESSAGE], false, context);
       }
@@ -499,7 +499,7 @@ class UserSql implements BaseUserSql {
 
       if (resbody[STATUS] == 'success') {
         _callFunctions.showSnacky(resbody[MESSAGE], true, context);
-        _activitiesSql.storeUserActivitiesSql(12);
+        // _activitiesSql.storeUserActivitiesSql(12);
         return true;
       } else {
         _callFunctions.showSnacky(resbody[MESSAGE], false, context);

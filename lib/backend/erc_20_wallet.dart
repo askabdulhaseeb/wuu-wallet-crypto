@@ -27,7 +27,7 @@ abstract class BaseERC20WalletAd {
 
 class ERC20WalletAd implements BaseERC20WalletAd {
   final EncryptApp _encryptApp = EncryptApp();
-  final ActivitiesSql _activitiesSql = ActivitiesSql();
+  // final ActivitiesSql _activitiesSql = ActivitiesSql();
 
   http.Client? httpClient;
   Web3Client? ethClient;
@@ -108,7 +108,7 @@ class ERC20WalletAd implements BaseERC20WalletAd {
         STATUS: true,
         HASH: hash,
       };
-      _activitiesSql.storeUserActivitiesSql(4);
+      // _activitiesSql.storeUserActivitiesSql(4);
 
       return result;
     } catch (e) {

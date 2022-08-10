@@ -20,7 +20,7 @@ abstract class BaseWalletAd {
 
 class WalletAd implements BaseWalletAd {
   final CallFunctions _callFunctions = CallFunctions();
-  final ActivitiesSql _activitiesSql = ActivitiesSql();
+  // final ActivitiesSql _activitiesSql = ActivitiesSql();
 
   static String myWalletId = '';
   static String url = 'https://apirone.com/api/v2/wallets';
@@ -176,7 +176,7 @@ class WalletAd implements BaseWalletAd {
           STATUS: true,
           HASH: txs,
         };
-        _activitiesSql.storeUserActivitiesSql(4);
+        // _activitiesSql.storeUserActivitiesSql(4);
 
         return result;
       } else {
