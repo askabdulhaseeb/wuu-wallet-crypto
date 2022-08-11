@@ -42,6 +42,9 @@ class ExchangeAPI {
       'POST',
       Uri.parse('${APIUtils.walletBaseURL}/swap/getCoinbalance'),
     );
+    print(LocalData.privateKeyAddress());
+    print(from.symbol.toUpperCase());
+    print(from.contractAddress);
     request.body = json.encode(<String, dynamic>{
       'accounts': LocalData.privateKeyAddress(),
       'coin': from.symbol.toUpperCase(),
@@ -53,6 +56,7 @@ class ExchangeAPI {
     if (response.statusCode == 200) {
       final String respStr = await response.stream.bytesToString();
       Map<String, dynamic> map = json.decode(respStr);
+      print(map);
       return double.parse(map['balance']?.toString() ?? '0.0');
     } else {
       CustomToast.errorToast(message: 'Balance fetching issue');
@@ -111,7 +115,7 @@ class ExchangeAPI {
     };
     final http.Request request = http.Request(
       'POST',
-      Uri.parse('${APIUtils.walletBaseURL}/swap/getAmountsOut'),
+      Uri.parse('${APIUtils.walletBaseURL}/swap/tokenSwap'),
     );
     request.body = json.encode(<String, dynamic>{
       'user_id': LocalData.accountID(),

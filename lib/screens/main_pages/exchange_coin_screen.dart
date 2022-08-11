@@ -50,7 +50,7 @@ class _ExchangeCoinScreenState extends State<ExchangeCoinScreen> {
                             coinsList: exchnagePro.fromList(),
                             selectedCoin: exchnagePro.from,
                             onChanged: (String? value) =>
-                                exchnagePro.onFromControllerChange(value),
+                              exchnagePro.onFromControllerChange(value),
                             onCoinSelection: (SwapableCoin? value) =>
                                 exchnagePro.onFromCoinChange(value),
                             validator: (String? value) =>

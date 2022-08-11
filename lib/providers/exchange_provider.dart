@@ -63,7 +63,7 @@ class ExchangeCoinProvider extends ChangeNotifier {
   }
 
   onFromControllerChange(String? value) async {
-    if (value == null || value.isEmpty || double.parse(value) == 0) {
+    if (value == null || value.isEmpty) {
       _reset();
       return;
     }
@@ -79,7 +79,7 @@ class ExchangeCoinProvider extends ChangeNotifier {
   }
 
   Future<void> onToControllerChange(String? value) async {
-    if (value == null || value.isEmpty || double.parse(value) == 0) {
+    if (value == null || value.isEmpty) {
       _reset();
       return;
     }
@@ -98,12 +98,14 @@ class ExchangeCoinProvider extends ChangeNotifier {
     _initCoins();
     onFromControllerChange(_fromController.text);
     _fromBalance = await ExchangeAPI().coinBalance(from: _from!);
+    notifyListeners();
   }
 
   onToCoinChange(SwapableCoin? value) {
     _to = value;
     _initCoins();
     onFromControllerChange(_fromController.text);
+    notifyListeners();
   }
 
   exhcange() async {
@@ -152,7 +154,8 @@ class ExchangeCoinProvider extends ChangeNotifier {
       enterSecond: false,
       getFee: false,
     );
-    if (tokenSwapMap?['success'] ?? false == true) {
+    print('Print: $tokenSwapMap');
+    if ((tokenSwapMap?['success'] ?? false) == true) {
       _reset();
       CustomToast.successToast(message: 'Swapping Complete');
     }
@@ -207,25 +210,27 @@ class ExchangeCoinProvider extends ChangeNotifier {
     }
   }
 
-  _initCoins() {
+  _initCoins() async {
     if (_coins.isEmpty) return;
     if (_from == null) {
       final int fIndex = _coins.indexWhere(
           (SwapableCoin element) => element.symbol.toUpperCase() == 'BNB');
       _from = fIndex < 0 ? _coins[0] : _coins[fIndex];
+      _fromBalance = await ExchangeAPI().coinBalance(from: _from!);
     } else if (_from == _to) {
-      final int fIndex = _coins
-          .indexWhere((SwapableCoin element) => element.symbol != _to?.symbol);
+      final int fIndex = _coins.indexWhere(
+          (SwapableCoin element) => element.symbol == _from?.symbol);
+      final int sIndex = _coins.indexWhere(
+          (SwapableCoin element) => element.symbol != _from?.symbol);
+      log('from: $fIndex');
+      log('to: $sIndex');
       _from = _coins[fIndex];
+      _to = _coins[sIndex];
     }
     if (_to == null) {
       final int sIndex = _coins.indexWhere(
           (SwapableCoin element) => element.symbol.toUpperCase() == 'MINU');
       _to = sIndex < 0 ? _coins[1] : _coins[sIndex];
-    } else if (_to == _from) {
-      final int sIndex = _coins.indexWhere(
-          (SwapableCoin element) => element.symbol != _from?.symbol);
-      _to = _coins[sIndex];
     }
     notifyListeners();
   }
