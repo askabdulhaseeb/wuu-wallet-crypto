@@ -10,29 +10,28 @@ import 'local_data.dart';
 class ExchangeAPI {
   Future<List<SwapableCoin>> swapableCoins() async {
     final List<SwapableCoin> coins = <SwapableCoin>[];
-    // try {
-    //   final http.Request request = http.Request(
-    //     'GET',
-    //     Uri.parse('${APIUtils.walletBaseURL}/swap/coinlist'),
-    //   );
-    //   final http.StreamedResponse response = await request.send();
+    try {
+      final http.Request request = http.Request(
+        'GET',
+        Uri.parse('${APIUtils.walletBaseURL}/swap/coinlist'),
+      );
+      final http.StreamedResponse response = await request.send();
 
-    //   if (response.statusCode == 200) {
-    //     final String respStr = await response.stream.bytesToString();
-    //     Map<String, dynamic> map = json.decode(respStr);
-    //     for (dynamic element in map['coinList']) {
-    //       final SwapableCoin coin = SwapableCoin.fromJson(element);
-    //       coins.add(coin);
-    //     }
-    //     log('Print: coins_api: Swapable Coins List Count: ${coins.length}');
-    //   }
-    //   return coins;
-    // } catch (e) {
-    //   CustomToast.errorToast(message: e.toString());
-    //   log('Print: coin_api: Swapable coin list error: ${e.toString()}');
-    //   return coins;
-    // }
-    return coins;
+      if (response.statusCode == 200) {
+        final String respStr = await response.stream.bytesToString();
+        Map<String, dynamic> map = json.decode(respStr);
+        for (dynamic element in map['coinList']) {
+          final SwapableCoin coin = SwapableCoin.fromJson(element);
+          coins.add(coin);
+        }
+        log('Print: coins_api: Swapable Coins List Count: ${coins.length}');
+      }
+      return coins;
+    } catch (e) {
+      CustomToast.errorToast(message: e.toString());
+      log('Print: coin_api: Swapable coin list error: ${e.toString()}');
+      return coins;
+    }
   }
 
   Future<double> coinBalance({required SwapableCoin from}) async {
