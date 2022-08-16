@@ -1,14 +1,16 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'apis/local_data.dart';
+import 'database/auth_methods.dart';
+import 'firebase_options.dart';
 import 'providers/app_provider.dart';
 import 'providers/app_theme.dart';
 import 'providers/exchange_provider.dart';
 import 'providers/seed_phrase_provider.dart';
 import 'providers/user_provider.dart';
 import 'screens/Dapp_Browser/dapp_browser.dart';
-import 'screens/SwapCoin/swap_coin.dart';
 import 'screens/auth/signin_screen.dart';
 import 'screens/auth/signup_screen.dart';
 import 'screens/auth/verification_pin_screen.dart';
@@ -25,6 +27,9 @@ import 'screens/wallet_screens/wallet_setup_screen/wallet_setup_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   await LocalData.init();
   runApp(const MyApp());
 }
@@ -55,10 +60,10 @@ class MyApp extends StatelessWidget {
           theme: AppThemes.light,
           darkTheme: AppThemes.dark,
           themeMode: theme.themeMode,
-          home: const SwapScreen(),
-          // LocalData.email() == null || LocalData.email()!.isEmpty
-          //     ? const IntroScreen()
-          //     : const MainScreen(),
+          // home: const IntroScreen(),
+          home: AuthMethods.uid.isEmpty
+              ? const IntroScreen()
+              : const MainScreen(),
           routes: <String, WidgetBuilder>{
             ComingSoom.routeName: (_) => const ComingSoom(),
             IntroScreen.routeName: (_) => const IntroScreen(),

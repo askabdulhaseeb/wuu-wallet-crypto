@@ -1,4 +1,4 @@
-import 'dart:convert';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AppUser {
   AppUser({
@@ -17,28 +17,22 @@ class AppUser {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      // 'uid': uid,
+      'uid': uid,
       'name': name,
       'email': email,
       'user_name': username,
-      // 'imageURL': imageURL,
+      'imageURL': imageURL,
     };
   }
 
   // ignore: sort_constructors_first
-  factory AppUser.fromMap(Map<String, dynamic> map) {
+  factory AppUser.fromDoc(DocumentSnapshot<Map<String, dynamic>> doc) {
     return AppUser(
-      uid: map['data']['uid'] ?? '',
-      name: map['data']['name'] ?? '',
-      email: map['data']['email'] ?? '',
-      username: map['data']['user_name'] ?? '',
-      imageURL: map['data']['imageURL'] ?? '',
+      uid: doc.data()?['uid'] ?? '',
+      name: doc.data()?['name'] ?? '',
+      email: doc.data()?['email'] ?? '',
+      username: doc.data()?['user_name'] ?? '',
+      imageURL: doc.data()?['imageURL'] ?? '',
     );
   }
-
-  String toJson() => json.encode(toMap());
-
-  // ignore: sort_constructors_first
-  factory AppUser.fromJson(String source) =>
-      AppUser.fromMap(json.decode(source));
 }

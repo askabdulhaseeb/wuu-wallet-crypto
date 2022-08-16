@@ -1,7 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
-import '../../apis/auth_api.dart';
+import '../../database/auth_methods.dart';
 import '../../utilities/app_images.dart';
 import '../../utilities/custom_validators.dart';
 import '../../widget/auth/auth_icon_button.dart';
@@ -11,7 +12,6 @@ import '../../widget/custom_widgets/custom_textformfield.dart';
 import '../../widget/custom_widgets/hideable_textformfield.dart';
 import '../../widget/custom_widgets/show_loading.dart';
 import '../wallet_screens/wallet_setup_screen/wallet_setup_screen.dart';
-import 'welcome_screen.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({Key? key}) : super(key: key);
@@ -84,12 +84,12 @@ class _SignupScreenState extends State<SignupScreen> {
                             setState(() {
                               isLoading = true;
                             });
-                            final bool done = await AuthAPI().signup(
+                            final User? user =
+                                await AuthMethods().signupWithEmailAndPassword(
                               email: _email.text,
                               password: _password.text,
-                              username: _email.text,
                             );
-                            if (done) {
+                            if (user != null && mounted) {
                               Navigator.of(context).pushNamedAndRemoveUntil(
                                   WalletSetupScreen.routeName,
                                   ((Route<dynamic> route) => false));

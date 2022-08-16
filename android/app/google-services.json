@@ -1,49 +1,34 @@
 {
   "project_info": {
-    "project_number": "744137161773",
-    "project_id": "muuwallet-test-project",
-    "storage_bucket": "muuwallet-test-project.appspot.com"
+    "project_number": "275911102106",
+    "project_id": "muuwallet-app-project",
+    "storage_bucket": "muuwallet-app-project.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:744137161773:android:4f0237b5a45f76b8284ca4",
+        "mobilesdk_app_id": "1:275911102106:android:b2e8b50616407b43811923",
         "android_client_info": {
           "package_name": "com.devmarkaz.muuwallet"
         }
       },
       "oauth_client": [
         {
-          "client_id": "744137161773-pcl9omtg1t3vaorqu6g0jhsjs9l2n5vr.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.devmarkaz.muuwallet",
-            "certificate_hash": "f63c6e073798d1378d8dad2b80be5e2c50ef71f9"
-          }
-        },
-        {
-          "client_id": "744137161773-fnb82p23opbtt2h8uticvsoaj77qbuso.apps.googleusercontent.com",
+          "client_id": "275911102106-1bvil0r67svm8p72045eppb18lcgtp2p.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBePuUbngGyd39GfovoIF31luPQDuFPC4o"
+          "current_key": "AIzaSyAqYBlm-NmJaIxSw9LZrxPT7S-Ron8ftZk"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "744137161773-fnb82p23opbtt2h8uticvsoaj77qbuso.apps.googleusercontent.com",
+              "client_id": "275911102106-1bvil0r67svm8p72045eppb18lcgtp2p.apps.googleusercontent.com",
               "client_type": 3
-            },
-            {
-              "client_id": "744137161773-jcm9v1omt7doiub68qvta53dpmbp6233.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.devmarkaz.muuwallet"
-              }
             }
           ]
         }

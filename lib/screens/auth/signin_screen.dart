@@ -1,8 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
-import '../../apis/auth_api.dart';
-import '../../models/app_user.dart';
+import '../../database/auth_methods.dart';
 import '../../utilities/app_images.dart';
 import '../../utilities/custom_validators.dart';
 import '../../widget/auth/auth_icon_button.dart';
@@ -13,7 +13,6 @@ import '../../widget/custom_widgets/hideable_textformfield.dart';
 import '../../widget/custom_widgets/show_loading.dart';
 import '../wallet_screens/wallet_setup_screen/wallet_setup_screen.dart';
 import 'signup_screen.dart';
-import 'verification_pin_screen.dart';
 
 class SigninScreen extends StatefulWidget {
   const SigninScreen({Key? key}) : super(key: key);
@@ -80,16 +79,18 @@ class _SigninScreenState extends State<SigninScreen> {
                             setState(() {
                               isLoading = true;
                             });
-                            final AppUser? user = await AuthAPI().login(
+                            final User? user =
+                                await AuthMethods().loginWithEmailAndPassword(
                               email: _email.text,
                               password: _password.text,
                             );
                             setState(() {
                               isLoading = false;
                             });
-                            if (user != null) {
-                              Navigator.of(context)
-                                  .pushNamedAndRemoveUntil(WalletSetupScreen.routeName,((Route<dynamic> route) => false));
+                            if (user != null&&mounted) {
+                              Navigator.of(context).pushNamedAndRemoveUntil(
+                                  WalletSetupScreen.routeName,
+                                  ((Route<dynamic> route) => false));
                             }
                           }
                         },
