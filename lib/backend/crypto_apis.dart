@@ -1,16 +1,17 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 
 import '../helpers/strings.dart';
+import '../models/coin_market_place/coin.dart';
 
 abstract class BaseApis {
   Future<List>? getAllDatas();
   getCryptoMovers();
   getCryptoCarousel();
-  Future<List?> getCryptoNews();
 }
 
 class ApiRepo implements BaseApis {
@@ -22,13 +23,13 @@ class ApiRepo implements BaseApis {
   // Hive.box(SETTINGS);
   String currency() {
     return
-    //  settingsBx.get(CURRENCY) ??
-     'usd';
+        //  settingsBx.get(CURRENCY) ??
+        'usd';
   }
 
   @override
-  Future<List>? getAllDatas() async {
-    List? dts = [];
+  Future<List<Coin>>? getAllDatas() async {
+    List<Coin>? dts = [];
     try {
       String url =
           'https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency()}&order=market_cap_desc&per_page=250&page=1&sparkline=true&price_change_percentage=24h';
@@ -36,12 +37,15 @@ class ApiRepo implements BaseApis {
       http.Response response = await http.get(
         (Uri.parse(url)),
       );
-      List body = jsonDecode(response.body);
+      print(response.body);
+      // List body = jsonDecode(response.body);
+      Coin.fromMap(jsonDecode(response.body));
 
-      for (int i = 0; i < body.length; i++) {
-        Map datas = _mapData(body, i);
-        dts.add(datas);
-      }
+      // for (int i = 0; i < body.length; i++) {
+      //   Map datas = _mapData(body, i);
+      //   Coin.fromMap(str);
+      //   dts.add(datas);
+      // }
       return dts;
     } catch (e) {
       print(e);
@@ -64,6 +68,7 @@ class ApiRepo implements BaseApis {
     );
 
     var body = jsonDecode(response.body);
+    print(body);
     List? dats = body ?? [];
 
     dats!.sort((a, b) => b[PRICE_CHANGE_PERCENTAGE_24H]
@@ -122,24 +127,4 @@ class ApiRepo implements BaseApis {
     return dts;
   }
 
-  @override
-  Future<List?> getCryptoNews() async {
-    List? news;
-    try {
-      String? finHub = dotenv.env['FIN_HUB_KEY'];
-      String url =
-          'https://finnhub.io/api/v1/news?category=crypto&token=$finHub';
-
-      http.Response response = await http.get(
-        (Uri.parse(url)),
-      );
-
-      var body = jsonDecode(response.body);
-      news = body;
-      return news;
-    } catch (e) {
-      debugPrint(e.toString());
-    }
-    return news;
-  }
 }

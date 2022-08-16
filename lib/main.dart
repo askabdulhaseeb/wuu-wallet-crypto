@@ -1,9 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 
 import 'apis/local_data.dart';
-import 'database/auth_methods.dart';
 import 'firebase_options.dart';
 import 'providers/app_provider.dart';
 import 'providers/app_theme.dart';
@@ -28,8 +28,10 @@ import 'screens/wallet_screens/wallet_setup_screen/wallet_setup_screen.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
+    // options: DefaultFirebaseOptions.currentPlatform,
   );
+    await dotenv.load(fileName: ".env");
+
   await LocalData.init();
   runApp(const MyApp());
 }
@@ -60,10 +62,11 @@ class MyApp extends StatelessWidget {
           theme: AppThemes.light,
           darkTheme: AppThemes.dark,
           themeMode: theme.themeMode,
-          home: const SwapScreen(),
-          // LocalData.email() == null || LocalData.email()!.isEmpty
-          //     ? const IntroScreen()
-          //     : const MainScreen(),
+          home:
+              //  LocalData.email() == null || LocalData.email()!.isEmpty
+              //     ? const IntroScreen()
+              //     :
+              const MainScreen(),
           routes: <String, WidgetBuilder>{
             ComingSoom.routeName: (_) => const ComingSoom(),
             IntroScreen.routeName: (_) => const IntroScreen(),

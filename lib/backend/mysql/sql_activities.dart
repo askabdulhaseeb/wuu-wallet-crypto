@@ -5,7 +5,6 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http/http.dart' as http;
 
 import '../../helpers/strings.dart';
-import '../device_info.dart';
 
 abstract class BaseActivitiesSql {
   storeUserActivitiesSql(int type);

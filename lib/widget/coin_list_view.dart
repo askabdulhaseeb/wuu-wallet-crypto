@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../apis/coins_api.dart';
+import '../backend/all_backends.dart';
 import '../models/coin_market_place/coin.dart';
 import 'custom_widgets/show_loading.dart';
 import 'home/coin_tile.dart';
@@ -10,7 +11,7 @@ class CoinListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Coin>?>(
-      future: CoinsAPI().listingLatest(),
+      future: AllBackEnds().getAllDatas(),
       builder: (BuildContext context, AsyncSnapshot<List<Coin>?> snapshot) {
         if (snapshot.hasData) {
           final List<Coin> coins = snapshot.data ?? <Coin>[];

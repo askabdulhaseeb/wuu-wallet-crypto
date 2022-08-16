@@ -1,7 +1,6 @@
-import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'device_info.dart';
+import '../models/coin_market_place/coin.dart';
 import 'encrypt.dart';
 import '../utilities/biometrics.dart';
 import '../utilities/time_convert_fxn.dart';
@@ -9,7 +8,6 @@ import 'call_functions.dart';
 import 'crypto_apis.dart';
 import 'erc_20_wallet.dart';
 import 'miscellenous.dart';
-import 'mysql/sql_activities.dart';
 import 'mysql/user_fxn.dart';
 import 'notifications_repo.dart';
 import 'payments.dart';
@@ -27,7 +25,6 @@ class AllBackEnds {
   final ERC20WalletAd _erc20walletAd = ERC20WalletAd();
   final BiometricsFxn _biometricsFxn = BiometricsFxn();
   final MiscRepo _miscRepo = MiscRepo();
-  final DeviceInfoFxn _deviceInfoFxn = DeviceInfoFxn();
   final EncryptApp _encryptApp = EncryptApp();
   final SwapRepo _swapRepo = SwapRepo();
 
@@ -119,9 +116,8 @@ class AllBackEnds {
       _callFunctions.multiTranslation(context, keys, args: args);
 
   //! Api Repo
-  Future<List>? getAllDatas() => _apiRepo.getAllDatas();
+  Future<List<Coin>>? getAllDatas() => _apiRepo.getAllDatas();
   getCryptoMovers() => _apiRepo.getCryptoMovers();
-  getCryptoNews() => _apiRepo.getCryptoNews();
 
   getCryptoCarousel() => _apiRepo.getCryptoCarousel();
 
@@ -272,9 +268,6 @@ class AllBackEnds {
   getAppVersion() => _miscRepo.getAppVersion();
   getAllBalances() => _miscRepo.getAllBalances();
   Future<bool> onWillPop(context) => _miscRepo.onWillPop(context);
-
-  //! Device & IP
-  getDeviceIp() => _deviceInfoFxn.getDeviceIp();
 
   //! Encrypt Decrypt
 
