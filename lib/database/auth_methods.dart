@@ -29,6 +29,15 @@ class AuthMethods {
       });
       final User? user = result.user;
       assert(user != null);
+      await UserAPI().addUser(
+        AppUser(
+          uid: user!.uid,
+          name: '',
+          email: email,
+          username: '',
+          imageURL: '',
+        ),
+      );
       return user;
     } catch (signUpError) {
       CustomToast.errorToast(message: signUpError.toString());
@@ -37,8 +46,8 @@ class AuthMethods {
   }
 
   Future<User?> loginWithEmailAndPassword({
-  required String email,
-  required String password,
+    required String email,
+    required String password,
   }) async {
     try {
       final UserCredential result = await _auth
