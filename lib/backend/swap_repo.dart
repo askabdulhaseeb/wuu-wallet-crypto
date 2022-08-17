@@ -1,10 +1,6 @@
 import 'dart:convert';
-
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
-import 'package:muuwallet/backend/encrypt.dart';
-
+import 'encrypt.dart';
 import '../helpers/strings.dart';
 
 abstract class BaseSwap {

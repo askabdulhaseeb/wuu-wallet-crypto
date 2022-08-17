@@ -1,10 +1,4 @@
-import 'dart:developer';
-
-import 'package:http/http.dart' as http;
 import '../models/coin_market_place/coin.dart';
-import '../utilities/api_utils.dart';
-import 'api_request_error.dart';
-import 'local_data.dart';
 
 class CoinsAPI {
   Future<List<Coin>?> listingLatest() async {

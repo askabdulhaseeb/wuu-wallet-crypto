@@ -1,13 +1,4 @@
-import 'dart:convert';
-
-import 'package:http/http.dart' as http;
-
 import '../models/seed_phrase.dart';
-import '../utilities/api_utils.dart';
-import '../widget/custom_widgets/custom_toast.dart';
-import 'api_request_error.dart';
-import 'local_data.dart';
-
 class WalletAPI {
   Future<SeedPhrase?> getSeedPhrase() async {
     // final http.Request request = http.Request(

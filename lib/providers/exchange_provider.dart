@@ -148,10 +148,11 @@ class ExchangeCoinProvider extends ChangeNotifier {
     final Map<String, dynamic>? tokenSwapMap = await ExchangeAPI().tokenSwap(
       from: _from!,
       to: _to!,
-      firstAmount: double.parse(_fromController.text),
-      secondAmount: double.parse(_toController.text),
-      path: _path,
-      enterSecond: false,
+      amount:_fromController.text,
+      
+      // secondAmount: double.parse(_toController.text),
+      // path: _path,
+      // enterSecond: false,
       getFee: false,
     );
     print('Print: $tokenSwapMap');
