@@ -44,7 +44,7 @@ class CoinTransactionOptionScreen extends StatelessWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),
                     image: DecorationImage(
-                      image: ExtendedNetworkImageProvider(coin.image),
+                      image: ExtendedNetworkImageProvider(coin.image!),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -127,11 +127,11 @@ class CoinTransactionOptionScreen extends StatelessWidget {
                         children: <TextSpan>[
                           const TextSpan(text: 'Change '),
                           TextSpan(
-                            text: coin.priceChange24H >= 0
+                            text: coin.priceChange24H! >= 0
                                 ? '+${coin.priceChange24H.toString()}%'
                                 : '${coin.priceChange24H.toString()}%',
                             style: TextStyle(
-                              color: coin.priceChange24H < 0
+                              color: coin.priceChange24H! < 0
                                   ? Colors.red
                                   : Colors.green,
                             ),
@@ -173,12 +173,12 @@ class CoinTransactionOptionScreen extends StatelessWidget {
                           isCurved: true,
                           dotData: FlDotData(show: false),
                           spots: <FlSpot>[
-                            FlSpot(1, coin.priceChange24H),
-                            FlSpot(1.2, coin.priceChangePercentage7D),
-                            FlSpot(1.3, coin.priceChangePercentage14D),
-                            FlSpot(1.4, coin.priceChangePercentage30D),
-                            FlSpot(1.5, coin.priceChangePercentage60D),
-                            FlSpot(1.6, coin.priceChangePercentage200D),
+                            FlSpot(1, coin.priceChange24H!),
+                            // FlSpot(1.2, coin.priceChangePercentage7D),
+                            // FlSpot(1.3, coin.priceChangePercentage14D),
+                            // FlSpot(1.4, coin.priceChangePercentage30D),
+                            // FlSpot(1.5, coin.priceChangePercentage60D),
+                            // FlSpot(1.6, coin.priceChangePercentage200D),
                           ],
                         ),
                       ],

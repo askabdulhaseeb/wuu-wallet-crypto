@@ -32,20 +32,19 @@ class ApiRepo implements BaseApis {
     List<Coin>? dts = [];
     try {
       String url =
-          'https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency()}&order=market_cap_desc&per_page=250&page=1&sparkline=true&price_change_percentage=24h';
+          'https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency()}&order=market_cap_desc&per_page=250&page=1&sparkline=true';
 
       http.Response response = await http.get(
         (Uri.parse(url)),
       );
-      print(response.body);
-      // List body = jsonDecode(response.body);
-      Coin.fromMap(jsonDecode(response.body));
+      print('here');
+      List body = jsonDecode(response.body);
+      // Coin.fromMap(jsonDecode(response.body));
 
-      // for (int i = 0; i < body.length; i++) {
-      //   Map datas = _mapData(body, i);
-      //   Coin.fromMap(str);
-      //   dts.add(datas);
-      // }
+      for (int i = 0; i < body.length; i++) {
+        dts.add(Coin.fromMap(body[i]));
+      }
+      
       return dts;
     } catch (e) {
       print(e);
@@ -126,5 +125,4 @@ class ApiRepo implements BaseApis {
     }
     return dts;
   }
-
 }

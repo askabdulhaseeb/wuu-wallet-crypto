@@ -14,7 +14,7 @@ abstract class BaseSwap {
 
 class SwapRepo implements BaseSwap {
   // var userBox = Hive.box(USERS);
-  EncryptApp _encryptApp = EncryptApp();
+  final EncryptApp _encryptApp = EncryptApp();
   Map<String, String> requestHeaders = {
     'Content-type': 'application/json',
   };
@@ -23,8 +23,8 @@ class SwapRepo implements BaseSwap {
   Future<Map> swapCoin(String from, String to, String amount) async {
     Map swapDetails = {};
     String unit = to == BNB || to == ETH || to == USDT ? ERC20 : to;
-    var _encryptedErc20 = '6b248bce-268e-4447-b24c-1be9c4510951';
-    String _address = _encryptApp.appDecrypt(_encryptedErc20);
+    var encryptedErc20 = '6b248bce-268e-4447-b24c-1be9c4510951';
+    String address = _encryptApp.appDecrypt(encryptedErc20);
     try {
       Map<String, dynamic> body = {
         'fixed': false,
@@ -38,7 +38,7 @@ class SwapRepo implements BaseSwap {
             : to == BNB
                 ? 'bnb-bsc'
                 : to,
-        'address_to': _address,
+        'address_to': address,
         'amount_from': amount,
       };
 

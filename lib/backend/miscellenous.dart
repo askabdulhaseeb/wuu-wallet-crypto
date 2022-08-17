@@ -1,11 +1,7 @@
-import 'dart:io';
-
 import 'package:cron/cron.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons_nullsafty/flutter_icons_nullsafty.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:image_cropper/image_cropper.dart';
 import 'package:muuwallet/backend/call_functions.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
@@ -54,7 +50,7 @@ class MiscRepo implements BaseMiscRepo {
   final CallFunctions _callFunctions = CallFunctions();
 
   final cron = Cron();
-  var userBox = Hive.box(USERS);
+  // var userBox = Hive.box(USERS);
 
   // @override
   // Future<File?> cropImage(File imageFile) async {
@@ -108,21 +104,21 @@ class MiscRepo implements BaseMiscRepo {
 
   @override
   getUser(dataKey) {
-    var data = userBox.get(USER)[USER][dataKey];
+    // var data = userBox.get(USER)[USER][dataKey];
 
-    return data;
+    return dataKey;
   }
 
   @override
   getFinancials(dataKey) {
-    var data = userBox.get(USER)[FINANCIAL][dataKey];
-    return data;
+    // var data = userBox.get(USER)[FINANCIAL][dataKey];
+    return dataKey;
   }
 
   @override
   getWallet(dataKey) {
-    var data = _encryptApp.appDecrypt(userBox.get(USER)[WALLET][dataKey]);
-    return data;
+    // var data = _encryptApp.appDecrypt(userBox.get(USER)[WALLET][dataKey]);
+    return 'data';
   }
 
   Future<Map> getAllBalances() async {

@@ -30,7 +30,7 @@ class CoinTile extends StatelessWidget {
             SizedBox(
               height: 50,
               width: 50,
-              child: CustomNetworkImage(imageURL: coin.image),
+              child: CustomNetworkImage(imageURL: coin.image!),
             ),
             // Coin Info
             Padding(
@@ -40,20 +40,20 @@ class CoinTile extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    coin.symbol.toUpperCase(),
+                    coin.symbol!.toUpperCase(),
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
                   Text(
-                    coin.priceChange24H >= 0
-                        ? '+${coin.priceChange24H.toStringAsFixed(2)}%'
-                        : '${coin.priceChange24H.toStringAsFixed(2)}%',
+                    coin.priceChange24H! >= 0
+                        ? '+${coin.priceChange24H!.toStringAsFixed(2)}%'
+                        : '${coin.priceChange24H!.toStringAsFixed(2)}%',
                     style: TextStyle(
                       fontWeight: FontWeight.w500,
                       color:
-                          coin.priceChange24H < 0 ? Colors.red : Colors.green,
+                          coin.priceChange24H! < 0 ? Colors.red : Colors.green,
                       fontSize: 13,
                     ),
                   ),
@@ -78,12 +78,12 @@ class CoinTile extends StatelessWidget {
                         isCurved: true,
                         dotData: FlDotData(show: false),
                         spots: <FlSpot>[
-                          FlSpot(1, coin.priceChange24H),
-                          FlSpot(1.2, coin.priceChangePercentage7D),
-                          FlSpot(1.3, coin.priceChangePercentage14D),
-                          FlSpot(1.4, coin.priceChangePercentage30D),
-                          FlSpot(1.5, coin.priceChangePercentage60D),
-                          FlSpot(1.6, coin.priceChangePercentage200D),
+                          FlSpot(1, coin.priceChange24H!),
+                          // FlSpot(1.2, coin.priceChangePercentage7D),
+                          // FlSpot(1.3, coin.priceChangePercentage14D),
+                          // FlSpot(1.4, coin.priceChangePercentage30D),
+                          // FlSpot(1.5, coin.priceChangePercentage60D),
+                          // FlSpot(1.6, coin.priceChangePercentage200D),
                         ],
                       ),
                     ],

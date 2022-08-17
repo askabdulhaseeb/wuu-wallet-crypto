@@ -1,11 +1,8 @@
 import 'dart:convert';
-
 import 'package:flutter/widgets.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:uuid/uuid.dart';
-
 import '../../helpers/strings.dart';
 import '../../helpers/user_model.dart';
 import '../call_functions.dart';
@@ -13,7 +10,6 @@ import '../erc_20_wallet.dart';
 import '../miscellenous.dart';
 import '../notifications_repo.dart';
 import '../wallet_addresses.dart';
-import 'sql_activities.dart';
 
 abstract class BaseUserSql {
   getUser(String email);
@@ -41,7 +37,7 @@ class UserSql implements BaseUserSql {
   final MiscRepo _miscRepo = MiscRepo();
   final NotificationsRepo _notificationsRepo = NotificationsRepo();
 
-  Box userBox = Hive.box(USERS);
+  // Box userBox = Hive.box(USERS);
 
   String url = dotenv.env['ENDPOINT_URL']!;
   static String username = dotenv.env['ENDPOINT_USERNAME']!;
@@ -66,15 +62,15 @@ class UserSql implements BaseUserSql {
       );
       var resbody = json.decode(response.body);
 
-      userBox.put(
-        USER,
-        {
-          USER: resbody[USER],
-          WALLET: resbody[WALLET],
-          FINANCIAL: resbody[FINANCIAL],
-          OTPS: resbody[OTPS],
-        },
-      );
+      // userBox.put(
+      //   USER,
+      //   {
+      //     USER: resbody[USER],
+      //     WALLET: resbody[WALLET],
+      //     FINANCIAL: resbody[FINANCIAL],
+      //     OTPS: resbody[OTPS],
+      //   },
+      // );
       return resbody;
     } catch (e) {
       print(e);
@@ -463,7 +459,7 @@ class UserSql implements BaseUserSql {
     try {
       Navigator.pushReplacementNamed(context, '/start-page/');
       await Future.delayed(Duration(seconds: 2));
-      await userBox.clear();
+      // await userBox.clear();
       status = true;
     } catch (e) {
       status = false;

@@ -76,7 +76,7 @@ class _SendBTCScreenState extends State<SendBTCScreen> {
                       snapshot.data ?? <SwapableCoin>[];
                   final int index = swapableCoin.indexWhere(
                     (SwapableCoin element) =>
-                        element.symbol == widget.coin.symbol.toUpperCase(),
+                        element.symbol == widget.coin.symbol!.toUpperCase(),
                   );
                   if (index >= 0) {
                     log(swapableCoin[index].symbol.toString());
@@ -99,7 +99,7 @@ class _SendBTCScreenState extends State<SendBTCScreen> {
                                     height: 80,
                                     width: 80,
                                     child: ExtendedImage.network(
-                                        widget.coin.image,
+                                        widget.coin.image!,
                                         fit: BoxFit.cover),
                                   ),
                                 ),
@@ -132,7 +132,7 @@ class _SendBTCScreenState extends State<SendBTCScreen> {
                                       amount: double.parse(value),
                                       toAddress: _address.text.trim(),
                                       coinName:
-                                          widget.coin.symbol.toUpperCase(),
+                                          widget.coin.symbol!.toUpperCase(),
                                       contractAddress:
                                           swapableCoin[index].contractAddress,
                                       getFee: true,

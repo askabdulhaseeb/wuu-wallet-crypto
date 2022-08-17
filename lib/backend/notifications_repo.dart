@@ -16,10 +16,10 @@ abstract class BaseNotifications {
 class NotificationsRepo implements BaseNotifications {
   FirebaseMessaging messaging = FirebaseMessaging.instance;
 
-  var userBx = Hive.box(SETTINGS);
+  // var userBx = Hive.box(SETTINGS);
 
   Future<void> _messageHandler(RemoteMessage message) async {
-    userBx.put(NOTIFICATION, true);
+    // userBx.put(NOTIFICATION, true);
   }
 
   @override
@@ -48,7 +48,7 @@ class NotificationsRepo implements BaseNotifications {
   @override
   streamEvents() {
     FirebaseMessaging.onMessage.listen((RemoteMessage event) {
-      userBx.put(NOTIFICATION, true);
+      // userBx.put(NOTIFICATION, true);
     });
   }
 

@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 // import 'package:flutter_braintree/flutter_braintree.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 // import 'package:flutter_paystack/flutter_paystack.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import '../helpers/strings.dart';
@@ -40,9 +39,9 @@ class PaymentRepo implements BasePayment {
 
   // final _paystack = PaystackPlugin();
 
-  var userBox = Hive.box(USERS);
-  var settingsBx = Hive.box(SETTINGS);
-  var crypD = Hive.box(CRYPTO_DATAS);
+  var userBox ;
+  var settingsBx;
+  var crypD ;
 
   String nowPayUrl = 'https://api.nowpayments.io/v1/payment';
 
