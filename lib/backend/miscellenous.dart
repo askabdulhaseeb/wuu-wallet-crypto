@@ -2,7 +2,8 @@ import 'package:cron/cron.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:muuwallet/backend/call_functions.dart';
+import '../apis/local_data.dart';
+import 'call_functions.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 import '../helpers/strings.dart';
@@ -121,6 +122,7 @@ class MiscRepo implements BaseMiscRepo {
     return 'data';
   }
 
+  @override
   Future<Map> getAllBalances() async {
     final Map balances = {};
     Map rates = {};
@@ -140,8 +142,9 @@ class MiscRepo implements BaseMiscRepo {
 
     for (String id in ids) {
       String walKey = id + '_' + WALLETID;
-      var encryptedWallet = userBox.get(USER)[WALLET][walKey];
-      String walletData = _encryptApp.appDecrypt(encryptedWallet);
+      var encryptedWallet = LocalData.privateKey();
+      // userBox.get(USER)[WALLET][walKey];
+      String walletData = _encryptApp.appDecrypt(encryptedWallet!);
       walletIds.add(walletData);
     }
 
@@ -217,6 +220,4 @@ class MiscRepo implements BaseMiscRepo {
     appVersion = '$version.$buildNumber';
     return appVersion;
   }
-  
-
 }

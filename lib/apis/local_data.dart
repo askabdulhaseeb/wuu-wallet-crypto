@@ -9,7 +9,7 @@ class LocalData {
 
   static const String _accountID = 'accountIDKey';
   static const String _privateKey = 'PrivateKey';
-  static const String _privateKeyAddress = 'PrivateKeyAddress';
+  static const String _address = 'PrivateKeyAddress';
   static const String _emailKey = 'EmailKey';
   static const String _passwordKey = 'PasswordKey';
 
@@ -17,8 +17,8 @@ class LocalData {
       await _preferences.setInt(_accountID, value);
   static Future<void> setPrivateKey(String value) async =>
       await _preferences.setString(_privateKey, value);
-  static Future<void> setPrivateKeyAddress(String value) async =>
-      await _preferences.setString(_privateKeyAddress, value);
+  static Future<void> setKeyAddress(String value) async =>
+      await _preferences.setString(_address, value);
   static Future<void> setEmailKey(String value) async =>
       await _preferences.setString(_emailKey, value);
   static Future<void> setPasswordKey(String value) async =>
@@ -26,8 +26,8 @@ class LocalData {
 
   static int? accountID() => _preferences.getInt(_accountID);
   static String? privateKey() => _preferences.getString(_privateKey);
-  static String? privateKeyAddress() =>
-      _preferences.getString(_privateKeyAddress);
+  static String? keyAddress() =>
+      _preferences.getString(_address);
   static String? email() => _preferences.getString(_emailKey);
   static String? password() => _preferences.getString(_passwordKey);
 }

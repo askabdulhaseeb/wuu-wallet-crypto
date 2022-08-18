@@ -28,9 +28,9 @@ import 'screens/wallet_screens/wallet_setup_screen/wallet_setup_screen.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    // options: DefaultFirebaseOptions.currentPlatform,
-  );
-    await dotenv.load(fileName: ".env");
+      // options: DefaultFirebaseOptions.currentPlatform,
+      );
+  await dotenv.load(fileName: '.env');
 
   await LocalData.init();
   runApp(const MyApp());
@@ -40,6 +40,7 @@ class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    LocalData.setPrivateKey('apr-f2cbb4cd1368a99bf7a40cfafd62d3f9');
     return MultiProvider(
       // ignore: always_specify_types
       providers: [

@@ -27,10 +27,10 @@ class ReceiveBTCScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 16),
-              LocalData.privateKeyAddress() == null
+              LocalData.keyAddress() == null
                   ? const SizedBox()
                   : QrImage(
-                      data: LocalData.privateKeyAddress()!,
+                      data: LocalData.keyAddress()!,
                       version: QrVersions.auto,
                       size: 240.0,
                     ),
@@ -42,7 +42,7 @@ class ReceiveBTCScreen extends StatelessWidget {
               InkWell(
                 onTap: () async {
                   await Clipboard.setData(ClipboardData(
-                    text: LocalData.privateKeyAddress(),
+                    text: LocalData.keyAddress(),
                   )).then((_) =>
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                         content: Text('Copied to your clipboard !'),
@@ -61,14 +61,14 @@ class ReceiveBTCScreen extends StatelessWidget {
                     children: <Widget>[
                       Flexible(
                         child: Text(
-                          LocalData.privateKeyAddress() ?? 'issue in address',
+                          LocalData.keyAddress() ?? 'issue in address',
                           textAlign: TextAlign.center,
                         ),
                       ),
                       IconButton(
                         onPressed: () async {
                           await Clipboard.setData(ClipboardData(
-                            text: LocalData.privateKeyAddress(),
+                            text: LocalData.keyAddress(),
                           )).then((_) => ScaffoldMessenger.of(context)
                                   .showSnackBar(const SnackBar(
                                 content: Text('Copied to your clipboard !'),

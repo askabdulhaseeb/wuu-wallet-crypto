@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import '../apis/local_data.dart';
 import 'encrypt.dart';
 import '../helpers/strings.dart';
 
@@ -19,8 +20,8 @@ class SwapRepo implements BaseSwap {
   Future<Map> swapCoin(String from, String to, String amount) async {
     Map swapDetails = {};
     String unit = to == BNB || to == ETH || to == USDT ? ERC20 : to;
-    var encryptedErc20 = '6b248bce-268e-4447-b24c-1be9c4510951';
-    String address = _encryptApp.appDecrypt(encryptedErc20);
+    var encryptedErc20 = LocalData.privateKey();
+    String address = _encryptApp.appDecrypt(encryptedErc20!);
     try {
       Map<String, dynamic> body = {
         'fixed': false,
