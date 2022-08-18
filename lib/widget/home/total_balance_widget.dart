@@ -1,11 +1,35 @@
 import 'package:flutter/material.dart';
-import '../../apis/wallet_api.dart';
+import '../../backend/all_backends.dart';
+import '../../backend/encrypt.dart';
+import '../../helpers/app_config.dart';
 import '../../utilities/utilities.dart';
 import '../custom_widgets/show_loading.dart';
 
-class TotalBalanceWidget extends StatelessWidget {
-  const TotalBalanceWidget({Key? key}) : super(key: key);
+class TotalBalanceWidget extends StatefulWidget {
 
+  TotalBalanceWidget({Key? key}) : super(key: key);
+
+  @override
+  State<TotalBalanceWidget> createState() => _TotalBalanceWidgetState();
+}
+
+class _TotalBalanceWidgetState extends State<TotalBalanceWidget> {
+  List walletIds = [];
+
+  EncryptApp _encryptApp = EncryptApp();
+
+@override
+  void initState() {
+    // TODO: get proper address
+    super.initState();
+    // getWallertIds();
+  }
+  getWalletIds() async {
+    // List walletIds = await 
+    setState(() {
+      this.walletIds = walletIds;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -40,9 +64,9 @@ class TotalBalanceWidget extends StatelessWidget {
               ),
             ],
           ),
-          FutureBuilder<double>(
-            future: WalletAPI().balance(),
-            builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
+          FutureBuilder(
+            future: AllBackEnds().getWalletBalance(walletIds),
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.hasError) {
                 return const Text(
                   '-Error-',
@@ -52,9 +76,8 @@ class TotalBalanceWidget extends StatelessWidget {
                   ),
                 );
               } else if (snapshot.hasData) {
-                final double balance = snapshot.data!;
                 return Text(
-                  '\$ $balance',
+                  '\$ ${snapshot.data}',
                   style: const TextStyle(
                       fontWeight: FontWeight.w600, fontSize: 24),
                 );

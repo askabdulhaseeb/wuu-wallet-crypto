@@ -163,7 +163,7 @@ class MiscRepo implements BaseMiscRepo {
 
           await _erc20walletAd.clientsInit(rpc);
           String? ethBal = await _erc20walletAd.getEthBnbWalletBalance(data);
-          balances[unit] = (double.parse(ethBal!));
+          balances[unit] = (double.parse(ethBal));
         }
       }
 

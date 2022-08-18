@@ -56,7 +56,7 @@ class HomePage extends StatelessWidget {
               style: const TextStyle(fontSize: 36, fontWeight: FontWeight.w600),
             ),
             const SizedBox(height: 10),
-            const TotalBalanceWidget(),
+             TotalBalanceWidget(),
             const _SeeAll(),
             const CoinListView(),
           ],

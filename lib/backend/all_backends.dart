@@ -149,7 +149,7 @@ class AllBackEnds {
 
   createErcWallet() => _erc20walletAd.createErcWallet();
 
-  Future<String?> getEthBnbWalletBalance(
+  Future<String> getEthBnbWalletBalance(
     String privateKey,
   ) =>
       _erc20walletAd.getEthBnbWalletBalance(

@@ -38,8 +38,8 @@ class WalletAd implements BaseWalletAd {
   ];
 
   @override
-  Future<Map> createWallet() async {
-    final Map encryptedAddMap = {};
+  Future<Map<String, String>> createWallet() async {
+    final Map<String, String> encryptedAddMap = {};
     String? endpointUrl = dotenv.env['ENDPOINT_URL'];
 
     for (String un in units) {
@@ -57,6 +57,7 @@ class WalletAd implements BaseWalletAd {
             .then((value) async {
           if (value.statusCode == 200) {
             var body = jsonDecode(value.body);
+            print(body);
             String walletId = body[WALLET];
             String transferKey = body[TRANSFERKEY];
 
@@ -64,29 +65,28 @@ class WalletAd implements BaseWalletAd {
             String encryptedTrxKey = _encryptApp.appEncrypt(transferKey);
 
             try {
-              http.Response? addressResponse = await http
-                  .post(
+              http.Response? addressResponse = await http.post(
                 Uri.parse('$url/$walletId/addresses'),
                 headers: requestHeaders,
-              )
-                  .then((value) {
-                if (value.statusCode == 200) {
-                  var body = jsonDecode(value.body);
-                  String address = body[ADDRESS];
-                  String encryptedAddress = _encryptApp.appEncrypt(address);
-
-                  Map<String, dynamic> encryptedWalletData = {
-                    '${un}_$TRANSFERKEY': encryptedTrxKey,
-                    '${un}_$WALLETID': encryptedWalletId,
-                    '${un}_$ADDRESS': encryptedAddress,
-                  };
-                  encryptedAddMap.addAll(encryptedWalletData);
-                } else {
-                  print('error');
-                }
-              }).timeout(
-                const Duration(seconds: 60),
               );
+              //     .then((value) {
+              //   if (value.statusCode == 200) {
+              //     var body = jsonDecode(value.body);
+              //     String address = body[ADDRESS];
+              //     String encryptedAddress = _encryptApp.appEncrypt(address);
+
+              //     Map<String, String> encryptedWalletData = {
+              //       '${un}_$TRANSFERKEY': encryptedTrxKey,
+              //       '${un}_$WALLETID': encryptedWalletId,
+              //       '${un}_$ADDRESS': encryptedAddress,
+              //     };
+              //     encryptedAddMap.addAll(encryptedWalletData);
+              //   } else {
+              //     print('error');
+              //   }
+              // }).timeout(
+              //   const Duration(seconds: 60),
+              // );
               return addressResponse;
             } catch (e) {
               print(e);
@@ -107,6 +107,7 @@ class WalletAd implements BaseWalletAd {
   Future<Map> getWalletBalance(List walletIds) async {
     Map balancesList = {};
 
+    print('in get wallet');
     for (String walletId in walletIds) {
       String uni = walletId.substring(0, 3);
       String unit = uni == 'dog' ? DOGE : uni;
@@ -118,8 +119,10 @@ class WalletAd implements BaseWalletAd {
                 ),
                 headers: requestHeaders)
             .then((value) {
+          print('value ${value.statusCode}');
           if (value.statusCode == 200) {
             var body = jsonDecode(value.body);
+            print('body $body');
             double available = ((body[AVAILABLE]) / 100000000.00);
             double total = ((body[TOTAL]) / 100000000.00);
 

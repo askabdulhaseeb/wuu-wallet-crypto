@@ -11,7 +11,7 @@ import '../../widget/custom_widgets/custom_elevated_button.dart';
 import '../../widget/custom_widgets/custom_textformfield.dart';
 import '../../widget/custom_widgets/hideable_textformfield.dart';
 import '../../widget/custom_widgets/show_loading.dart';
-import '../wallet_screens/wallet_setup_screen/wallet_setup_screen.dart';
+import '../main_screen/main_screen.dart';
 import 'signup_screen.dart';
 
 class SigninScreen extends StatefulWidget {
@@ -87,9 +87,9 @@ class _SigninScreenState extends State<SigninScreen> {
                             setState(() {
                               isLoading = false;
                             });
-                            if (user != null&&mounted) {
+                            if (user != null && mounted) {
                               Navigator.of(context).pushNamedAndRemoveUntil(
-                                  WalletSetupScreen.routeName,
+                                  MainScreen.routeName,
                                   ((Route<dynamic> route) => false));
                             }
                           }

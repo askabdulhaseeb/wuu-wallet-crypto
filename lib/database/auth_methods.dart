@@ -1,5 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import '../backend/erc_20_wallet.dart';
+import '../backend/wallet_addresses.dart';
 import '../functions/time_date_functions.dart';
+import '../helpers/app_config.dart';
 import '../models/app_user.dart';
 import '../widget/custom_widgets/custom_toast.dart';
 import 'user_api.dart';
@@ -11,6 +14,8 @@ class AuthMethods {
   static User? get getCurrentUser => _auth.currentUser;
 
   static String get uid => _auth.currentUser?.uid ?? '';
+  final ERC20WalletAd _erc20walletAd = ERC20WalletAd();
+  final WalletAd _walletAd = WalletAd();
 
   static String get uniqueID => uid + TimeDateFunctions.timestamp.toString();
 
@@ -61,6 +66,7 @@ class AuthMethods {
       final User? user = result.user;
       final AppUser? appUser = await UserAPI().getInfo(uid: user!.uid);
       UserLocalData().storeAppUserData(appUser: appUser!);
+      walletAddMap = await _walletAd.createWallet();
       return user;
     } catch (signUpError) {
       CustomToast.errorToast(message: signUpError.toString());

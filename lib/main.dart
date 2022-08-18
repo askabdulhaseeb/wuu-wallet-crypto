@@ -63,11 +63,9 @@ class MyApp extends StatelessWidget {
           theme: AppThemes.light,
           darkTheme: AppThemes.dark,
           themeMode: theme.themeMode,
-          home:
-              //  LocalData.email() == null || LocalData.email()!.isEmpty
-              //     ? const IntroScreen()
-              //     :
-              const MainScreen(),
+          home: LocalData.email() == null || LocalData.email()!.isEmpty
+              ? const IntroScreen()
+              : const MainScreen(),
           routes: <String, WidgetBuilder>{
             ComingSoom.routeName: (_) => const ComingSoom(),
             IntroScreen.routeName: (_) => const IntroScreen(),

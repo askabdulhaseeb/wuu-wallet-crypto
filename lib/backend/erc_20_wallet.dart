@@ -69,17 +69,19 @@ class ERC20WalletAd implements BaseERC20WalletAd {
   //! ETH BNB Wallet Balance
 
   @override
-  Future<String?> getEthBnbWalletBalance(String targetAddress) async {
+  Future<String> getEthBnbWalletBalance(String targetAddress) async {
     String? balance;
     try {
-      EthereumAddress address = EthereumAddress.fromHex(targetAddress);
+      EthereumAddress address =
+          EthereumAddress.fromHex(targetAddress);
+
       EtherAmount amount = await ethClient!.getBalance(address);
       BigInt bal = amount.getInWei;
       balance = ((bal / BigInt.from(pow(10, 18))).toStringAsFixed(4));
     } catch (e) {
-      print(e);
+      print('balance $e');
     }
-    return balance;
+    return balance?.toString() ?? '0.0';
   }
 
   //! ETH BNB Token Transfer
