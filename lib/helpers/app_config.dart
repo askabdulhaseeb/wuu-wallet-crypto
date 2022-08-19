@@ -24,4 +24,4 @@ const String MEDIUM_URL = 'https://medium.com/';
 
 const int DISABLE_END = 14;
 
-Map<String, String> walletAddMap = {};
+Map<String, dynamic> walletAddMap = {};

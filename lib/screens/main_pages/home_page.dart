@@ -34,7 +34,7 @@ class HomePage extends StatelessWidget {
           IconButton(
             onPressed: () {
               Navigator.of(context).push(MaterialPageRoute<ReceiveBTCScreen>(
-                builder: (BuildContext context) => const ReceiveBTCScreen(),
+                builder: (BuildContext context) =>  ReceiveBTCScreen(),
               ));
             },
             splashRadius: 20,

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import '../../backend/all_backends.dart';
 import '../../backend/erc_20_wallet.dart';
 import '../../backend/wallet_addresses.dart';
 import '../../helpers/app_config.dart';
+import '../../helpers/strings.dart';
 import '../../providers/app_provider.dart';
 import '../../providers/exchange_provider.dart';
 import '../main_pages/exchange_coin_screen.dart';

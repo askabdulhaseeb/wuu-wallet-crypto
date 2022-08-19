@@ -151,7 +151,7 @@ class UserSql implements BaseUserSql {
 
       Map? erc20Add = await _erc20walletAd.createErcWallet();
 
-      walletAddMap.addAll(erc20Add!);
+      walletAddMap.addAll(erc20Add);
       walletAddMap[UID] = uid;
 
       http.Response response = await http.post(

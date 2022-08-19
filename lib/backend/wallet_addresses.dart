@@ -1,11 +1,9 @@
 import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
-
 import '../helpers/strings.dart';
 import 'call_functions.dart';
 import 'encrypt.dart';
-import 'mysql/sql_activities.dart';
 
 abstract class BaseWalletAd {
   Future<Map> createWallet();
@@ -38,8 +36,8 @@ class WalletAd implements BaseWalletAd {
   ];
 
   @override
-  Future<Map<String, String>> createWallet() async {
-    final Map<String, String> encryptedAddMap = {};
+  Future<Map<String, dynamic>> createWallet() async {
+    final Map<String, dynamic> encryptedAddMap = {};
     String? endpointUrl = dotenv.env['ENDPOINT_URL'];
 
     for (String un in units) {
@@ -54,39 +52,39 @@ class WalletAd implements BaseWalletAd {
         await http
             .post(Uri.parse(url),
                 headers: requestHeaders, body: jsonEncode(body))
-            .then((value) async {
+            .then((http.Response value) async {
           if (value.statusCode == 200) {
             var body = jsonDecode(value.body);
             print(body);
             String walletId = body[WALLET];
             String transferKey = body[TRANSFERKEY];
-
             String encryptedWalletId = _encryptApp.appEncrypt(walletId);
             String encryptedTrxKey = _encryptApp.appEncrypt(transferKey);
 
             try {
-              http.Response? addressResponse = await http.post(
+              http.Response? addressResponse = await http
+                  .post(
                 Uri.parse('$url/$walletId/addresses'),
                 headers: requestHeaders,
-              );
-              //     .then((value) {
-              //   if (value.statusCode == 200) {
-              //     var body = jsonDecode(value.body);
-              //     String address = body[ADDRESS];
-              //     String encryptedAddress = _encryptApp.appEncrypt(address);
+              )
+                  .then((http.Response value) {
+                if (value.statusCode == 200) {
+                  var body = jsonDecode(value.body);
+                  String address = body[ADDRESS];
+                  String encryptedAddress = _encryptApp.appEncrypt(address);
 
-              //     Map<String, String> encryptedWalletData = {
-              //       '${un}_$TRANSFERKEY': encryptedTrxKey,
-              //       '${un}_$WALLETID': encryptedWalletId,
-              //       '${un}_$ADDRESS': encryptedAddress,
-              //     };
-              //     encryptedAddMap.addAll(encryptedWalletData);
-              //   } else {
-              //     print('error');
-              //   }
-              // }).timeout(
-              //   const Duration(seconds: 60),
-              // );
+                  Map<String, dynamic> encryptedWalletData = {
+                    '${un}_$TRANSFERKEY': encryptedTrxKey,
+                    '${un}_$WALLETID': encryptedWalletId,
+                    '${un}_$ADDRESS': encryptedAddress,
+                  };
+                  encryptedAddMap.addAll(encryptedWalletData);
+                } else {
+                  print('error');
+                }
+              }).timeout(
+                const Duration(seconds: 60),
+              );
               return addressResponse;
             } catch (e) {
               print(e);
@@ -118,7 +116,7 @@ class WalletAd implements BaseWalletAd {
                   '$url/$walletId/balance',
                 ),
                 headers: requestHeaders)
-            .then((value) {
+            .then((http.Response value) {
           print('value ${value.statusCode}');
           if (value.statusCode == 200) {
             var body = jsonDecode(value.body);
@@ -171,7 +169,7 @@ class WalletAd implements BaseWalletAd {
           );
 
       var body = jsonDecode(response.body);
-      var status = response.statusCode;
+      int status = response.statusCode;
       var txs = body['txs'];
 
       if (status == 200) {
@@ -215,7 +213,7 @@ class WalletAd implements BaseWalletAd {
           );
 
       var body = jsonDecode(response.body);
-      var status = response.statusCode;
+      int status = response.statusCode;
       List itemList = body[ITEMS];
       if (status == 200) {
         for (int i = 0; i < itemList.length; i++) {

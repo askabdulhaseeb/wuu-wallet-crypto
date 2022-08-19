@@ -4,6 +4,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 
 import 'apis/local_data.dart';
+import 'database/auth_methods.dart';
 import 'firebase_options.dart';
 import 'providers/app_provider.dart';
 import 'providers/app_theme.dart';
@@ -40,7 +41,6 @@ class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    LocalData.setPrivateKey('apr-f2cbb4cd1368a99bf7a40cfafd62d3f9');
     return MultiProvider(
       // ignore: always_specify_types
       providers: [
@@ -63,7 +63,7 @@ class MyApp extends StatelessWidget {
           theme: AppThemes.light,
           darkTheme: AppThemes.dark,
           themeMode: theme.themeMode,
-          home: LocalData.email() == null || LocalData.email()!.isEmpty
+          home: AuthMethods.getCurrentUser == null
               ? const IntroScreen()
               : const MainScreen(),
           routes: <String, WidgetBuilder>{

@@ -85,7 +85,7 @@ class CoinTransactionOptionScreen extends StatelessWidget {
                     Navigator.of(context)
                         .push(MaterialPageRoute<ReceiveBTCScreen>(
                       builder: (BuildContext context) =>
-                          const ReceiveBTCScreen(),
+                           ReceiveBTCScreen(),
                     ));
                   },
                   borderRadius: BorderRadius.circular(24),

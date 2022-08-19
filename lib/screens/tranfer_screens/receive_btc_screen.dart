@@ -3,12 +3,16 @@ import 'package:flutter/services.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 import '../../apis/local_data.dart';
+import '../../backend/encrypt.dart';
+import '../../helpers/app_config.dart';
 
 class ReceiveBTCScreen extends StatelessWidget {
-  const ReceiveBTCScreen({Key? key}) : super(key: key);
-
+  ReceiveBTCScreen({Key? key}) : super(key: key);
+  EncryptApp _encryptApp = EncryptApp();
+  String? btcAddress;
   @override
   Widget build(BuildContext context) {
+    btcAddress = _encryptApp.appDecrypt(walletAddMap['btc_address']);
     return Scaffold(
       appBar: AppBar(title: Text('Receive BTC'.toUpperCase())),
       body: SingleChildScrollView(
@@ -27,10 +31,10 @@ class ReceiveBTCScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 16),
-              LocalData.keyAddress() == null
+              btcAddress == null
                   ? const SizedBox()
                   : QrImage(
-                      data: LocalData.keyAddress()!,
+                      data: btcAddress!,
                       version: QrVersions.auto,
                       size: 240.0,
                     ),
@@ -42,7 +46,7 @@ class ReceiveBTCScreen extends StatelessWidget {
               InkWell(
                 onTap: () async {
                   await Clipboard.setData(ClipboardData(
-                    text: LocalData.keyAddress(),
+                    text: walletAddMap['wallet'],
                   )).then((_) =>
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                         content: Text('Copied to your clipboard !'),
@@ -61,7 +65,7 @@ class ReceiveBTCScreen extends StatelessWidget {
                     children: <Widget>[
                       Flexible(
                         child: Text(
-                          LocalData.keyAddress() ?? 'issue in address',
+                          btcAddress ?? 'issue in address',
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -81,6 +85,7 @@ class ReceiveBTCScreen extends StatelessWidget {
                   ),
                 ),
               ),
+              
               const Text(
                 'Tap Bicoin Address to copy',
                 style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),

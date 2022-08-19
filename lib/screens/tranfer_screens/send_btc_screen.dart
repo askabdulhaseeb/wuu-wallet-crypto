@@ -9,6 +9,9 @@ import 'package:qr_code_scanner/qr_code_scanner.dart';
 import '../../apis/coins_api.dart';
 import '../../apis/exchange_api.dart';
 import '../../apis/local_data.dart';
+import '../../backend/all_backends.dart';
+import '../../backend/encrypt.dart';
+import '../../helpers/app_config.dart';
 import '../../models/coin_market_place/coin.dart';
 import '../../models/swapable_coin.dart';
 import '../../providers/exchange_provider.dart';
@@ -30,9 +33,9 @@ class _SendBTCScreenState extends State<SendBTCScreen> {
   QRViewController? qrController;
   bool isScanning = false;
   bool isLoading = false;
-
+  AllBackEnds allBackEnds = AllBackEnds();
   final GlobalKey<FormState> _fromKey = GlobalKey<FormState>();
-
+  EncryptApp encryptApp = EncryptApp();
   // @override
   // void reassemble() {
   //   super.reassemble();
@@ -43,6 +46,9 @@ class _SendBTCScreenState extends State<SendBTCScreen> {
   //   }
   // }
 
+  String? walletId;
+  String? transferKey;
+  String? address;
   @override
   void dispose() {
     qrController?.dispose();
@@ -59,6 +65,9 @@ class _SendBTCScreenState extends State<SendBTCScreen> {
 
   @override
   Widget build(BuildContext context) {
+    walletId= encryptApp.appDecrypt(walletAddMap['btc_wallet_id']);
+    transferKey= encryptApp.appDecrypt(walletAddMap['btc_transfer_key']);
+    address= encryptApp.appDecrypt(walletAddMap['btc_address']);
     return Scaffold(
       appBar: AppBar(title: const Text('SEND BTC')),
       body: SingleChildScrollView(
@@ -82,175 +91,161 @@ class _SendBTCScreenState extends State<SendBTCScreen> {
                     log(swapableCoin[index].symbol.toString());
                     log(swapableCoin[index].contractAddress.toString());
                   }
-                  return index < 0
-                      ? const Center(child: Text('Transation not possible'))
-                      : Consumer<ExchangeCoinProvider>(builder: (
-                          BuildContext context,
-                          ExchangeCoinProvider exchangePro,
-                          _,
-                        ) {
-                          return Form(
-                            key: _fromKey,
-                            child: Column(
-                              children: <Widget>[
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(12),
-                                  child: SizedBox(
-                                    height: 80,
-                                    width: 80,
-                                    child: ExtendedImage.network(
-                                        widget.coin.image!,
-                                        fit: BoxFit.cover),
-                                  ),
-                                ),
-                                const SizedBox(height: 16),
-                                const Text(
-                                  'Enter Amount',
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                                TextFormField(
-                                  controller: _amount,
-                                  textAlign: TextAlign.center,
-                                  keyboardType:
-                                      const TextInputType.numberWithOptions(
-                                          decimal: true),
-                                  style: const TextStyle(
-                                    color: Colors.yellow,
-                                    fontSize: 32,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                  validator: (String? value) =>
-                                      exchangePro.fromValidator(value),
-                                  onChanged: (String? value) async {
-                                    if (value == null ||
-                                        value.isEmpty ||
-                                        _address.text.trim().isEmpty) return;
-                                    final Map<String, dynamic>? result =
-                                        await CoinsAPI().coinTranfer(
-                                      amount: double.parse(value),
-                                      toAddress: _address.text.trim(),
-                                      coinName:
-                                          widget.coin.symbol!.toUpperCase(),
-                                      contractAddress:
-                                          swapableCoin[index].contractAddress,
-                                      getFee: true,
-                                    );
-                                    print(result);
-                                  },
-                                  decoration: const InputDecoration(
-                                    fillColor: Colors.yellow,
-                                    border: InputBorder.none,
-                                  ),
-                                ),
-                                const SizedBox(height: 10),
-                                Text(
-                                  'Coin Balance: ${exchangePro.fromCoinBalance}',
-                                ),
-                                const SizedBox(height: 10),
-                                isScanning
-                                    ? SizedBox(
-                                        height: 300,
-                                        child: Column(
-                                          children: <Widget>[
-                                            Expanded(
-                                              child: QRView(
-                                                key: qrKey,
-                                                overlay:
-                                                    QrScannerOverlayShape(),
-                                                onQRViewCreated:
-                                                    _onQRViewCreated,
-                                              ),
-                                            ),
-                                            TextButton(
-                                              onPressed: () => setState(() {
-                                                isScanning = false;
-                                              }),
-                                              child: const Text('Stop Scannig'),
-                                            ),
-                                          ],
+                  return
+                      //  index < 0
+                      //     ? const Center(child: Text('Transation not possible'))
+                      //     :
+                      Consumer<ExchangeCoinProvider>(builder: (
+                    BuildContext context,
+                    ExchangeCoinProvider exchangePro,
+                    _,
+                  ) {
+                    return Form(
+                      key: _fromKey,
+                      child: Column(
+                        children: <Widget>[
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(12),
+                            child: SizedBox(
+                              height: 80,
+                              width: 80,
+                              child: ExtendedImage.network(widget.coin.image!,
+                                  fit: BoxFit.cover),
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          const Text(
+                            'Enter Amount',
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.w500),
+                          ),
+                          TextFormField(
+                            controller: _amount,
+                            textAlign: TextAlign.center,
+                            keyboardType: const TextInputType.numberWithOptions(
+                                decimal: true),
+                            style: const TextStyle(
+                              color: Colors.yellow,
+                              fontSize: 32,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            validator: (String? value) =>
+                                exchangePro.fromValidator(value),
+                            onChanged: (String? value) async {
+                              if (value == null ||
+                                  value.isEmpty ||
+                                  _address.text.trim().isEmpty) return;
+                              final Map<String, dynamic>? result =
+                                  await CoinsAPI().coinTranfer(
+                                amount: double.parse(value),
+                                toAddress: _address.text.trim(),
+                                coinName: widget.coin.symbol!.toUpperCase(),
+                                contractAddress:
+                                    swapableCoin[index].contractAddress,
+                                getFee: true,
+                              );
+                              print(result);
+                            },
+                            decoration: const InputDecoration(
+                              fillColor: Colors.yellow,
+                              border: InputBorder.none,
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          Text(
+                            'Coin Balance: ${exchangePro.fromCoinBalance}',
+                          ),
+                          const SizedBox(height: 10),
+                          isScanning
+                              ? SizedBox(
+                                  height: 300,
+                                  child: Column(
+                                    children: <Widget>[
+                                      Expanded(
+                                        child: QRView(
+                                          key: qrKey,
+                                          overlay: QrScannerOverlayShape(),
+                                          onQRViewCreated: _onQRViewCreated,
                                         ),
-                                      )
-                                    : const SizedBox(height: 20),
-                                const SizedBox(height: 10),
-                                const Text(
-                                  'Advanced',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 16,
+                                      ),
+                                      TextButton(
+                                        onPressed: () => setState(() {
+                                          isScanning = false;
+                                        }),
+                                        child: const Text('Stop Scannig'),
+                                      ),
+                                    ],
                                   ),
-                                ),
-                                const SizedBox(height: 10),
-                                Container(
-                                  padding: const EdgeInsets.all(16),
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey,
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                  alignment: Alignment.center,
-                                  child: Center(
-                                    child: Row(
-                                      children: <Widget>[
-                                        Expanded(
-                                          child: CustomTextFormField(
-                                            controller: _address,
-                                            maxLines: 5,
-                                            validator: (String? value) => value!
-                                                    .isEmpty
-                                                ? 'Enter the receiving address here'
-                                                : null,
-                                            border: InputBorder.none,
-                                            hint: 'Tap to paste address...',
-                                          ),
-                                        ),
-                                        IconButton(
-                                          splashRadius: 16,
-                                          onPressed: () {
-                                            setState(() {
-                                              isScanning = true;
-                                            });
-                                          },
-                                          icon: const Icon(Icons.qr_code),
-                                        ),
-                                      ],
+                                )
+                              : const SizedBox(height: 20),
+                          const SizedBox(height: 10),
+                          const Text(
+                            'Advanced',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          Container(
+                            padding: const EdgeInsets.all(16),
+                            decoration: BoxDecoration(
+                              color: Colors.grey,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            alignment: Alignment.center,
+                            child: Center(
+                              child: Row(
+                                children: <Widget>[
+                                  Expanded(
+                                    child: CustomTextFormField(
+                                      controller: _address,
+                                      maxLines: 5,
+                                      validator: (String? value) => value!
+                                              .isEmpty
+                                          ? 'Enter the receiving address here'
+                                          : null,
+                                      border: InputBorder.none,
+                                      hint: 'Tap to paste address...',
                                     ),
                                   ),
-                                ),
-                                const SizedBox(height: 16),
-                                TextButton(
-                                  onPressed: () async {
-                                    if (_fromKey.currentState!.validate()) {
+                                  IconButton(
+                                    splashRadius: 16,
+                                    onPressed: () {
                                       setState(() {
-                                        isLoading = true;
+                                        isScanning = true;
                                       });
-                                      final Map<String, dynamic>? map =
-                                          await CoinsAPI().coinTranfer(
-                                        amount: double.parse(_amount.text),
-                                        toAddress: _address.text.trim(),
-                                        coinName: swapableCoin[index]
-                                            .symbol
-                                            .toUpperCase(),
-                                        contractAddress:
-                                            swapableCoin[index].contractAddress,
-                                        getFee: false,
-                                      );
-                                      await ExchangeAPI().getTexConfirm(
-                                          map?['data']['hash'] ?? '0');
-                                      setState(() {
-                                        isLoading = false;
-                                      });
-                                    }
-                                  },
-                                  child: const Text(
-                                    'Send',
-                                    style: TextStyle(fontSize: 32),
+                                    },
+                                    icon: const Icon(Icons.qr_code),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          );
-                        });
+                          ),
+                          const SizedBox(height: 16),
+                          TextButton(
+                            onPressed: () async {
+                              if (_fromKey.currentState!.validate()) {
+                                setState(() {
+                                  isLoading = true;
+                                });
+                                allBackEnds.transferCoin(walletId!, transferKey!,
+                                    address!, _amount.text.trim(),);
+                             
+                                setState(() {
+                                  isLoading = false;
+                                });
+                              }
+                            },
+                            child: const Text(
+                              'Send',
+                              style: TextStyle(fontSize: 32),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  });
                 } else {
                   return const ShowLoading();
                 }

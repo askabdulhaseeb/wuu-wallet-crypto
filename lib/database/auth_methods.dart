@@ -3,6 +3,7 @@ import '../backend/erc_20_wallet.dart';
 import '../backend/wallet_addresses.dart';
 import '../functions/time_date_functions.dart';
 import '../helpers/app_config.dart';
+import '../helpers/strings.dart';
 import '../models/app_user.dart';
 import '../widget/custom_widgets/custom_toast.dart';
 import 'user_api.dart';
@@ -67,6 +68,10 @@ class AuthMethods {
       final AppUser? appUser = await UserAPI().getInfo(uid: user!.uid);
       UserLocalData().storeAppUserData(appUser: appUser!);
       walletAddMap = await _walletAd.createWallet();
+      Map<String, dynamic> erc20Add = await _erc20walletAd.createErcWallet();
+      walletAddMap.addAll(erc20Add);
+      walletAddMap[UID] = uid;
+
       return user;
     } catch (signUpError) {
       CustomToast.errorToast(message: signUpError.toString());

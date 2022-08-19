@@ -34,16 +34,16 @@ class ERC20WalletAd implements BaseERC20WalletAd {
   String? lastTransactionHash;
 
   @override
-  Future<Map?> createErcWallet() async {
+  Future<Map<String, dynamic>> createErcWallet() async {
     String add;
-    Map? erc20encryptedAdd;
+    Map<String, dynamic> erc20encryptedAdd={};
     try {
-      EthereumAddress _ethAdd;
+      EthereumAddress ethAdd;
       String privateKey = hexString(64);
 
       EthPrivateKey address = EthPrivateKey.fromHex(privateKey);
-      _ethAdd = await address.extractAddress();
-      add = _ethAdd.toString();
+      ethAdd = await address.extractAddress();
+      add = ethAdd.toString();
       print(add);
 
       erc20encryptedAdd = {
@@ -72,8 +72,7 @@ class ERC20WalletAd implements BaseERC20WalletAd {
   Future<String> getEthBnbWalletBalance(String targetAddress) async {
     String? balance;
     try {
-      EthereumAddress address =
-          EthereumAddress.fromHex(targetAddress);
+      EthereumAddress address = EthereumAddress.fromHex(targetAddress);
 
       EtherAmount amount = await ethClient!.getBalance(address);
       BigInt bal = amount.getInWei;
@@ -147,7 +146,7 @@ class ERC20WalletAd implements BaseERC20WalletAd {
   Future<List> getAccTokenHistory(
       String address, String unit, bool isEth) async {
     List historyList = [];
-    http.Response _response;
+    http.Response response;
     String erc20url = isEth ? ETH_URL : BSC_URL;
 
     String? ethApi = dotenv.env['ETH_API'];
@@ -159,8 +158,8 @@ class ERC20WalletAd implements BaseERC20WalletAd {
         '$erc20url/api?module=account&action=txlist&address=$address&page=1&offset=100&sort=desc&apikey=$api';
 
     try {
-      _response = await http.get(Uri.parse(ethBnbUrl));
-      var body = jsonDecode(_response.body);
+      response = await http.get(Uri.parse(ethBnbUrl));
+      var body = jsonDecode(response.body);
       var result = body['result'];
 
       for (int index = 0; index < result.length; index++) {
@@ -197,14 +196,14 @@ class ERC20WalletAd implements BaseERC20WalletAd {
 
   @override
   getEstimatedGas(String erc20url) async {
-    http.Response _response;
+    http.Response response;
     String? bscApi = dotenv.env['BSC_API'];
 
     String? url =
         '$erc20url//api?module=proxy&action=eth_estimateGas&data=0x4e71d92d&to=0xEeee7341f206302f2216e39D715B96D8C6901A1C&value=0xff22&gasPrice=0x51da038cc&gas=0x5f5e0ff&apikey=$bscApi';
     try {
-      _response = await http.get(Uri.parse(url));
-      var body = jsonDecode(_response.body);
+      response = await http.get(Uri.parse(url));
+      var body = jsonDecode(response.body);
       var result = body['result'];
       var newRes = ((BigInt.parse(result)) / BigInt.from(pow(10, 18)));
       print(newRes);
