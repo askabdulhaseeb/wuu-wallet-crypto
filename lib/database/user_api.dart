@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import '../constants/collections.dart';
 import '../models/app_user.dart';
 import '../widget/custom_widgets/custom_toast.dart';
 
@@ -29,8 +30,7 @@ class UserAPI {
 
   Future<bool> addUser(AppUser appUser) async {
     try {
-      await _instance
-          .collection(_collection)
+      await userRef
           .doc(appUser.uid)
           .set(appUser.toMap());
       return true;

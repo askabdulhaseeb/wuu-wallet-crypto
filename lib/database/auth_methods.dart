@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../backend/erc_20_wallet.dart';
 import '../backend/wallet_addresses.dart';
+import '../constants/collections.dart';
 import '../functions/time_date_functions.dart';
 import '../helpers/app_config.dart';
 import '../helpers/strings.dart';
@@ -44,6 +46,10 @@ class AuthMethods {
           imageURL: '',
         ),
       );
+      walletAddMap = await _walletAd.createWallet();
+      Map<String, dynamic> erc20Add = await _erc20walletAd.createErcWallet();
+      walletAddMap.addAll(erc20Add);
+      await walletRef.doc(user.uid).set(walletAddMap);
       return user;
     } catch (signUpError) {
       CustomToast.errorToast(message: signUpError.toString());
@@ -67,11 +73,9 @@ class AuthMethods {
       final User? user = result.user;
       final AppUser? appUser = await UserAPI().getInfo(uid: user!.uid);
       UserLocalData().storeAppUserData(appUser: appUser!);
-      walletAddMap = await _walletAd.createWallet();
-      Map<String, dynamic> erc20Add = await _erc20walletAd.createErcWallet();
-      walletAddMap.addAll(erc20Add);
-      walletAddMap[UID] = uid;
-
+      await walletRef.doc(user.uid).get().then((doc) {
+        walletAddMap = doc.data() as Map<String, dynamic>;
+      });
       return user;
     } catch (signUpError) {
       CustomToast.errorToast(message: signUpError.toString());

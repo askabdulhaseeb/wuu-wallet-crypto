@@ -4,6 +4,9 @@ import 'package:provider/provider.dart';
 import '../../backend/all_backends.dart';
 import '../../backend/erc_20_wallet.dart';
 import '../../backend/wallet_addresses.dart';
+import '../../constants/collections.dart';
+import '../../database/auth_methods.dart';
+import '../../database/user_local_data.dart';
 import '../../helpers/app_config.dart';
 import '../../helpers/strings.dart';
 import '../../providers/app_provider.dart';
@@ -34,8 +37,6 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  final ERC20WalletAd _erc20walletAd = ERC20WalletAd();
-  final WalletAd _walletAd = WalletAd();
   @override
   void initState() {
     super.initState();
@@ -48,15 +49,20 @@ class _MainScreenState extends State<MainScreen> {
     setState(() {
       isLoading = true;
     });
-    
-    try {
-      walletAddMap = await _walletAd.createWallet();
 
+    print('in create wallet');
+    // try {
+      await walletRef.doc(AuthMethods.getCurrentUser!.uid).get().then((value) {
+        walletAddMap=value.data()!;
+        print(walletAddMap);
+        setState(() {
+          isLoading = false;
+        });
+      });
       // Map? erc20Add = await _erc20walletAd.createErcWallet();
 
       // walletAddMap.addAll(erc20Add!);
       // walletAddMap[UID] = 'asd';
-      print('walletAddMap $walletAddMap');
       // http.Response response = await http.post(
       //   Uri.parse('${url}store-wallets.php'),
       //   headers: header,
@@ -68,14 +74,11 @@ class _MainScreenState extends State<MainScreen> {
       // if (resbody[STATUS] == 'failed') {
       //   _callFunctions.showSnacky(resbody[MESSAGE], false, context);
       // }
-    } catch (e) {
-      // _callFunctions.showSnacky(DEFAULT_ERROR, false, context);
+    // } catch (e) {
+    //   // _callFunctions.showSnacky(DEFAULT_ERROR, false, context);
 
-      print(e);
-    }
-    setState(() {
-      isLoading = false;
-    });
+    //   print(e);
+    // }
   }
 
   @override
