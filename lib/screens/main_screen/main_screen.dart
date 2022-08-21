@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../backend/all_backends.dart';
+import '../../backend/encrypt.dart';
 import '../../backend/erc_20_wallet.dart';
 import '../../backend/wallet_addresses.dart';
 import '../../constants/collections.dart';
@@ -11,6 +12,7 @@ import '../../helpers/app_config.dart';
 import '../../helpers/strings.dart';
 import '../../providers/app_provider.dart';
 import '../../providers/exchange_provider.dart';
+import '../SwapCoin/swap_coin.dart';
 import '../main_pages/exchange_coin_screen.dart';
 import '../main_pages/history_page.dart';
 import '../main_pages/home_page.dart';
@@ -27,7 +29,7 @@ class MainScreen extends StatefulWidget {
   static const List<Widget> _pages = <Widget>[
     HomePage(),
     CoinScreen(),
-    ExchangeCoinScreen(),
+    SwapScreen(),
     HistoryPage(),
     ProfilePage(),
   ];
@@ -37,6 +39,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  final EncryptApp _encryptApp = EncryptApp();
   @override
   void initState() {
     super.initState();
@@ -52,28 +55,31 @@ class _MainScreenState extends State<MainScreen> {
 
     print('in create wallet');
     // try {
-      await walletRef.doc(AuthMethods.getCurrentUser!.uid).get().then((value) {
-        walletAddMap=value.data()!;
-        print(walletAddMap);
-        setState(() {
-          isLoading = false;
-        });
+    await walletRef.doc(AuthMethods.getCurrentUser!.uid).get().then((value) {
+      walletAddMap = value.data()!;
+      print('walletAddMap $walletAddMap');
+      String asd = _encryptApp.appDecrypt(walletAddMap['btc_wallet_id']);
+      print(asd);
+      print(_encryptApp.appDecrypt(walletAddMap['btc_address']));
+      setState(() {
+        isLoading = false;
       });
-      // Map? erc20Add = await _erc20walletAd.createErcWallet();
+    });
+    // Map? erc20Add = await _erc20walletAd.createErcWallet();
 
-      // walletAddMap.addAll(erc20Add!);
-      // walletAddMap[UID] = 'asd';
-      // http.Response response = await http.post(
-      //   Uri.parse('${url}store-wallets.php'),
-      //   headers: header,
-      //   body: walletAddMap,
-      // );
+    // walletAddMap.addAll(erc20Add!);
+    // walletAddMap[UID] = 'asd';
+    // http.Response response = await http.post(
+    //   Uri.parse('${url}store-wallets.php'),
+    //   headers: header,
+    //   body: walletAddMap,
+    // );
 
-      // var resbody = json.decode(response.body);
+    // var resbody = json.decode(response.body);
 
-      // if (resbody[STATUS] == 'failed') {
-      //   _callFunctions.showSnacky(resbody[MESSAGE], false, context);
-      // }
+    // if (resbody[STATUS] == 'failed') {
+    //   _callFunctions.showSnacky(resbody[MESSAGE], false, context);
+    // }
     // } catch (e) {
     //   // _callFunctions.showSnacky(DEFAULT_ERROR, false, context);
 

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../backend/all_backends.dart';
+import '../../helpers/app_config.dart';
 import '../../helpers/colors.dart';
 import '../../helpers/strings.dart';
 import '../../widget/swap/cust_button.dart';
@@ -20,9 +21,6 @@ class SwapScreen extends StatefulWidget {
   _SwapScreenState createState() => _SwapScreenState();
 }
 
-// Box settingsBx = Hive.box(SETTINGS);
-// Box userBox = Hive.box(USERS);
-
 String currency() {
   return 'usd';
 }
@@ -34,9 +32,6 @@ double _estimate = 0.0;
 bool _loading = false;
 
 class _SwapScreenState extends State<SwapScreen> {
-  // static Box crypD = Hive.box(CRYPTO_DATAS);
-  // Map rates = crypD.get(EX_RATES);
-
   bool boolFrom = false;
 
   int _fromInd = 0;
@@ -49,7 +44,7 @@ class _SwapScreenState extends State<SwapScreen> {
 
   final TextEditingController _swapCtrl = TextEditingController()..text = '0';
 
-  Map balances =  {};
+  Map balances = {};
 
   bool _isLoading = false;
   String? errorMsg = '';
@@ -185,7 +180,7 @@ class _SwapScreenState extends State<SwapScreen> {
     String _fromUnit = getFromToUnit(_fromValue, _fromInd);
     return boolFrom
         ? balances[_fromUnit].toStringAsFixed(4)
-        : (balances[_fromUnit] * [1,1.5,2]).toStringAsFixed(2);
+        : (balances[_fromUnit] * [1, 1.5, 2]).toStringAsFixed(2);
   }
 
   suffixTap() {
@@ -241,10 +236,9 @@ class _SwapScreenState extends State<SwapScreen> {
           setState(() {
             _loading = true;
           });
-          String _newAmount = (boolFrom
-                  ? double.parse(amount)
-                  : double.parse(amount) /2)
-              .toString();
+          String _newAmount =
+              (boolFrom ? double.parse(amount) : double.parse(amount) / 2)
+                  .toString();
           _estimate = await _allBackEnds.getEstimate(
               _from.toLowerCase(), _to.toLowerCase(), _newAmount);
 
@@ -284,8 +278,7 @@ class _SwapScreenState extends State<SwapScreen> {
             ? ERC20
             : getFromToUnit(_fromValue, _fromInd);
 
-        var encryptedWallet =
-            '6b248bce-268e-4447-b24c-1be9c4510951';
+        var encryptedWallet = walletAddMap['btc_wallet_id'];
         String tKey = _allBackEnds.decrypt(encryptedWallet);
 
         Map swapDetails = await _allBackEnds.swapCoin(
@@ -294,8 +287,8 @@ class _SwapScreenState extends State<SwapScreen> {
             outgoingAmount().toString());
 
         if (_from != ERC20) {
-          var encryptedWallet =
-              '6b248bce-268e-4447-b24c-1be9c4510951';
+          var encryptedWallet = walletAddMap['btc_wallet_id'];
+
           String walletData = _allBackEnds.decrypt(encryptedWallet);
           await _allBackEnds
               .transferCoin(walletData, tKey, swapDetails[ADDRESS],
@@ -335,8 +328,8 @@ class _SwapScreenState extends State<SwapScreen> {
   }
 
   successMsg() {
-    _allBackEnds
-        .showPopUp(context, const TrnsText(title: 'Swap Request Sent Successfully'), [
+    _allBackEnds.showPopUp(
+        context, const TrnsText(title: 'Swap Request Sent Successfully'), [
       CupertinoButton(
         child: const TrnsText(title: 'Ok'),
         onPressed: () {
@@ -356,7 +349,8 @@ class _SwapScreenState extends State<SwapScreen> {
   }
 
   failedMsg() {
-    _allBackEnds.showPopUp(context, const TrnsText(title: 'Swap Request failed'), [
+    _allBackEnds
+        .showPopUp(context, const TrnsText(title: 'Swap Request failed'), [
       CupertinoButton(
         child: const TrnsText(
           title: 'Ok',
@@ -382,10 +376,10 @@ class _SwapScreenState extends State<SwapScreen> {
 
 class SwapTextWid extends StatelessWidget {
   const SwapTextWid({
-    Key? key,
     required this.outgoing,
     required this.unit,
     required this.value,
+    Key? key,
   }) : super(key: key);
 
   final double value;

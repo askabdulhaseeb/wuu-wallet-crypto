@@ -109,6 +109,7 @@ class WalletAd implements BaseWalletAd {
     for (String walletId in walletIds) {
       String uni = walletId.substring(0, 3);
       String unit = uni == 'dog' ? DOGE : uni;
+      print('walletIds $walletId');
       try {
         await http
             .get(
