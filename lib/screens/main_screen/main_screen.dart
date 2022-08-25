@@ -29,6 +29,7 @@ class MainScreen extends StatefulWidget {
   static const List<Widget> _pages = <Widget>[
     HomePage(),
     CoinScreen(),
+    // ExchangeCoinScreen(),
     SwapScreen(),
     HistoryPage(),
     ProfilePage(),

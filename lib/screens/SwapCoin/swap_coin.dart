@@ -44,7 +44,7 @@ class _SwapScreenState extends State<SwapScreen> {
 
   final TextEditingController _swapCtrl = TextEditingController()..text = '0';
 
-  Map balances = {};
+  Map balances =walletAddMap ;
 
   bool _isLoading = false;
   String? errorMsg = '';
@@ -104,7 +104,7 @@ class _SwapScreenState extends State<SwapScreen> {
               prefix: InkWell(
                 onTap: () {
                   setState(() {
-                    this.boolFrom = !this.boolFrom;
+                    boolFrom = !boolFrom;
                   });
                 },
                 child: Text(boolFrom ? _from : currency().toUpperCase()),
@@ -177,10 +177,10 @@ class _SwapScreenState extends State<SwapScreen> {
   }
 
   String getBalance() {
-    String _fromUnit = getFromToUnit(_fromValue, _fromInd);
+    String fromUnit = getFromToUnit(_fromValue, _fromInd);
     return boolFrom
-        ? balances[_fromUnit].toStringAsFixed(4)
-        : (balances[_fromUnit] * [1, 1.5, 2]).toStringAsFixed(2);
+        ? balances[fromUnit].toStringAsFixed(4)
+        : (balances[fromUnit] * [1, 1.5, 2]).toStringAsFixed(2);
   }
 
   suffixTap() {
@@ -236,11 +236,11 @@ class _SwapScreenState extends State<SwapScreen> {
           setState(() {
             _loading = true;
           });
-          String _newAmount =
+          String newAmount =
               (boolFrom ? double.parse(amount) : double.parse(amount) / 2)
                   .toString();
           _estimate = await _allBackEnds.getEstimate(
-              _from.toLowerCase(), _to.toLowerCase(), _newAmount);
+              _from.toLowerCase(), _to.toLowerCase(), newAmount);
 
           setState(() {
             _loading = false;
@@ -252,10 +252,10 @@ class _SwapScreenState extends State<SwapScreen> {
     }
   }
 
-  String? numValidate(_amount) {
+  String? numValidate(amount) {
     errorMsg = _allBackEnds.validateAmount(
         true,
-        _amount,
+        amount,
         double.parse(getBalance()),
         boolFrom ? (1 * 0.001) : (1 * 10),
         boolFrom ? (1 * 100000) : (1 * 100000000),
@@ -272,7 +272,7 @@ class _SwapScreenState extends State<SwapScreen> {
 
       try {
         //!
-        String _from = getFromToUnit(_fromValue, _fromInd) == ETH ||
+        String from = getFromToUnit(_fromValue, _fromInd) == ETH ||
                 getFromToUnit(_fromValue, _fromInd) == BNB ||
                 getFromToUnit(_fromValue, _fromInd) == USDT
             ? ERC20
@@ -286,7 +286,7 @@ class _SwapScreenState extends State<SwapScreen> {
             getFromToUnit(_toValue, _toInd),
             outgoingAmount().toString());
 
-        if (_from != ERC20) {
+        if (from != ERC20) {
           var encryptedWallet = walletAddMap['btc_wallet_id'];
 
           String walletData = _allBackEnds.decrypt(encryptedWallet);

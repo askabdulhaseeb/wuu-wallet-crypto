@@ -28,7 +28,8 @@ class _ExchangeCoinScreenState extends State<ExchangeCoinScreen> {
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: FutureBuilder<bool>(
+          child:
+           FutureBuilder<bool>(
               future: Provider.of<ExchangeCoinProvider>(context, listen: false)
                   .init(),
               builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
