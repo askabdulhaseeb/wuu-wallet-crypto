@@ -34,6 +34,8 @@ const String BTC = 'btc';
 const String ETH = 'eth';
 const String BNB = 'bnb';
 const String DOGE = 'doge';
+const String BCH = 'bch';
+const String LTC = 'ltc';
 const String USDT = 'usdt';
 
 const String ERC20 = 'erc20';

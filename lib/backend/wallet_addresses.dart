@@ -31,10 +31,7 @@ class WalletAd implements BaseWalletAd {
 
   final EncryptApp _encryptApp = EncryptApp();
 
-  List units = [
-    BTC,
-    DOGE,
-  ];
+
 
   @override
   Future<Map<String, dynamic>> createWallet() async {

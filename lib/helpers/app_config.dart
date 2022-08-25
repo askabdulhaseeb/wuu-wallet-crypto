@@ -1,3 +1,5 @@
+import 'package:muuwallet/helpers/strings.dart';
+
 const String DEFAULT_COUNTRY_PREFIX = '+32';
 const String DEFAULT_COUNTRY = 'BE';
 
@@ -26,3 +28,10 @@ const int DISABLE_END = 14;
 
 Map<String, dynamic> walletAddMap = {};
 var totalBalance;
+
+  List units = [
+    BTC,
+    DOGE,
+    BCH,
+    LTC
+  ];

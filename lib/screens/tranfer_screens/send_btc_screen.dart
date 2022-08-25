@@ -1,27 +1,19 @@
-import 'dart:developer';
-import 'dart:io';
-
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
-import '../../apis/coins_api.dart';
-import '../../apis/exchange_api.dart';
-import '../../apis/local_data.dart';
 import '../../backend/all_backends.dart';
 import '../../backend/encrypt.dart';
 import '../../helpers/app_config.dart';
 import '../../models/coin_market_place/coin.dart';
-import '../../models/swapable_coin.dart';
-import '../../providers/exchange_provider.dart';
 import '../../widget/custom_widgets/custom_textformfield.dart';
-import '../../widget/custom_widgets/show_loading.dart';
 
 class SendBTCScreen extends StatefulWidget {
-  const SendBTCScreen({required this.coin, Key? key}) : super(key: key);
+  const SendBTCScreen(
+      {required this.coin, required this.transactionPossible, Key? key})
+      : super(key: key);
   final Coin coin;
-
+  final bool transactionPossible;
   @override
   State<SendBTCScreen> createState() => _SendBTCScreenState();
 }
@@ -65,16 +57,22 @@ class _SendBTCScreenState extends State<SendBTCScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.transactionPossible);
     double coinBalance = widget.coin.currentPrice! * totalBalance;
-    walletId = encryptApp.appDecrypt(walletAddMap['btc_wallet_id']);
-    transferKey = encryptApp.appDecrypt(walletAddMap['btc_transfer_key']);
-    address = encryptApp.appDecrypt(walletAddMap['btc_address']);
+    if (widget.transactionPossible) {
+      walletId = encryptApp
+          .appDecrypt(walletAddMap['${widget.coin.symbol}_wallet_id']);
+      transferKey = encryptApp
+          .appDecrypt(walletAddMap['${widget.coin.symbol}_transfer_key']);
+      address =
+          encryptApp.appDecrypt(walletAddMap['${widget.coin.symbol}_address']);
+    }
     return Scaffold(
-      appBar: AppBar(title: const Text('SEND BTC')),
+      appBar: AppBar(title: Text('SEND ${widget.coin.symbol!.toUpperCase()}')),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16),
-          child: Form(
+          child: widget.transactionPossible? Form(
             key: _fromKey,
             child: Column(
               children: <Widget>[
@@ -221,8 +219,15 @@ class _SendBTCScreenState extends State<SendBTCScreen> {
                 ),
               ],
             ),
+          ) : const Center(
+            child: Text(
+              'Transaction Not Possible',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
           ),
-
           //  FutureBuilder<List<SwapableCoin>>(
           //     future: ExchangeAPI().swapableCoins(),
           //     builder: (BuildContext context,

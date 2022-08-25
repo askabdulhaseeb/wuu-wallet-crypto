@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../helpers/app_config.dart';
 import '../../providers/user_provider.dart';
 import '../../widget/coin_list_view.dart';
 import '../../widget/custom_widgets/circular_profile_image.dart';
@@ -33,9 +34,9 @@ class HomePage extends StatelessWidget {
           ),
           IconButton(
             onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute<ReceiveBTCScreen>(
-                builder: (BuildContext context) =>  ReceiveBTCScreen(),
-              ));
+              // Navigator.of(context).push(MaterialPageRoute<ReceiveBTCScreen>(
+              //   builder: (BuildContext context) =>  ReceiveBTCScreen(transactionPossible: units.contains(coi)),
+              // ));
             },
             splashRadius: 20,
             icon: Icon(

@@ -2,6 +2,7 @@ import 'package:extended_image/extended_image.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
+import '../../helpers/app_config.dart';
 import '../../models/coin_market_place/coin.dart';
 import 'receive_btc_screen.dart';
 import 'send_btc_screen.dart';
@@ -57,7 +58,7 @@ class CoinTransactionOptionScreen extends StatelessWidget {
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute<SendBTCScreen>(
                       builder: (BuildContext context) =>
-                          SendBTCScreen(coin: coin),
+                          SendBTCScreen(coin: coin, transactionPossible: units.contains(coin.symbol)),
                     ));
                   },
                   borderRadius: BorderRadius.circular(24),
@@ -85,7 +86,7 @@ class CoinTransactionOptionScreen extends StatelessWidget {
                     Navigator.of(context)
                         .push(MaterialPageRoute<ReceiveBTCScreen>(
                       builder: (BuildContext context) =>
-                           ReceiveBTCScreen(),
+                           ReceiveBTCScreen(coin: coin, transactionPossible: units.contains(coin.symbol)),
                     ));
                   },
                   borderRadius: BorderRadius.circular(24),
