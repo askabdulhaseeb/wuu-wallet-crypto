@@ -1,11 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../../apis/local_data.dart';
 import '../../providers/app_provider.dart';
 import '../../providers/user_provider.dart';
-import '../../widget/custom_widgets/circular_profile_image.dart';
 import '../../widget/custom_widgets/custom_elevated_button.dart';
 import '../../widget/custom_widgets/title_clickable_tile.dart';
 import '../../widget/profile/user_profile_info_card.dart';
