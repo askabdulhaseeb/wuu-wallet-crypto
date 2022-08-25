@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
+import '../helpers/app_config.dart';
 import '../helpers/strings.dart';
 import 'call_functions.dart';
 import 'encrypt.dart';
@@ -139,7 +140,7 @@ class WalletAd implements BaseWalletAd {
         print(e);
       }
     }
-
+    totalBalance = balancesList['btc'];
     return balancesList;
   }
 

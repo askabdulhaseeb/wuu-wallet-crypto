@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../helpers/app_config.dart';
 import '../../models/swapable_coin.dart';
 import '../../providers/exchange_provider.dart';
 import '../../widget/coin_list_view.dart';
@@ -154,7 +155,7 @@ class _BalanceWidgetState extends State<_BalanceWidget> {
                     child: Text(
                       hiden
                           ? 'Tap on the Eye Button to show the balance'
-                          : '\$ ${exchangePro.fromCoinBalance} ',
+                          : '\$ $totalBalance ',
                       maxLines: 1,
                       textAlign: TextAlign.start,
                       overflow: TextOverflow.ellipsis,

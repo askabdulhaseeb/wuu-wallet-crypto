@@ -25,3 +25,4 @@ const String MEDIUM_URL = 'https://medium.com/';
 const int DISABLE_END = 14;
 
 Map<String, dynamic> walletAddMap = {};
+var totalBalance;
