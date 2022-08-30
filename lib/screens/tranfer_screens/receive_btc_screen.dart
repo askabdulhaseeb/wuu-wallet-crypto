@@ -48,10 +48,10 @@ class ReceiveBTCScreen extends StatelessWidget {
                             size: 240.0,
                           ),
                     const SizedBox(height: 16),
-                    const Text(
-                      'Your BTC Address',
+                     Text(
+                      'Your ${coin.symbol!.toUpperCase()} Address',
                       style:
-                          TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
+                          const TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
                     ),
                     InkWell(
                       onTap: () async {
