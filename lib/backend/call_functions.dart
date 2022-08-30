@@ -64,10 +64,17 @@ class CallFunctions implements BaseFunction {
   @override
   showSnacky(String msg, bool isSuccess, BuildContext context,
       {Map<String, String>? args, String extra2 = ""}) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: TrnsText(title: msg, extra2: extra2, args: args),
-      backgroundColor: isSuccess ? green : red,
-    ));
+        Tooltip(
+          message: msg,
+          child: Icon(
+            isSuccess ? Icons.check : Icons.error,
+            color: isSuccess ? Colors.green : Colors.red,
+          ),
+        );
+    // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    //   content: TrnsText(title: msg, extra2: extra2, args: args),
+    //   backgroundColor: isSuccess ? green : red,
+    // ));
   }
 
   @override
