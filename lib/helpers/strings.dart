@@ -29,6 +29,8 @@ const String BITCOIN = 'bitcoin';
 const String ETHEREUM = 'ethereum';
 const String BINANCE = 'binancecoin';
 const String DOGECOIN = 'dogecoin';
+const String LITECOIN = 'litecoin';
+const String BITCOINCASH = 'bitcoin-cash';
 
 const String BTC = 'btc';
 const String ETH = 'eth';
@@ -66,8 +68,10 @@ const String DOGE_EXPLORER = 'https://dogechain.info/tx/';
 
 const List CRYPTOCURRENCIES = [
   BITCOIN,
-  ETHEREUM,
-  BINANCE,
+  // ETHEREUM,
+  // BINANCE,
+  LITECOIN,
+  BITCOINCASH,
   DOGECOIN,
 ];
 const List UNITS = [
@@ -370,7 +374,8 @@ String? infura = dotenv.env['INFURA_PROJECT_ID'];
 
 String eTHRPCURL = 'https://mainnet.infura.io/v3/$infura';
 const String BSC_RPC_URL = 'https://bsc-dataseed.binance.org/';
-const String BSC_TEST_RPC_URL = 'https://data-seed-prebsc-1-s1.binance.org:8545/';
+const String BSC_TEST_RPC_URL =
+    'https://data-seed-prebsc-1-s1.binance.org:8545/';
 
 const String USERS = 'users';
 const String ADMINS = 'admins';

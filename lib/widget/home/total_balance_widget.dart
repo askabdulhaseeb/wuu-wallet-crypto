@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../backend/all_backends.dart';
 import '../../backend/encrypt.dart';
 import '../../helpers/app_config.dart';
+import '../../models/coin_market_place/coin.dart';
 import '../../utilities/utilities.dart';
 import '../custom_widgets/show_loading.dart';
 
@@ -65,7 +66,8 @@ class _TotalBalanceWidgetState extends State<TotalBalanceWidget> {
             ],
           ),
           FutureBuilder(
-            future: AllBackEnds().getWalletBalance([AllBackEnds().decrypt(walletAddMap['btc_wallet_id'])]),
+            future:AllBackEnds().getAllBalances(), 
+            // AllBackEnds().getWalletBalance([AllBackEnds().decrypt(walletAddMap['btc_wallet_id'])]),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.hasError) {
                 return const Text(
@@ -76,8 +78,9 @@ class _TotalBalanceWidgetState extends State<TotalBalanceWidget> {
                   ),
                 );
               } else if (snapshot.hasData) {
+           
                 return Text(
-                  '\$ ${snapshot.data["btc"]}',
+                  '\$ ${snapshot.data.toString().substring(0,10)}',
                   style: const TextStyle(
                       fontWeight: FontWeight.w600, fontSize: 24),
                 );

@@ -99,8 +99,8 @@ class WalletAd implements BaseWalletAd {
   }
 
   @override
-  Future<Map> getWalletBalance(List walletIds) async {
-    Map balancesList = {};
+  Future<Map<String,dynamic>> getWalletBalance(List walletIds) async {
+    Map<String,dynamic> balancesList = {};
 
     print('in get wallet');
     for (String walletId in walletIds) {

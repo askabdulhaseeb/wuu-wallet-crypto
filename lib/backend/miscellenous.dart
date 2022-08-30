@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import '../apis/local_data.dart';
 import '../helpers/app_config.dart';
+import '../models/coin_market_place/coin.dart';
 import 'call_functions.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
@@ -22,7 +23,7 @@ abstract class BaseMiscRepo {
   String getWallet(dataKey);
   getAppVersion();
 
-  Future<Map> getAllBalances();
+  Future<double> getAllBalances();
   // Widget otpToggle(
   //   String title,
   //   bool _logOTP,
@@ -53,7 +54,7 @@ class MiscRepo implements BaseMiscRepo {
   final ApiRepo _apiRepo = ApiRepo();
   final CallFunctions _callFunctions = CallFunctions();
 
-  final cron = Cron();
+  final Cron cron = Cron();
   // var userBox = Hive.box(USERS);
 
   // @override
@@ -126,22 +127,15 @@ class MiscRepo implements BaseMiscRepo {
   }
 
   @override
-  Future<Map> getAllBalances() async {
-    final Map balances = {};
-    Map rates = {};
+  Future<double> getAllBalances() async {
+    final Map<String,dynamic> balances = {};
+     rates = {};
     List walletIds = [];
-    var userBox = Hive.box(USERS);
-    var crypD = Hive.box(CRYPTO_DATAS);
 
-    await _apiRepo.getCryptoCarousel().then((value) {
-      for (int i = 0; i < value.length; i++) {
-        rates[value[i][SYMBOL]] = value[i][CURRENT_PRICE];
-      }
-      crypD.put(EX_RATES, rates);
-    });
+
     String erKey = ERC20 + '_' + ADDRESS;
-    var encryptedErc20 = userBox.get(USER)[WALLET][erKey];
-    String data = _encryptApp.appDecrypt(encryptedErc20);
+    // var encryptedErc20 = userBox.get(USER)[WALLET][erKey];
+    // String data = _encryptApp.appDecrypt(encryptedErc20);
 
     for (String id in ids) {
       String walKey = id + '_' + WALLETID;
@@ -154,28 +148,43 @@ class MiscRepo implements BaseMiscRepo {
     try {
       // BTC LTC DOGE BCH
 
-      Map walletBalances = await _walletAd.getWalletBalance(walletIds);
+      Map<String,dynamic> walletBalances = await _walletAd.getWalletBalance(walletIds);
 
       balances.addAll(walletBalances);
-
+      print('balances' + balances.toString());
       // ETH BNB
+//TODO: add BNB
+      // for (String rpc in rpcs) {
+      //   for (var i = 0; i < 2; i++) {
+      //     String unit = i == 0 ? ETH : BNB;
 
-      for (String rpc in rpcs) {
-        for (var i = 0; i < 2; i++) {
-          String unit = i == 0 ? ETH : BNB;
+      //     await _erc20walletAd.clientsInit(rpc);
+      //     // String? ethBal = await _erc20walletAd.getEthBnbWalletBalance(data);
+      //     // balances[unit] = (double.parse(ethBal));
+      //   }
+      // }
 
-          await _erc20walletAd.clientsInit(rpc);
-          String? ethBal = await _erc20walletAd.getEthBnbWalletBalance(data);
-          balances[unit] = (double.parse(ethBal));
-        }
-      }
-
-      crypD.put(BALANCES, balances);
+      // crypD.put(BALANCES, balances);
     } catch (e) {
       print(e);
     }
+    await _apiRepo.getCryptoCarousel().then((List value) {
+      for (int i = 0; i < value.length; i++) {
+        rates[value[i][SYMBOL]] = value[i][CURRENT_PRICE];
+                //  balances[SYMBOL] = rates[SYMBOL] * balances[SYMBOL];
 
-    return balances;
+      }
+      print('rates' +rates.toString());
+      // crypD.put(EX_RATES, rates);
+    });
+    double total=0.0;
+    for (String unit in units){
+      total += balances[unit] * rates[unit];
+      print('balances' + balances.toString());
+    }
+    
+      print('total' + balances.toString());
+    return total;
   }
 
   @override
