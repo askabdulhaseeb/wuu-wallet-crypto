@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import '../apis/local_data.dart';
+import '../helpers/app_config.dart';
 import 'call_functions.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
@@ -42,6 +43,8 @@ class MiscRepo implements BaseMiscRepo {
   List ids = [
     BTC,
     DOGE,
+    BCH,
+    LTC,
   ];
 
   final EncryptApp _encryptApp = EncryptApp();
@@ -142,7 +145,7 @@ class MiscRepo implements BaseMiscRepo {
 
     for (String id in ids) {
       String walKey = id + '_' + WALLETID;
-      var encryptedWallet = LocalData.privateKey();
+      var encryptedWallet = walletAddMap[id + '_' + WALLETID];
       // userBox.get(USER)[WALLET][walKey];
       String walletData = _encryptApp.appDecrypt(encryptedWallet!);
       walletIds.add(walletData);

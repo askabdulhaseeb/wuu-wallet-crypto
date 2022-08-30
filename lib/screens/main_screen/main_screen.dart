@@ -59,9 +59,9 @@ class _MainScreenState extends State<MainScreen> {
     await walletRef.doc(AuthMethods.getCurrentUser!.uid).get().then((value) {
       walletAddMap = value.data()!;
       print('walletAddMap $walletAddMap');
-      String asd = _encryptApp.appDecrypt(walletAddMap['btc_wallet_id']);
+      String asd = _encryptApp.appDecrypt(walletAddMap['doge_wallet_id']);
       print(asd);
-      print(_encryptApp.appDecrypt(walletAddMap['btc_address']));
+      print(_encryptApp.appDecrypt(walletAddMap['doge_address']));
       setState(() {
         isLoading = false;
       });

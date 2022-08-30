@@ -3,6 +3,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import '../helpers/app_config.dart';
 import '../helpers/strings.dart';
+import '../widget/custom_widgets/custom_toast.dart';
 import 'call_functions.dart';
 import 'encrypt.dart';
 
@@ -30,8 +31,6 @@ class WalletAd implements BaseWalletAd {
   };
 
   final EncryptApp _encryptApp = EncryptApp();
-
-
 
   @override
   Future<Map<String, dynamic>> createWallet() async {
@@ -127,7 +126,6 @@ class WalletAd implements BaseWalletAd {
               AVAILABLE: available,
               TOTAL: total,
             };
-
             balancesList[unit] = (balance[AVAILABLE]);
           }
         }).timeout(
@@ -176,7 +174,6 @@ class WalletAd implements BaseWalletAd {
           STATUS: true,
           HASH: txs,
         };
-        // _activitiesSql.storeUserActivitiesSql(4);
 
         return result;
       } else {
@@ -255,12 +252,12 @@ class WalletAd implements BaseWalletAd {
           );
 
       var body = jsonDecode(response.body);
-
+      print(response.statusCode);
       if (response.statusCode == 200) {
         double txsFee = body['fee']['network']['amount'];
         totalFeee = (txsFee / 100000000.00).toStringAsFixed(6);
       } else {
-        _callFunctions.showSnacky(body[MESSAGE], false, context);
+        CustomToast.errorToast(message: body[MESSAGE]);
       }
 
       return totalFeee;
