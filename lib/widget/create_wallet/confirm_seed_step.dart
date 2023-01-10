@@ -161,7 +161,7 @@ class _ConfirmSeedStepState extends State<ConfirmSeedStep> {
                     _second == seedPro.secondWord &&
                     _third == seedPro.thirdWord) {
                   final bool done = await WalletAPI()
-                      .generatePrivateKey(phrase: seedPro.phrase);
+                      .generatePrivateKey(phrase: seedPro.phraselist.toString());
                   if (done) {
                     Navigator.of(context).pushNamedAndRemoveUntil(
                         WelcomeScreen.routeName,
