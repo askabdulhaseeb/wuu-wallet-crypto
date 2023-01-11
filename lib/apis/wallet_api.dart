@@ -1,4 +1,10 @@
+import 'package:muuwallet/backend/erc_20_wallet.dart';
+import 'package:muuwallet/backend/wallet_addresses.dart';
+import 'package:muuwallet/constants/collections.dart';
+
+import '../helpers/app_config.dart';
 import '../models/seed_phrase.dart';
+
 class WalletAPI {
   Future<SeedPhrase?> getSeedPhrase() async {
     // final http.Request request = http.Request(
@@ -21,31 +27,24 @@ class WalletAPI {
   }
 
   Future<bool> generatePrivateKey({required String phrase}) async {
-    // print('Phrase: $phrase');
-    // Map<String, String> headers = <String, String>{
-    //   'Content-Type': 'application/json'
-    // };
-    // final http.Request request = http.Request('POST',
-    //     Uri.parse('${APIUtils.walletBaseURL}/wallet/generatePrivateKey'));
-    // request.body = json.encode(<String, String>{'mnemonic': phrase.trim()});
-    // request.headers.addAll(headers);
+    print('Phrase: $phrase');
 
-    // http.StreamedResponse response = await request.send();
-
-    // if (response.statusCode == 200) {
-    //   final String respStr = await response.stream.bytesToString();
-    //   Map<String, dynamic> mapp = json.decode(respStr);
-    //   await LocalData.setPrivateKey(mapp['privateKey']);
-    //   await LocalData.setPrivateKeyAddress(mapp['address']);
-    //   return true;
-    // } else {
-    //   CustomToast.errorToast(message: 'Facing errors while fetching Key');
-    //   return false;
-    // }
-    return false;
+    final ERC20WalletAd _erc20walletAd = ERC20WalletAd();
+    final WalletAd _walletAd = WalletAd();
+    walletAddMap = await _walletAd.createWallet();
+    Map<String, dynamic> erc20Add = await _erc20walletAd.createErcWallet();
+    walletAddMap.addAll(erc20Add);
+    await walletRef.doc(phrase).set(walletAddMap);
+    return true;
   }
 
   Future<bool> importPrivateKey({required String privateKey}) async {
+    await walletRef.doc(privateKey).get().then((value) {
+      walletAddMap = value.data()!;
+    }).catchError((e) {
+      print(e);
+      return false;
+    });
     // Map<String, String> headers = <String, String>{
     //   'Content-Type': 'application/json'
     // };
@@ -66,7 +65,8 @@ class WalletAPI {
     //   CustomToast.errorToast(message: 'Facing errors while fetching Key');
     //   return false;
     // }
-    return false;
+
+    return true;
   }
 
   Future<double> balance() async {

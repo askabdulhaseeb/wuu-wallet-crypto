@@ -32,8 +32,8 @@ class ExchangeAPI {
       }
       return coins;
     } catch (e) {
-      CustomToast.errorToast(message: e.toString());
-      log('Print: coin_api: Swapable coin list error: ${e.toString()}');
+      // CustomToast.errorToast(message: e.toString());
+      // log('Print: coin_api: Swapable coin list error: ${e.toString()}');
       return coins;
     }
   }

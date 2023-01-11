@@ -128,27 +128,30 @@ class MiscRepo implements BaseMiscRepo {
 
   @override
   Future<double> getAllBalances() async {
-    final Map<String,dynamic> balances = {};
-     rates = {};
+    final Map<String, dynamic> balances = {};
+    rates = {};
     List walletIds = [];
-
 
     String erKey = ERC20 + '_' + ADDRESS;
     // var encryptedErc20 = userBox.get(USER)[WALLET][erKey];
     // String data = _encryptApp.appDecrypt(encryptedErc20);
-
+    print('walletAddMap');
+    print(walletAddMap);
     for (String id in ids) {
       String walKey = id + '_' + WALLETID;
+
       var encryptedWallet = walletAddMap[id + '_' + WALLETID];
       // userBox.get(USER)[WALLET][walKey];
       String walletData = _encryptApp.appDecrypt(encryptedWallet!);
       walletIds.add(walletData);
     }
-
+    print('wallet ids');
+    print(walletIds);
     try {
       // BTC LTC DOGE BCH
 
-      Map<String,dynamic> walletBalances = await _walletAd.getWalletBalance(walletIds);
+      Map<String, dynamic> walletBalances =
+          await _walletAd.getWalletBalance(walletIds);
 
       balances.addAll(walletBalances);
       print('balances' + balances.toString());
@@ -171,19 +174,19 @@ class MiscRepo implements BaseMiscRepo {
     await _apiRepo.getCryptoCarousel().then((List value) {
       for (int i = 0; i < value.length; i++) {
         rates[value[i][SYMBOL]] = value[i][CURRENT_PRICE];
-                //  balances[SYMBOL] = rates[SYMBOL] * balances[SYMBOL];
+        //  balances[SYMBOL] = rates[SYMBOL] * balances[SYMBOL];
 
       }
-      print('rates' +rates.toString());
+      print('rates' + rates.toString());
       // crypD.put(EX_RATES, rates);
     });
-    double total=0.0;
-    for (String unit in units){
+    double total = 0.0;
+    for (String unit in units) {
       total += balances[unit] * rates[unit];
       print('balances' + balances.toString());
     }
-    
-      print('total' + balances.toString());
+
+    print('total' + balances.toString());
     return total;
   }
 
